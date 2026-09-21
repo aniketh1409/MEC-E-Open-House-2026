@@ -4,11 +4,11 @@ import {
   IconHome,
   IconMap2,
   IconMapPin,
-  IconSettings,
   IconTicket,
   type Icon,
 } from "@tabler/icons-react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import logoUrl from "../../assets/images/ualberta-logo.png";
 
 interface NavigationItem {
   label: string;
@@ -36,7 +36,7 @@ export function AppLayout() {
           <Group h="100%" justify="space-between" wrap="nowrap">
             <Link to="/" className="brand-link" aria-label="Open House home">
               <Box className="brand-mark">
-                <IconSettings size={25} stroke={1.9} aria-hidden="true" />
+                <img src={logoUrl} alt="University of Alberta" />
               </Box>
               <Box>
                 <Text className="brand-department">Mechanical Engineering</Text>
