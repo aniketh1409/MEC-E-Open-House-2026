@@ -1,0 +1,22 @@
+# Local project notes
+agent.md
+plan.md
+
+# Installed dependencies and generated output
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Environment secrets and machine-local overrides
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs
+*.log
+
+# Operating system artifacts
+.DS_Store
+Thumbs.db
