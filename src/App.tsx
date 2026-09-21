@@ -1,5 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./components/AppLayout";
+import { BoothDetailPage } from "./pages/BoothDetailPage";
+import { BoothDirectoryPage } from "./pages/BoothDirectoryPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 
 export function App() {
@@ -8,7 +10,8 @@ export function App() {
       <Route element={<AppLayout />}>
         <Route index element={<PlaceholderPage title="Open House" />} />
         <Route path="schedule" element={<PlaceholderPage title="Schedule" />} />
-        <Route path="booths" element={<PlaceholderPage title="Booths" />} />
+        <Route path="booths" element={<BoothDirectoryPage />} />
+        <Route path="booths/:boothId" element={<BoothDetailPage />} />
         <Route path="map" element={<PlaceholderPage title="Map" />} />
         <Route path="passport" element={<PlaceholderPage title="Passport" />} />
         <Route path="student-groups" element={<PlaceholderPage title="Student Groups" />} />

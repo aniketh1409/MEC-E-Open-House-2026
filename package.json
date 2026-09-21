@@ -12,6 +12,9 @@
     "typecheck": "tsc -b --pretty false"
   },
   "dependencies": {
+    "@mantine/core": "^9.6.2",
+    "@mantine/hooks": "^9.6.2",
+    "@tabler/icons-react": "^3.47.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-router-dom": "^7.18.4"
