@@ -1,0 +1,9 @@
+agent.md
+plan.md
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+*.local
