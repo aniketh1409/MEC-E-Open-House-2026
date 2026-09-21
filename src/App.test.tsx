@@ -1,17 +1,12 @@
-import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { App } from "./App";
+import { renderApp } from "./test/renderApp";
 
 describe("App", () => {
   it("renders the requested route inside the shared layout", () => {
-    render(
-      <MemoryRouter initialEntries={["/passport"]}>
-        <App />
-      </MemoryRouter>,
-    );
+    renderApp("/passport");
 
     expect(screen.getByRole("heading", { name: "Passport" })).toBeInTheDocument();
-    expect(screen.getByRole("navigation", { name: "Primary navigation" })).toBeInTheDocument();
+    expect(screen.getAllByRole("navigation", { name: "Primary navigation" })).toHaveLength(2);
   });
 });
