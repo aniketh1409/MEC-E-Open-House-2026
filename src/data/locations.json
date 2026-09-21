@@ -1,0 +1,44 @@
+[
+  {
+    "id": "etlc-2-001",
+    "building": "ETLC",
+    "floor": 2,
+    "room": "2-001",
+    "coordinates": { "x": 0.42, "y": 0.68 }
+  },
+  {
+    "id": "etlc-2-003",
+    "building": "ETLC",
+    "floor": 2,
+    "room": "2-003",
+    "coordinates": { "x": 0.58, "y": 0.66 }
+  },
+  {
+    "id": "mece-4-10",
+    "building": "MEC E",
+    "floor": 4,
+    "room": "4-10",
+    "coordinates": { "x": 0.31, "y": 0.38 }
+  },
+  {
+    "id": "mece-2-20",
+    "building": "MEC E",
+    "floor": 2,
+    "room": "2-20",
+    "coordinates": { "x": 0.64, "y": 0.44 }
+  },
+  {
+    "id": "etlc-1-005",
+    "building": "ETLC",
+    "floor": 1,
+    "room": "1-005",
+    "coordinates": { "x": 0.24, "y": 0.72 }
+  },
+  {
+    "id": "etlc-1-007",
+    "building": "ETLC",
+    "floor": 1,
+    "room": "1-007",
+    "coordinates": { "x": 0.76, "y": 0.72 }
+  }
+]

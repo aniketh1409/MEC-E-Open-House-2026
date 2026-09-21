@@ -1,0 +1,44 @@
+[
+  {
+    "id": "stamp-design",
+    "name": "Design Explorer",
+    "description": "Collected by visiting the Mechanical Design Showcase.",
+    "image": "/assets/stamps/design.svg",
+    "boothId": "mece-design-01"
+  },
+  {
+    "id": "stamp-robotics",
+    "name": "Automation Adventurer",
+    "description": "Collected by visiting the Robotics and Automation booth.",
+    "image": "/assets/stamps/robotics.svg",
+    "boothId": "mece-robotics-01"
+  },
+  {
+    "id": "stamp-energy",
+    "name": "Energy Investigator",
+    "description": "Collected by visiting the Energy Systems Lab.",
+    "image": "/assets/stamps/energy.svg",
+    "boothId": "mece-energy-01"
+  },
+  {
+    "id": "stamp-materials",
+    "name": "Materials Maker",
+    "description": "Collected by visiting Materials and Manufacturing.",
+    "image": "/assets/stamps/materials.svg",
+    "boothId": "mece-materials-01"
+  },
+  {
+    "id": "stamp-arvp",
+    "name": "Underwater Innovator",
+    "description": "Collected by visiting the Autonomous Robotic Vehicle Project.",
+    "image": "/assets/stamps/arvp.svg",
+    "boothId": "student-arvp-01"
+  },
+  {
+    "id": "stamp-ecocar",
+    "name": "Efficiency Engineer",
+    "description": "Collected by visiting EcoCar.",
+    "image": "/assets/stamps/ecocar.svg",
+    "boothId": "student-ecocar-01"
+  }
+]

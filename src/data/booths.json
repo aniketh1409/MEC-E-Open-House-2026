@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "mece-design-01",
+    "name": "Mechanical Design Showcase",
+    "shortDescription": "Explore student-built prototypes and mechanical design projects.",
+    "locationId": "etlc-2-001",
+    "stampId": "stamp-design",
+    "qrCode": "mece-design-01",
+    "category": "program",
+    "isActive": true
+  },
+  {
+    "id": "mece-robotics-01",
+    "name": "Robotics and Automation",
+    "shortDescription": "See how mechanical systems use controls, sensors, and automation.",
+    "locationId": "etlc-2-003",
+    "stampId": "stamp-robotics",
+    "qrCode": "mece-robotics-01",
+    "category": "research",
+    "isActive": true
+  },
+  {
+    "id": "mece-energy-01",
+    "name": "Energy Systems Lab",
+    "shortDescription": "Discover mechanical engineering work in energy and thermofluids.",
+    "locationId": "mece-4-10",
+    "stampId": "stamp-energy",
+    "qrCode": "mece-energy-01",
+    "category": "research",
+    "isActive": true
+  },
+  {
+    "id": "mece-materials-01",
+    "name": "Materials and Manufacturing",
+    "shortDescription": "Learn how engineers select, test, and manufacture materials.",
+    "locationId": "mece-2-20",
+    "stampId": "stamp-materials",
+    "qrCode": "mece-materials-01",
+    "category": "program",
+    "isActive": true
+  },
+  {
+    "id": "student-arvp-01",
+    "name": "Autonomous Robotic Vehicle Project",
+    "shortDescription": "Meet the team building autonomous underwater vehicles.",
+    "locationId": "etlc-1-005",
+    "stampId": "stamp-arvp",
+    "qrCode": "student-arvp-01",
+    "category": "student-group",
+    "isActive": true
+  },
+  {
+    "id": "student-ecocar-01",
+    "name": "EcoCar",
+    "shortDescription": "Explore student work on ultra-efficient hydrogen vehicles.",
+    "locationId": "etlc-1-007",
+    "stampId": "stamp-ecocar",
+    "qrCode": "student-ecocar-01",
+    "category": "student-group",
+    "isActive": true
+  }
+]
