@@ -1,0 +1,53 @@
+{
+  "buildingId": "mece",
+  "stops": [
+    {
+      "boothId": "west-entry",
+      "directionsToNext": "Follow the hallway east, past the stairs, into the open hall."
+    },
+    {
+      "boothId": "design-courses",
+      "directionsToNext": "Keep heading east through the open hall and the double doors."
+    },
+    {
+      "boothId": "arvp",
+      "directionsToNext": "EcoCar is just across the hallway, to your right."
+    },
+    {
+      "boothId": "ecocar",
+      "directionsToNext": "Continue a few steps east. Formula Racing is beside the elevator."
+    },
+    {
+      "boothId": "formula-racing",
+      "directionsToNext": "Take the elevator beside Formula Racing, or the east stairs, up to the third floor. Room 3-26 is on your right as you head west."
+    },
+    {
+      "boothId": "mece-403-lab",
+      "directionsToNext": "Leave Room 3-26 and walk west along the main corridor."
+    },
+    {
+      "boothId": "dra-capstone",
+      "directionsToNext": "Continue west to the end of the corridor, then turn right toward the central stairs."
+    },
+    {
+      "boothId": "albertasat",
+      "directionsToNext": "Head west past the elevator. The rocketry team is in front of the elevator."
+    },
+    {
+      "boothId": "starr",
+      "directionsToNext": "Walk back toward the central stairs. Engineers for a Sustainable World is beside AlbertaSat."
+    },
+    {
+      "boothId": "esw",
+      "directionsToNext": "Go north past the stairs to the top of the hallway."
+    },
+    {
+      "boothId": "mece-club",
+      "directionsToNext": "Turn left and head west. Room 3-10 is in the north-west corner."
+    },
+    {
+      "boothId": "mece-301-lab",
+      "directionsToNext": "That's the end of the tour. Use the west elevator or stairs to head back down."
+    }
+  ]
+}
