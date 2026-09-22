@@ -1,6 +1,6 @@
 import { fireEvent, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { renderApp } from "../test/renderApp";
+import { renderApp } from "../../test/renderApp";
 
 describe("booth directory", () => {
   it("shows active booths with their locations", () => {

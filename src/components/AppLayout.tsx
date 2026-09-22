@@ -1,4 +1,5 @@
 import { AppShell, Box, Container, Group, Text } from "@mantine/core";
+import { SupportFooter } from "./SupportFooter";
 import {
   IconCalendarEvent,
   IconHome,
@@ -66,6 +67,8 @@ export function AppLayout() {
           <Outlet />
         </Container>
       </AppShell.Main>
+
+      <SupportFooter />
 
       <Box component="nav" aria-label="Primary navigation" className="mobile-nav" hiddenFrom="sm">
         {navigation.map(({ label, path, icon: NavigationIcon }) => (

@@ -129,6 +129,10 @@ body {
   background: #f5f5f5;
 }
 
+.support-footer {
+  background: #f5f5f5;
+}
+
 .eyebrow {
   color: #607168;
   font-size: 0.75rem;
@@ -195,6 +199,10 @@ body {
 }
 
 @media (max-width: 30em) {
+  .support-footer {
+    padding-bottom: 5.25rem;
+  }
+
   .brand-department {
     max-width: 12rem;
     overflow: hidden;

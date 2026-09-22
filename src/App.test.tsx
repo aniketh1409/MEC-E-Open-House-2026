@@ -8,5 +8,6 @@ describe("App", () => {
 
     expect(screen.getByRole("heading", { name: "Passport" })).toBeInTheDocument();
     expect(screen.getAllByRole("navigation", { name: "Primary navigation" })).toHaveLength(2);
+    expect(screen.getByRole("contentinfo")).toBeInTheDocument();
   });
 });

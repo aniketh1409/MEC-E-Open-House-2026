@@ -18,7 +18,7 @@ import {
   formatCategory,
   getActiveBoothCategories,
   getActiveBooths,
-} from "../lib/content";
+} from "../../lib/content";
 
 const booths = getActiveBooths();
 const categories = getActiveBoothCategories();
