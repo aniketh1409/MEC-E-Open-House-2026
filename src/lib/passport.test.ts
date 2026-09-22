@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   PASSPORT_STORAGE_KEY,
   addStamp,
@@ -12,6 +12,10 @@ describe("local passport storage", () => {
     localStorage.clear();
   });
 
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("creates and restores an anonymous passport", () => {
     const firstLoad = loadPassport();
     const secondLoad = loadPassport();
@@ -19,6 +23,15 @@ describe("local passport storage", () => {
     expect(firstLoad.isPersistent).toBe(true);
     expect(firstLoad.state.passportId).toBeTruthy();
     expect(secondLoad.state).toEqual(firstLoad.state);
+  });
+
+  it("creates a passport when secure-context crypto APIs are unavailable", () => {
+    vi.stubGlobal("crypto", undefined);
+
+    const passport = loadPassport();
+
+    expect(passport.isPersistent).toBe(true);
+    expect(passport.state.passportId).toMatch(/^passport-/);
   });
 
   it("adds each stamp only once", () => {

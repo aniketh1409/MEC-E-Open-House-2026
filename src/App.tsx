@@ -5,6 +5,8 @@ import { BoothDirectoryPage } from "./pages/BoothDirectoryPage";
 import { CollectStampPage } from "./pages/CollectStampPage";
 import { PassportPage } from "./pages/PassportPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
+import { QrCodeSheetPage } from "./pages/QrCodeSheetPage";
+import { ScanQrPage } from "./pages/ScanQrPage";
 
 export function App() {
   return (
@@ -16,7 +18,9 @@ export function App() {
         <Route path="booths/:boothId" element={<BoothDetailPage />} />
         <Route path="map" element={<PlaceholderPage title="Map" />} />
         <Route path="passport" element={<PassportPage />} />
+        <Route path="passport/scan" element={<ScanQrPage />} />
         <Route path="passport/collect/:qrCode" element={<CollectStampPage />} />
+        <Route path="qr-codes" element={<QrCodeSheetPage />} />
         <Route path="student-groups" element={<PlaceholderPage title="Student Groups" />} />
         <Route path="faq" element={<PlaceholderPage title="FAQ" />} />
         <Route path="help" element={<PlaceholderPage title="Help" />} />
