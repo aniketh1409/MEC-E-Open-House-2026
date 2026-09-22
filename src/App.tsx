@@ -3,6 +3,9 @@ import { AppLayout } from "./components/AppLayout";
 import { BoothDetailPage } from "./pages/BoothDetailPage";
 import { BoothDirectoryPage } from "./pages/BoothDirectoryPage";
 import { CollectStampPage } from "./pages/CollectStampPage";
+import { CampusJourneyView } from "./pages/map/CampusJourneyView";
+import { MapPage } from "./pages/map/MapPage";
+import { TourMapView } from "./pages/map/TourMapView";
 import { PassportPage } from "./pages/PassportPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import { QrCodeSheetPage } from "./pages/QrCodeSheetPage";
@@ -16,7 +19,10 @@ export function App() {
         <Route path="schedule" element={<PlaceholderPage title="Schedule" />} />
         <Route path="booths" element={<BoothDirectoryPage />} />
         <Route path="booths/:boothId" element={<BoothDetailPage />} />
-        <Route path="map" element={<PlaceholderPage title="Map" />} />
+        <Route path="map" element={<MapPage />}>
+          <Route index element={<CampusJourneyView />} />
+          <Route path="tour" element={<TourMapView />} />
+        </Route>
         <Route path="passport" element={<PassportPage />} />
         <Route path="passport/scan" element={<ScanQrPage />} />
         <Route path="passport/collect/:qrCode" element={<CollectStampPage />} />

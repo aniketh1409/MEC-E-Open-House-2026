@@ -274,9 +274,469 @@ body {
   max-width: 43rem;
 }
 
+/* Map: shared */
+
+.floor-plan-card,
+.campus-map-card,
+.selected-stop-card,
+.tour-stop-list,
+.journey-step,
+.journey-toggle {
+  border-color: #d9dfdb;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgb(39 93 56 / 5%);
+}
+
+.floor-plan-card,
+.campus-map-card {
+  overflow: hidden;
+}
+
+.tour-layout,
+.campus-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.tour-layout > *,
+.campus-layout > * {
+  min-width: 0;
+}
+
+.inline-icon {
+  vertical-align: -0.15em;
+}
+
+/* Map: MEC E floor plans */
+
+.floor-plan-viewport {
+  position: relative;
+  height: min(58vh, 26rem);
+  background: #f7f8f7;
+  touch-action: none;
+}
+
+.floor-plan-transform {
+  cursor: grab;
+}
+
+.floor-plan-transform:active {
+  cursor: grabbing;
+}
+
+.floor-plan {
+  display: block;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.plan-outline {
+  fill: #eef1ef;
+  stroke: #8f9b94;
+  stroke-width: 4;
+}
+
+.plan-room {
+  fill: #d3d9d5;
+  stroke: #aab4ae;
+  stroke-width: 3;
+}
+
+.plan-room-label {
+  fill: #66756c;
+  font-size: 24px;
+  font-weight: 650;
+  pointer-events: none;
+}
+
+.plan-route-casing,
+.plan-route {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.plan-route-casing {
+  stroke: #ffffff;
+  stroke-width: 16;
+}
+
+.plan-route {
+  stroke: #275d38;
+  stroke-width: 7;
+  stroke-dasharray: 18 14;
+  animation: route-flow 1.2s linear infinite;
+}
+
+@keyframes route-flow {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+.plan-poi rect {
+  fill: #ffffff;
+  stroke: #275d38;
+  stroke-width: 3;
+}
+
+.plan-poi svg {
+  color: #275d38;
+}
+
+.plan-poi[data-type="washroom"] svg {
+  color: #3b6e8f;
+}
+
+.plan-poi[data-type="washroom"] rect {
+  stroke: #3b6e8f;
+}
+
+.plan-poi-label {
+  fill: #275d38;
+  font-size: 22px;
+  font-weight: 750;
+  paint-order: stroke;
+  stroke: #ffffff;
+  stroke-width: 6px;
+}
+
+.plan-pin {
+  cursor: pointer;
+  outline: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 160ms ease;
+}
+
+.plan-pin-box {
+  fill: #f2cd00;
+  stroke: #173622;
+  stroke-width: 4;
+}
+
+.plan-pin-number {
+  fill: #173622;
+  font-size: 30px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.plan-pin[data-visited] .plan-pin-box {
+  fill: #275d38;
+  stroke: #173622;
+}
+
+.plan-pin[data-visited] .plan-pin-number {
+  fill: #ffffff;
+}
+
+.plan-pin-check circle {
+  fill: #f2cd00;
+  stroke: #173622;
+  stroke-width: 3;
+}
+
+.plan-pin-check path {
+  fill: none;
+  stroke: #173622;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.plan-pin:hover,
+.plan-pin[data-selected] {
+  transform: scale(1.3);
+}
+
+.plan-pin[data-selected] .plan-pin-box {
+  stroke: #ffffff;
+  stroke-width: 5;
+  filter: drop-shadow(0 0 5px rgb(23 54 34 / 55%));
+}
+
+.plan-pin:focus-visible .plan-pin-box {
+  stroke: #007a33;
+  stroke-width: 8;
+}
+
+.plan-pin-pulse {
+  fill: rgb(242 205 0 / 35%);
+  stroke: #f2cd00;
+  stroke-width: 4;
+  animation: pin-pulse 1.8s ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes pin-pulse {
+  from {
+    opacity: 1;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.floor-plan-controls {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.map-legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #536159;
+  font-size: 0.75rem;
+  font-weight: 600;
+  row-gap: 0.4rem;
+}
+
+.map-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legend-pin,
+.legend-poi {
+  display: inline-grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 2px solid #173622;
+  border-radius: 3px;
+  background: #f2cd00;
+  color: #173622;
+  font-size: 0.625rem;
+  font-weight: 800;
+}
+
+.legend-pin[data-visited] {
+  background: #275d38;
+  color: #ffffff;
+}
+
+.legend-poi {
+  border-color: #275d38;
+  background: #ffffff;
+  color: #275d38;
+}
+
+.legend-poi[data-type="washroom"] {
+  border-color: #3b6e8f;
+  color: #3b6e8f;
+}
+
+.legend-route {
+  width: 1.4rem;
+  border-top: 3px dashed #275d38;
+}
+
+/* Map: tour side panel */
+
+.selected-stop-card {
+  border-top: 4px solid #f2cd00;
+}
+
+.next-directions {
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: #edf6f0;
+}
+
+.tour-stop-list {
+  max-height: 26rem;
+  overflow-y: auto;
+}
+
+.tour-stop-list ol {
+  list-style: none;
+}
+
+.tour-stop-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.tour-stop-item:hover {
+  background: #f3f6f4;
+}
+
+.tour-stop-item[data-selected] {
+  background: #edf6f0;
+  box-shadow: inset 3px 0 0 #275d38;
+}
+
+.tour-stop-number,
+.journey-step-number {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 2px solid #173622;
+  border-radius: 5px;
+  background: #f2cd00;
+  color: #173622;
+  font-size: 0.8125rem;
+  font-weight: 800;
+}
+
+.tour-stop-number[data-visited],
+.journey-step-number[data-visited] {
+  background: #275d38;
+  color: #ffffff;
+}
+
+.tour-stop-text {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.tour-stop-here {
+  flex: 0 0 auto;
+  color: #ad9200;
+}
+
+/* Map: campus */
+
+.campus-map {
+  position: relative;
+}
+
+.campus-map-canvas,
+.campus-map-loading {
+  height: min(60vh, 28rem);
+}
+
+.campus-map-canvas {
+  z-index: 0;
+  background: #f2f2f0;
+}
+
+/* Mute the street map so the green route and gold pins stand out. */
+.campus-tiles {
+  filter: grayscale(0.9) brightness(1.04) contrast(0.92);
+}
+
+.campus-pin-wrapper {
+  background: none;
+  border: 0;
+}
+
+.campus-pin {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 3px solid #173622;
+  border-radius: 6px;
+  background: #f2cd00;
+  box-shadow: 0 3px 8px rgb(23 54 34 / 35%);
+  color: #173622;
+  font: 800 16px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.campus-pin[data-visited] {
+  background: #275d38;
+  color: #ffffff;
+}
+
+.leaflet-tooltip.campus-pin-tooltip {
+  padding: 1px 6px;
+  border: 0;
+  border-radius: 4px;
+  background: #173622;
+  box-shadow: none;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.leaflet-tooltip-right.campus-pin-tooltip::before {
+  border-right-color: #173622;
+}
+
+
+.campus-locate-button {
+  position: absolute;
+  z-index: 500;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  box-shadow: 0 3px 10px rgb(23 54 34 / 20%);
+}
+
+.campus-locate-error {
+  position: absolute;
+  z-index: 500;
+  top: 0.75rem;
+  right: 0.75rem;
+  left: 0.75rem;
+}
+
+.journey-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journey-leg {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1.35rem;
+  padding: 0.6rem 0 0.6rem 1.05rem;
+  border-left: 3px dashed #8dc0a1;
+  color: #607168;
+}
+
+.printed-map-viewport {
+  height: min(75vh, 44rem);
+  overflow: hidden;
+  border-radius: 6px;
+  background: #f2f2f0;
+}
+
+.printed-map-image {
+  display: block;
+  max-width: 100%;
+  max-height: min(75vh, 44rem);
+  margin: 0 auto;
+}
+
 @media (min-width: 48em) {
   .mantine-AppShell-main {
     padding-bottom: 0;
+  }
+
+  .floor-plan-viewport {
+    height: min(62vh, 32rem);
+  }
+}
+
+@media (min-width: 62em) {
+  .tour-layout,
+  .campus-layout {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+  }
+
+  .tour-stop-list {
+    max-height: 20rem;
   }
 }
 
@@ -290,8 +750,14 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .booth-card {
+  .booth-card,
+  .plan-pin {
     transition: none;
+  }
+
+  .plan-route,
+  .plan-pin-pulse {
+    animation: none;
   }
 }
 

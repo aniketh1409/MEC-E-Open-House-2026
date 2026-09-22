@@ -8,17 +8,17 @@ import {
 
 describe("content access", () => {
   it("joins active booths to their location and stamp", () => {
-    const booth = getActiveBoothById("mece-design-01");
+    const booth = getActiveBoothById("design-courses");
 
-    expect(booth?.location.id).toBe("etlc-2-001");
-    expect(booth?.stamp.id).toBe("stamp-design");
+    expect(booth?.location.id).toBe("mece-design-courses");
+    expect(booth?.stamp.id).toBe("stamp-design-courses");
   });
 
   it("returns sorted booths and categories", () => {
     const booths = getActiveBooths();
 
-    expect(booths[0]?.name).toBe("Autonomous Robotic Vehicle Project");
-    expect(getActiveBoothCategories()).toEqual(["program", "research", "student-group"]);
+    expect(booths[0]?.name).toBe("AlbertaSat");
+    expect(getActiveBoothCategories()).toEqual(["event", "program", "research", "student-group", "welcome"]);
   });
 
   it("does not return unknown booths", () => {

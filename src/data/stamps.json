@@ -1,44 +1,100 @@
 [
   {
-    "id": "stamp-design",
+    "id": "stamp-open-house-booth",
+    "name": "Journey Starter",
+    "description": "Collected at the MEC E booth in the Butterdome.",
+    "image": "/assets/stamps/open-house-booth.svg",
+    "boothId": "open-house-booth"
+  },
+  {
+    "id": "stamp-program-presentation",
+    "name": "Program Insider",
+    "description": "Collected at the MEC E program presentation.",
+    "image": "/assets/stamps/program-presentation.svg",
+    "boothId": "program-presentation"
+  },
+  {
+    "id": "stamp-west-entry",
+    "name": "Tour Trailblazer",
+    "description": "Collected at the start of the MEC E building tour.",
+    "image": "/assets/stamps/west-entry.svg",
+    "boothId": "west-entry"
+  },
+  {
+    "id": "stamp-design-courses",
     "name": "Design Explorer",
-    "description": "Collected by visiting the Mechanical Design Showcase.",
-    "image": "/assets/stamps/design.svg",
-    "boothId": "mece-design-01"
-  },
-  {
-    "id": "stamp-robotics",
-    "name": "Automation Adventurer",
-    "description": "Collected by visiting the Robotics and Automation booth.",
-    "image": "/assets/stamps/robotics.svg",
-    "boothId": "mece-robotics-01"
-  },
-  {
-    "id": "stamp-energy",
-    "name": "Energy Investigator",
-    "description": "Collected by visiting the Energy Systems Lab.",
-    "image": "/assets/stamps/energy.svg",
-    "boothId": "mece-energy-01"
-  },
-  {
-    "id": "stamp-materials",
-    "name": "Materials Maker",
-    "description": "Collected by visiting Materials and Manufacturing.",
-    "image": "/assets/stamps/materials.svg",
-    "boothId": "mece-materials-01"
+    "description": "Collected at the undergraduate design course showcase.",
+    "image": "/assets/stamps/design-courses.svg",
+    "boothId": "design-courses"
   },
   {
     "id": "stamp-arvp",
     "name": "Underwater Innovator",
     "description": "Collected by visiting the Autonomous Robotic Vehicle Project.",
     "image": "/assets/stamps/arvp.svg",
-    "boothId": "student-arvp-01"
+    "boothId": "arvp"
   },
   {
     "id": "stamp-ecocar",
     "name": "Efficiency Engineer",
     "description": "Collected by visiting EcoCar.",
     "image": "/assets/stamps/ecocar.svg",
-    "boothId": "student-ecocar-01"
+    "boothId": "ecocar"
+  },
+  {
+    "id": "stamp-formula-racing",
+    "name": "Pit Crew Pro",
+    "description": "Collected by visiting UAlberta Formula Racing.",
+    "image": "/assets/stamps/formula-racing.svg",
+    "boothId": "formula-racing"
+  },
+  {
+    "id": "stamp-mece-403-lab",
+    "name": "Lab Veteran",
+    "description": "Collected in the MEC E 403 laboratory.",
+    "image": "/assets/stamps/mece-403-lab.svg",
+    "boothId": "mece-403-lab"
+  },
+  {
+    "id": "stamp-dra-capstone",
+    "name": "Capstone Scout",
+    "description": "Collected at the research and capstone showcase.",
+    "image": "/assets/stamps/dra-capstone.svg",
+    "boothId": "dra-capstone"
+  },
+  {
+    "id": "stamp-albertasat",
+    "name": "Orbit Operator",
+    "description": "Collected by visiting AlbertaSat.",
+    "image": "/assets/stamps/albertasat.svg",
+    "boothId": "albertasat"
+  },
+  {
+    "id": "stamp-starr",
+    "name": "Launch Specialist",
+    "description": "Collected by visiting the Student Team for Alberta Rocketry Research.",
+    "image": "/assets/stamps/starr.svg",
+    "boothId": "starr"
+  },
+  {
+    "id": "stamp-esw",
+    "name": "Sustainability Champion",
+    "description": "Collected by visiting Engineers for a Sustainable World.",
+    "image": "/assets/stamps/esw.svg",
+    "boothId": "esw"
+  },
+  {
+    "id": "stamp-mece-club",
+    "name": "Club Member",
+    "description": "Collected by visiting the MEC E Club.",
+    "image": "/assets/stamps/mece-club.svg",
+    "boothId": "mece-club"
+  },
+  {
+    "id": "stamp-mece-301-lab",
+    "name": "Demo Enthusiast",
+    "description": "Collected in the MEC E 301 laboratory.",
+    "image": "/assets/stamps/mece-301-lab.svg",
+    "boothId": "mece-301-lab"
   }
 ]

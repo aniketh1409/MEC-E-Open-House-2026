@@ -1,8 +1,9 @@
-import { Alert, Button, Stack, Text, ThemeIcon, Title } from "@mantine/core";
-import { IconAlertCircle, IconCheck, IconTicket } from "@tabler/icons-react";
+import { Alert, Button, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core";
+import { IconAlertCircle, IconCheck, IconMap2, IconTicket } from "@tabler/icons-react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getActiveBoothByQrCode } from "../lib/content";
+import { boothMapPath } from "../lib/map";
 import { addStamp, loadPassport, savePassport } from "../lib/passport";
 
 type CollectionStatus = "collected" | "duplicate" | "invalid";
@@ -60,9 +61,19 @@ export function CollectStampPage() {
           Browser storage is unavailable. Keep this page open and try again later.
         </Alert>
       )}
-      <Button component={Link} to="/passport" w="fit-content">
-        View passport
-      </Button>
+      <Group gap="sm">
+        <Button component={Link} to="/passport">
+          View passport
+        </Button>
+        <Button
+          component={Link}
+          to={boothMapPath(booth.id, true)}
+          variant="light"
+          leftSection={<IconMap2 size={18} />}
+        >
+          Find your next stop
+        </Button>
+      </Group>
     </Stack>
   );
 }
