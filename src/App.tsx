@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./components/AppLayout";
 import { BoothDetailPage } from "./pages/BoothDetailPage";
 import { BoothDirectoryPage } from "./pages/BoothDirectoryPage";
+import { CollectStampPage } from "./pages/CollectStampPage";
+import { PassportPage } from "./pages/PassportPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 
 export function App() {
@@ -13,7 +15,8 @@ export function App() {
         <Route path="booths" element={<BoothDirectoryPage />} />
         <Route path="booths/:boothId" element={<BoothDetailPage />} />
         <Route path="map" element={<PlaceholderPage title="Map" />} />
-        <Route path="passport" element={<PlaceholderPage title="Passport" />} />
+        <Route path="passport" element={<PassportPage />} />
+        <Route path="passport/collect/:qrCode" element={<CollectStampPage />} />
         <Route path="student-groups" element={<PlaceholderPage title="Student Groups" />} />
         <Route path="faq" element={<PlaceholderPage title="FAQ" />} />
         <Route path="help" element={<PlaceholderPage title="Help" />} />

@@ -38,6 +38,13 @@ export function getActiveBoothById(id: string): BoothDetails | undefined {
   return booth ? joinBooth(booth) : undefined;
 }
 
+export function getActiveBoothByQrCode(qrCode: string): BoothDetails | undefined {
+  const booth = booths.find(
+    (candidate) => candidate.qrCode === qrCode && candidate.isActive,
+  );
+  return booth ? joinBooth(booth) : undefined;
+}
+
 export function getActiveBoothCategories(): string[] {
   return [...new Set(getActiveBooths().map((booth) => booth.category))].sort();
 }

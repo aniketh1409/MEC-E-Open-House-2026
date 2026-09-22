@@ -144,6 +144,26 @@ body {
   box-shadow: 0 6px 20px rgb(39 93 56 / 5%);
 }
 
+.passport-progress,
+.stamp-card {
+  border-color: #d9dfdb;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgb(39 93 56 / 5%);
+}
+
+.stamp-card {
+  min-height: 14rem;
+}
+
+.stamp-card[data-collected] {
+  border-color: #8dc0a1;
+  border-top: 4px solid #007a33;
+}
+
+.collection-result {
+  max-width: 42rem;
+}
+
 .booth-grid {
   margin: 0;
   padding: 0;

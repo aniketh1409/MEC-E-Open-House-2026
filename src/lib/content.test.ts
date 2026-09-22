@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   getActiveBoothById,
+  getActiveBoothByQrCode,
   getActiveBoothCategories,
   getActiveBooths,
 } from "./content";
@@ -22,5 +23,6 @@ describe("content access", () => {
 
   it("does not return unknown booths", () => {
     expect(getActiveBoothById("unknown-booth")).toBeUndefined();
+    expect(getActiveBoothByQrCode("unknown-code")).toBeUndefined();
   });
 });
