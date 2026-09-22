@@ -4,6 +4,7 @@ import { BoothDetailPage } from "./pages/Booth/BoothDetailPage";
 import { BoothDirectoryPage } from "./pages/Booth/BoothDirectoryPage";
 import { PlaceholderPage } from "./pages/Booth/PlaceholderPage";
 import { HomePage } from "./pages/Home/HomePage";
+import { HelpPage } from "./pages/Help/HelpPage";
 
 export function App() {
   return (
@@ -17,7 +18,7 @@ export function App() {
         <Route path="passport" element={<PlaceholderPage title="Passport" />} />
         <Route path="student-groups" element={<PlaceholderPage title="Student Groups" />} />
         <Route path="faq" element={<PlaceholderPage title="FAQ" />} />
-        <Route path="help" element={<PlaceholderPage title="Help" />} />
+        <Route path="help" element={<HelpPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

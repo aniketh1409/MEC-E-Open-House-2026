@@ -231,6 +231,47 @@ body {
   background: #ffdd4b;
 }
 
+.help-page {
+  max-width: 72rem;
+}
+
+.help-intro {
+  margin-bottom: 2rem;
+}
+
+.help-grid {
+  align-items: stretch;
+}
+
+.help-section {
+  height: 100%;
+  border-color: #d9dfdb;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgb(39 93 56 / 5%);
+}
+
+.help-section .mantine-Title-root {
+  color: #173622;
+}
+
+.help-contact {
+  font-weight: 650;
+}
+
+.help-actions {
+  row-gap: 0.25rem;
+}
+
+.help-emergency {
+  border-color: #c99b00;
+  border-top: 4px solid #f2cd00;
+  background: #fff9df;
+}
+
+.help-emergency .mantine-Title-root {
+  color: #173622;
+}
+
 .directory-controls,
 .visit-details {
   border-color: #d9dfdb;
@@ -325,6 +366,20 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .help-intro {
+    margin-bottom: 1.5rem;
+  }
+
+  .help-section {
+    padding: 1.25rem;
+  }
+
+  .help-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.1rem;
   }
 }
 
