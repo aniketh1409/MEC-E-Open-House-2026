@@ -12,6 +12,7 @@ import {
   IconCalendarEvent,
   IconMapPin,
   IconSparkles,
+  IconTicket,
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 
@@ -33,16 +34,6 @@ export function HomePage() {
           more.
         </Text>
       </Stack>
-
-      <Group mt="lg" mb="xl">
-        <Button
-          component={Link}
-          to="/booths"
-          rightSection={<IconArrowRight size={17} stroke={1.8} />}
-        >
-          Explore booths
-        </Button>
-      </Group>
 
       <SimpleGrid
         component="ul"
@@ -141,7 +132,7 @@ export function HomePage() {
           radius="md"
           padding="lg"
         >
-          <IconSparkles size={28} stroke={1.8} />
+          <IconTicket size={28} stroke={1.8} />
 
           <Title order={2} size="h3" mt="md">
             Make Your Visit Count
