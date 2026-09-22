@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
 :root {
   color: #202722;
   background: #f5f5f5;
@@ -141,6 +143,94 @@ body {
   text-transform: uppercase;
 }
 
+.home-hero {
+  display: grid;
+  min-height: min(38rem, calc(100vh - 10rem));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  background: #275d38;
+  box-shadow: 0 10px 28px rgb(39 93 56 / 12%);
+}
+
+.home-hero-visual {
+  position: relative;
+  display: flex;
+  min-height: 28rem;
+  margin: 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  background:
+    linear-gradient(145deg, rgb(0 107 50 / 92%), rgb(23 54 34 / 95%)),
+    repeating-linear-gradient(135deg, transparent 0 28px, rgb(242 205 0 / 14%) 28px 30px);
+  color: #ffffff;
+}
+
+.home-hero-visual::before,
+.home-hero-visual::after {
+  position: absolute;
+  content: "";
+  border: 1px solid rgb(242 205 0 / 46%);
+  transform: rotate(-18deg);
+}
+
+.home-hero-visual::before {
+  top: 14%;
+  right: 14%;
+  width: 52%;
+  height: 34%;
+}
+
+.home-hero-visual::after {
+  top: 22%;
+  right: 25%;
+  width: 42%;
+  height: 28%;
+  border-color: rgb(255 255 255 / 34%);
+}
+
+.home-hero-content {
+  display: flex;
+  align-items: center;
+  padding: clamp(2rem, 6vw, 5.5rem);
+  background: #275d38;
+  color: #ffffff;
+}
+
+.home-event-band {
+  display: none;
+}
+
+.home-mobile-heading {
+  display: none;
+}
+
+.home-hero-content .mantine-Title-root {
+  max-width: 34rem;
+  color: #ffffff;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.02;
+}
+
+.home-hero-copy {
+  max-width: 34rem;
+  color: rgb(255 255 255 / 86%);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.6;
+}
+
+.home-hero-cta {
+  align-self: flex-start;
+  min-height: 3rem;
+  background: #f2cd00;
+  color: #173622;
+}
+
+.home-hero-cta:hover {
+  background: #ffdd4b;
+}
+
 .directory-controls,
 .visit-details {
   border-color: #d9dfdb;
@@ -196,6 +286,33 @@ body {
   .mantine-AppShell-main {
     padding-bottom: 0;
   }
+
+  .home-hero {
+    margin-top: -44px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+
+  .home-hero-visual {
+    min-height: 32rem;
+  }
+
+  .home-hero-content {
+    padding: clamp(3rem, 6vw, 5.5rem);
+  }
+
+  .home-hero-content .mantine-Title-root {
+    color: #f2cd00;
+    font-family: "Roboto", sans-serif;
+    font-size: clamp(3rem, 5vw, 4rem);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+
+  .home-hero-copy {
+    font-family: "Roboto", sans-serif;
+    font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+    line-height: 1.55;
+  }
 }
 
 @media (max-width: 30em) {
@@ -208,6 +325,81 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+
+@media (max-width: 48em) {
+  .home-hero {
+    display: block;
+    min-height: 0;
+    margin-top: -28px;
+    margin-inline: calc(-1 * var(--mantine-spacing-md));
+  }
+
+  .home-event-band {
+    display: block;
+    padding: 1rem 1.5rem;
+    background: #f2cd00;
+    color: #173622;
+    font-size: 1.125rem;
+    font-weight: 750;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .home-event-band p {
+    margin: 0;
+  }
+
+  .home-mobile-heading {
+    display: block;
+    padding: 0.75rem 2rem 0.65rem;
+    background: #275d38;
+  }
+
+  .home-mobile-heading .mantine-Title-root {
+    color: #f2cd00;
+    font-family: "Roboto", sans-serif;
+    font-size: clamp(1.75rem, 8vw, 2rem);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+
+  .home-mobile-heading-line {
+    white-space: nowrap;
+  }
+
+  .home-hero-content {
+    padding: 1.25rem 2rem 1.75rem;
+    background: #ffffff;
+    color: #202722;
+  }
+
+  .home-hero-stack {
+    gap: 0.75rem;
+  }
+
+  .home-hero-content .mantine-Title-root {
+    display: none;
+  }
+
+  .home-hero-copy {
+    color: #3f5147;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .home-hero-visual {
+    height: clamp(100px, 30vw, 130px);
+    min-height: 0;
+    padding: 0;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
   }
 }
 
