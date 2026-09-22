@@ -21,6 +21,7 @@ import {
   IconRefresh,
   IconRosetteDiscountCheck,
 } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 import { getActiveBooths } from "../lib/content";
 import { usePassport } from "../hooks/usePassport";
 
@@ -54,6 +55,15 @@ export function PassportPage() {
           Browser storage is unavailable. Keep this page open to avoid losing collected stamps.
         </Alert>
       )}
+
+      <Button
+        component={Link}
+        to="/passport/scan"
+        leftSection={<IconQrcode size={19} />}
+        w="fit-content"
+      >
+        Scan a booth code
+      </Button>
 
       {isComplete && (
         <Alert
