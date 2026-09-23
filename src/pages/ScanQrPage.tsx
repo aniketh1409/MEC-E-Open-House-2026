@@ -34,7 +34,7 @@ export function ScanQrPage() {
   }, []);
 
   const processScan = async (value: string) => {
-    const qrCode = getQrCodeFromScan(value, window.location.origin);
+    const qrCode = getQrCodeFromScan(value);
 
     if (!qrCode || !getActiveBoothByQrCode(qrCode)) {
       setError("This QR code does not belong to an active Open House station.");

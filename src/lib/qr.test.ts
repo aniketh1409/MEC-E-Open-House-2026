@@ -12,24 +12,23 @@ describe("QR helpers", () => {
 
   it("reads a booth code from a collection URL", () => {
     expect(
-      getQrCodeFromScan(
-        "https://openhouse.example.ca/passport/collect/mece-design-01",
-        origin,
-      ),
+      getQrCodeFromScan("https://openhouse.example.ca/passport/collect/mece-design-01"),
     ).toBe("mece-design-01");
   });
 
   it("accepts a raw booth code", () => {
-    expect(getQrCodeFromScan("mece-design-01", origin)).toBe("mece-design-01");
+    expect(getQrCodeFromScan("mece-design-01")).toBe("mece-design-01");
   });
 
-  it("rejects collection links from another website", () => {
+  it("accepts collection links generated on an earlier deployment host", () => {
     expect(
-      getQrCodeFromScan("https://malicious.example/passport/collect/mece-design-01", origin),
-    ).toBeUndefined();
+      getQrCodeFromScan(
+        "https://old-preview.trycloudflare.com/passport/collect/mece-design-01",
+      ),
+    ).toBe("mece-design-01");
   });
 
   it("rejects unrelated links", () => {
-    expect(getQrCodeFromScan("https://openhouse.example.ca/booths", origin)).toBeUndefined();
+    expect(getQrCodeFromScan("https://openhouse.example.ca/booths")).toBeUndefined();
   });
 });
