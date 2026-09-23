@@ -99,9 +99,9 @@ body {
   grid-template-columns: repeat(5, 1fr);
   min-height: 4.25rem;
   padding: 0.35rem max(0.25rem, env(safe-area-inset-right)) max(0.35rem, env(safe-area-inset-bottom)) max(0.25rem, env(safe-area-inset-left));
-  border-top: 1px solid #d7ddd9;
-  background: rgb(255 255 255 / 97%);
-  box-shadow: 0 -4px 18px rgb(24 54 34 / 8%);
+  border-top: 1px solid #d2b400;
+  background: #f2cd00;
+  box-shadow: 0 -4px 18px rgb(24 54 34 / 14%);
 }
 
 .mobile-nav-link {
@@ -112,15 +112,15 @@ body {
   gap: 0.15rem;
   min-width: 0;
   border-radius: 4px;
-  color: #536159;
+  color: #173622;
   font-size: 0.6875rem;
   font-weight: 650;
   text-decoration: none;
 }
 
 .mobile-nav-link[data-active] {
-  background: #edf6f0;
-  color: #006b32;
+  background: rgb(255 255 255 / 55%);
+  color: #005a2b;
 }
 
 .mantine-AppShell-main {
@@ -162,6 +162,72 @@ body {
 
 .collection-result {
   max-width: 42rem;
+}
+
+.qr-reader {
+  width: min(100%, 34rem);
+  min-height: 18rem;
+  overflow: hidden;
+  border: 1px solid #cfd8d2;
+  border-radius: 6px;
+  background: #17211a;
+}
+
+.qr-reader:empty::before {
+  display: grid;
+  min-height: 18rem;
+  place-items: center;
+  color: #dce5df;
+  content: "Camera preview";
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.qr-reader video {
+  object-fit: cover;
+}
+
+.manual-code {
+  max-width: 34rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #d9dfdb;
+}
+
+.qr-print-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border: 1px solid #bfcac2;
+  border-top: 6px solid #007a33;
+  border-radius: 6px;
+  background: #ffffff;
+  text-align: center;
+  break-inside: avoid;
+}
+
+.qr-print-card img,
+.qr-placeholder {
+  width: min(100%, 18rem);
+  aspect-ratio: 1;
+  margin: 1rem auto;
+}
+
+.qr-placeholder {
+  background: #edf0ee;
+}
+
+.qr-event-name {
+  color: #007a33;
+  font-size: 0.75rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.qr-url {
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .booth-grid {
@@ -692,5 +758,30 @@ body {
   .plan-route,
   .plan-pin-pulse {
     animation: none;
+  }
+}
+
+@media print {
+  @page {
+    margin: 0.5in;
+  }
+
+  .site-header,
+  .mobile-nav,
+  .print-hidden {
+    display: none !important;
+  }
+
+  .mantine-AppShell-main {
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .qr-sheet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .qr-print-card {
+    box-shadow: none;
   }
 }

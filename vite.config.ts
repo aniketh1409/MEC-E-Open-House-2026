@@ -5,10 +5,10 @@ import { qrcode } from "vite-plugin-qrcode";
 export default defineConfig({
   plugins: [
     react(),
-    qrcode(), // Generates phone QR code in terminal
+    qrcode(),
   ],
   server: {
-    host: true, // Exposes dev server to local network for mobile preview
+    host: true,
   },
   test: {
     environment: "jsdom",
