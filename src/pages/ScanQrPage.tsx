@@ -2,7 +2,7 @@ import { Alert, Button, Group, Stack, Text, TextInput, ThemeIcon, Title } from "
 import { IconAlertCircle, IconCamera, IconKeyboard } from "@tabler/icons-react";
 import type { Html5Qrcode } from "html5-qrcode";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getActiveBoothByQrCode } from "../lib/content";
 import { getQrCodeFromScan } from "../lib/qr";
 
@@ -10,6 +10,8 @@ const READER_ID = "passport-qr-reader";
 
 export function ScanQrPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const returnToMap = searchParams.get("from") === "map";
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState<string>();
@@ -40,7 +42,7 @@ export function ScanQrPage() {
     }
 
     await stopScanner();
-    navigate(`/passport/collect/${encodeURIComponent(qrCode)}`);
+    navigate(`/passport/collect/${encodeURIComponent(qrCode)}${returnToMap ? "?from=map" : ""}`);
   };
 
   const startScanner = async () => {
@@ -113,7 +115,7 @@ export function ScanQrPage() {
         </Group>
         <TextInput
           label="Booth code"
-          placeholder="Example: mece-design-01"
+          placeholder="Example: ecocar"
           value={manualCode}
           onChange={(event) => setManualCode(event.currentTarget.value)}
           onKeyDown={(event) => event.key === "Enter" && submitManualCode()}

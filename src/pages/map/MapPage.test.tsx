@@ -78,4 +78,26 @@ describe("map page", () => {
 
     expect(screen.getByRole("link", { name: "Find your next stop" })).toHaveAttribute("href", "/map/tour?at=ecocar");
   });
+
+  it("opens the tour instead of campus directions once a tour stamp is collected", () => {
+    collect("stamp-open-house-booth", "stamp-arvp");
+    renderApp("/map");
+
+    expect(screen.getByRole("tab", { name: "MEC E tour" })).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByText("1 of 12 stops visited")).toBeInTheDocument();
+  });
+
+  it("returns scans started from the map straight back to it", () => {
+    renderApp("/passport/collect/ecocar?from=map");
+
+    expect(screen.getByText("Stamp collected!")).toBeInTheDocument();
+    expect(screen.getByText("Efficiency Engineer")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Stop 4: EcoCar, visited, you are here" })).toBeInTheDocument();
+  });
+
+  it("offers the scanner from the map", () => {
+    renderApp("/map/tour");
+
+    expect(screen.getByRole("link", { name: "Scan stamp" })).toHaveAttribute("href", "/passport/scan?from=map");
+  });
 });

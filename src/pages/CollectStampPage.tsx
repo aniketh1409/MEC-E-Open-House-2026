@@ -1,15 +1,16 @@
 import { Alert, Button, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core";
 import { IconAlertCircle, IconCheck, IconMap2, IconTicket } from "@tabler/icons-react";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { getActiveBoothByQrCode } from "../lib/content";
-import { boothMapPath } from "../lib/map";
+import { boothMapPath, stampReturnPath } from "../lib/map";
 import { addStamp, loadPassport, savePassport } from "../lib/passport";
 
 type CollectionStatus = "collected" | "duplicate" | "invalid";
 
 export function CollectStampPage() {
   const { qrCode = "" } = useParams();
+  const [searchParams] = useSearchParams();
   const booth = getActiveBoothByQrCode(qrCode);
 
   const [result] = useState(() => {
@@ -44,6 +45,11 @@ export function CollectStampPage() {
         </Button>
       </Stack>
     );
+  }
+
+  // Scans started from the map go straight back to it, unless there's a storage warning to show.
+  if (searchParams.get("from") === "map" && result.status !== "invalid" && result.isPersistent) {
+    return <Navigate to={stampReturnPath(booth.id, result.status)} replace />;
   }
 
   const isDuplicate = result.status === "duplicate";

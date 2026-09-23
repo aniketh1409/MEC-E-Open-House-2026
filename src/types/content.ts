@@ -6,6 +6,8 @@ export interface Booth {
   stampId: string;
   qrCode: string;
   category: string;
+  /** Key from the stop icon registry, e.g. "rocket". */
+  icon?: string;
   isActive: boolean;
 }
 

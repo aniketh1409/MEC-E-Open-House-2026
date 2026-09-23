@@ -7,6 +7,7 @@
     "stampId": "stamp-open-house-booth",
     "qrCode": "open-house-booth",
     "category": "event",
+    "icon": "flag",
     "isActive": true
   },
   {
@@ -17,6 +18,7 @@
     "stampId": "stamp-program-presentation",
     "qrCode": "program-presentation",
     "category": "event",
+    "icon": "presentation",
     "isActive": true
   },
   {
@@ -27,6 +29,7 @@
     "stampId": "stamp-west-entry",
     "qrCode": "west-entry",
     "category": "welcome",
+    "icon": "door",
     "isActive": true
   },
   {
@@ -37,6 +40,7 @@
     "stampId": "stamp-design-courses",
     "qrCode": "design-courses",
     "category": "program",
+    "icon": "ruler",
     "isActive": true
   },
   {
@@ -47,6 +51,7 @@
     "stampId": "stamp-arvp",
     "qrCode": "arvp",
     "category": "student-group",
+    "icon": "submarine",
     "isActive": true
   },
   {
@@ -57,6 +62,7 @@
     "stampId": "stamp-ecocar",
     "qrCode": "ecocar",
     "category": "student-group",
+    "icon": "leaf",
     "isActive": true
   },
   {
@@ -67,6 +73,7 @@
     "stampId": "stamp-formula-racing",
     "qrCode": "formula-racing",
     "category": "student-group",
+    "icon": "steering-wheel",
     "isActive": true
   },
   {
@@ -77,6 +84,7 @@
     "stampId": "stamp-mece-403-lab",
     "qrCode": "mece-403-lab",
     "category": "program",
+    "icon": "flask",
     "isActive": true
   },
   {
@@ -87,6 +95,7 @@
     "stampId": "stamp-dra-capstone",
     "qrCode": "dra-capstone",
     "category": "research",
+    "icon": "trophy",
     "isActive": true
   },
   {
@@ -97,6 +106,7 @@
     "stampId": "stamp-albertasat",
     "qrCode": "albertasat",
     "category": "student-group",
+    "icon": "satellite",
     "isActive": true
   },
   {
@@ -107,6 +117,7 @@
     "stampId": "stamp-starr",
     "qrCode": "starr",
     "category": "student-group",
+    "icon": "rocket",
     "isActive": true
   },
   {
@@ -117,6 +128,7 @@
     "stampId": "stamp-esw",
     "qrCode": "esw",
     "category": "student-group",
+    "icon": "plant",
     "isActive": true
   },
   {
@@ -127,6 +139,7 @@
     "stampId": "stamp-mece-club",
     "qrCode": "mece-club",
     "category": "student-group",
+    "icon": "users",
     "isActive": true
   },
   {
@@ -137,6 +150,7 @@
     "stampId": "stamp-mece-301-lab",
     "qrCode": "mece-301-lab",
     "category": "program",
+    "icon": "microscope",
     "isActive": true
   }
 ]
