@@ -130,12 +130,224 @@ body {
   background: #f5f5f5;
 }
 
+.support-footer {
+  background: #f5f5f5;
+}
+
+.support-footer .mantine-Divider-root {
+  border-color: #d9dfdb;
+}
+
+.support-footer a {
+  color: #006b32;
+}
+
 .eyebrow {
   color: #607168;
   font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0;
   text-transform: uppercase;
+}
+
+.help-page {
+  max-width: 72rem;
+}
+
+.help-intro {
+  margin-bottom: 2rem;
+}
+
+.help-section {
+  height: 100%;
+  border-color: #d9dfdb;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgb(39 93 56 / 5%);
+}
+
+.help-section .mantine-Title-root {
+  color: #173622;
+}
+
+.help-section a {
+  color: #006b32;
+  font-weight: 650;
+}
+
+.help-actions {
+  width: 100%;
+}
+
+.help-emergency {
+  border-color: #c99b00;
+  border-top: 4px solid #f2cd00;
+  background: #fff9df;
+}
+
+.help-subsection {
+  border-top: 1px solid #e3e8e4;
+  padding-top: 1rem;
+}
+
+.home-page {
+  overflow: hidden;
+}
+
+.home-hero {
+  display: grid;
+  min-height: min(38rem, calc(100vh - 10rem));
+  grid-template-columns: minmax(0, 35%) minmax(0, 65%);
+  margin-top: -44px;
+  overflow: hidden;
+  background: #275d38;
+}
+
+.home-hero-visual {
+  position: relative;
+  display: grid;
+  min-height: 30rem;
+  margin: 0;
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, #f2cd00, #ffdd4b),
+    repeating-linear-gradient(135deg, transparent 0 28px, rgb(39 93 56 / 12%) 28px 30px);
+}
+
+.home-hero-visual::before,
+.home-hero-visual::after {
+  position: absolute;
+  content: "";
+  border: 1px solid rgb(39 93 56 / 28%);
+  transform: rotate(-18deg);
+}
+
+.home-hero-visual::before {
+  top: 14%;
+  right: 10%;
+  width: 72%;
+  height: 44%;
+}
+
+.home-hero-visual::after {
+  top: 24%;
+  right: 22%;
+  width: 58%;
+  height: 34%;
+  border-color: rgb(255 255 255 / 55%);
+}
+
+.home-hero-visual img {
+  position: relative;
+  z-index: 1;
+  width: min(58%, 15rem);
+  height: auto;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+.home-hero-visual-caption {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 1;
+  color: #173622;
+  font-size: 0.8rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.home-hero-editorial {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(3rem, 7vw, 7rem);
+  background: #275d38;
+  color: #ffffff;
+}
+
+.home-hero-editorial-label {
+  margin-bottom: 1.5rem;
+  color: #f2cd00;
+  font-size: 0.875rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.home-hero-editorial .mantine-Title-root {
+  max-width: 40rem;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3.75rem, 6vw, 6.5rem);
+  font-weight: 400;
+  line-height: 0.98;
+}
+
+.home-event-band {
+  padding: 1rem 2rem;
+  background: #f2cd00;
+  color: #173622;
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.home-event-band p {
+  margin: 0;
+}
+
+.home-mobile-heading {
+  display: none;
+}
+
+.home-introduction {
+  padding: clamp(2.5rem, 6vw, 5.5rem) clamp(2rem, 8vw, 8rem);
+  background: #ffffff;
+}
+
+.home-introduction-stack {
+  max-width: 54rem;
+  margin: 0 auto;
+}
+
+.home-introduction .mantine-Title-root {
+  color: #173622;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.home-introduction-eyebrow {
+  color: #006b32;
+  font-size: 1.15rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.home-hero-copy {
+  max-width: 48rem;
+  color: #3f5147;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.home-hero-cta {
+  align-self: flex-start;
+  min-height: 3rem;
+  background: #275d38;
+  color: #ffffff;
+}
+
+.home-hero-cta:hover {
+  background: #006b32;
 }
 
 .directory-controls,
@@ -1173,11 +1385,103 @@ body {
 }
 
 @media (max-width: 30em) {
+  .help-intro {
+    margin-bottom: 1.5rem;
+  }
+
+  .help-section {
+    padding: 1.25rem;
+  }
+
+  .support-footer {
+    padding-bottom: 5.25rem;
+  }
+
   .brand-department {
     max-width: 12rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  @media (max-width: 48em) {
+    .home-page {
+      margin-top: -28px;
+      margin-inline: calc(-1 * var(--mantine-spacing-md));
+      padding-bottom: 5.25rem;
+    }
+
+    .home-mobile-heading {
+      display: block;
+      padding: 0.75rem 2rem 0.65rem;
+      background: #275d38;
+    }
+
+    .home-mobile-heading .mantine-Title-root {
+      color: #f2cd00;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: clamp(1.75rem, 8vw, 2rem);
+      font-weight: 400;
+      line-height: 1.05;
+    }
+
+    .home-mobile-heading-line {
+      white-space: nowrap;
+    }
+
+    .home-hero {
+      display: block;
+      min-height: 0;
+      margin: 0;
+    }
+
+    .home-hero-visual {
+      height: clamp(100px, 30vw, 130px);
+      min-height: 0;
+      padding: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .home-hero-visual img {
+      width: 5rem;
+    }
+
+    .home-hero-visual-caption {
+      display: none;
+    }
+
+    .home-hero-editorial {
+      display: none;
+    }
+
+    .home-event-band {
+      padding: 1rem 1.5rem;
+      font-size: 1.125rem;
+      letter-spacing: 0;
+    }
+
+    .home-introduction {
+      padding: 1.25rem 2rem 1.75rem;
+    }
+
+    .home-introduction-stack {
+      gap: 0.75rem;
+    }
+
+    .home-introduction .mantine-Title-root,
+    .home-introduction-eyebrow {
+      display: none;
+    }
+
+    .home-hero-copy {
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .home-hero-cta {
+      min-height: 3rem;
+    }
   }
 }
 
