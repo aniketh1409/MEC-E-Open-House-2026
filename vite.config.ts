@@ -1,10 +1,14 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
+import { qrcode } from "vite-plugin-qrcode";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    qrcode(),
+  ],
   server: {
-    allowedHosts: [".trycloudflare.com"],
+    host: true,
   },
   test: {
     environment: "jsdom",

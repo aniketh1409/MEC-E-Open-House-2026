@@ -4,7 +4,7 @@ import { BoothDetailPage } from "./pages/BoothDetailPage";
 import { BoothDirectoryPage } from "./pages/BoothDirectoryPage";
 import { CollectStampPage } from "./pages/CollectStampPage";
 import { CampusJourneyView } from "./pages/map/CampusJourneyView";
-import { MapPage } from "./pages/map/MapPage";
+import { MapIndexRedirect, MapPage } from "./pages/map/MapPage";
 import { TourMapView } from "./pages/map/TourMapView";
 import { PassportPage } from "./pages/PassportPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
@@ -20,7 +20,8 @@ export function App() {
         <Route path="booths" element={<BoothDirectoryPage />} />
         <Route path="booths/:boothId" element={<BoothDetailPage />} />
         <Route path="map" element={<MapPage />}>
-          <Route index element={<CampusJourneyView />} />
+          <Route index element={<MapIndexRedirect />} />
+          <Route path="campus" element={<CampusJourneyView />} />
           <Route path="tour" element={<TourMapView />} />
         </Route>
         <Route path="passport" element={<PassportPage />} />
