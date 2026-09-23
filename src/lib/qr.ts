@@ -4,7 +4,7 @@ export function getCollectionUrl(qrCode: string, origin: string): string {
   return new URL(`${COLLECTION_PATH}${encodeURIComponent(qrCode)}`, origin).toString();
 }
 
-export function getQrCodeFromScan(value: string, origin: string): string | undefined {
+export function getQrCodeFromScan(value: string): string | undefined {
   const scannedValue = value.trim();
 
   if (!scannedValue) {
@@ -13,9 +13,11 @@ export function getQrCodeFromScan(value: string, origin: string): string | undef
 
   try {
     const url = new URL(scannedValue);
-    const expectedOrigin = new URL(origin).origin;
 
-    if (url.origin !== expectedOrigin || !url.pathname.startsWith(COLLECTION_PATH)) {
+    if (
+      !["http:", "https:"].includes(url.protocol) ||
+      !url.pathname.startsWith(COLLECTION_PATH)
+    ) {
       return undefined;
     }
 
