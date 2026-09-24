@@ -1,5 +1,6 @@
 import { fireEvent, screen, within } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { loadCampusRouter } from "../../lib/loadCampusRouter";
 import { renderApp } from "../../test/renderApp";
 
 vi.mock("../../hooks/useIsMobile", () => ({ useIsMobile: () => true }));
@@ -8,6 +9,8 @@ vi.mock("../../components/map/CampusMap", () => ({
 }));
 
 describe("map page on mobile", () => {
+  beforeAll(() => loadCampusRouter(), 30_000);
+
   beforeEach(() => {
     localStorage.clear();
   });
@@ -45,5 +48,25 @@ describe("map page on mobile", () => {
     const sheet = screen.getByRole("region", { name: "Your route" });
     expect(within(sheet).getByText("Start here")).toBeInTheDocument();
     expect(within(sheet).getByRole("link", { name: "Walking directions to Butterdome" })).toBeInTheDocument();
+  });
+
+  it("plans a campus route from the Where to? button", async () => {
+    renderApp("/map/campus");
+    await screen.findByTestId("campus-map");
+
+    fireEvent.click(screen.getByRole("button", { name: "Where to?" }));
+    expect(screen.getByRole("button", { name: "Hide details" })).toHaveAttribute("aria-expanded", "true");
+
+    for (const [label, option] of [["From", "Butterdome (Universiade Pavilion)"], ["To", "Mechanical Engineering Building"]] as const) {
+      const input = screen.getByRole("combobox", { name: label });
+      fireEvent.click(input);
+      const list = document.getElementById(input.getAttribute("aria-controls")!)!;
+      fireEvent.click(await within(list).findByRole("option", { name: option, hidden: true }));
+    }
+
+    const sheet = screen.getByRole("region", { name: "Your route" });
+    expect(await within(sheet).findByText(/^9 min · 70\d m$/, undefined, { timeout: 5000 })).toBeInTheDocument();
+    expect(within(sheet).getByText("Route to MEC E")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Show details" })).toHaveAttribute("aria-expanded", "false");
   });
 });

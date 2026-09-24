@@ -20,17 +20,25 @@ import {
   IconMap,
   IconRoute,
   IconWalk,
+  IconX,
 } from "@tabler/icons-react";
 import { Fragment, lazy, Suspense, useMemo, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import printedCampusMapUrl from "../../../assets/maps/campus-map.webp";
 import { BottomSheet } from "../../components/map/BottomSheet";
+import type { PlannedRoute } from "../../components/map/CampusMap";
+import { MY_LOCATION, RoutePlanner } from "../../components/map/RoutePlanner";
 import { ScanStampButton } from "../../components/map/ScanStampButton";
 import { StampToast } from "../../components/map/StampToast";
+import { features } from "../../config/features";
+import { useCampusRoute, type CampusRouteStatus } from "../../hooks/useCampusRoute";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { usePassport } from "../../hooks/usePassport";
 import { useSheetHistory } from "../../hooks/useSheetHistory";
+import { useVisitorPosition } from "../../hooks/useVisitorPosition";
+import type { CampusRoute } from "../../lib/campusRouter";
+import { getBuildings } from "../../lib/content";
 import {
   campusMapUrl,
   getJourneyLegs,
@@ -39,9 +47,10 @@ import {
   walkingDirectionsUrl,
   type JourneyStepDetails,
 } from "../../lib/map";
-import type { JourneyLeg } from "../../types/content";
+import type { Building, JourneyLeg } from "../../types/content";
 
 const CampusMap = lazy(() => import("../../components/map/CampusMap"));
+const buildings = getBuildings();
 
 export function CampusJourneyView() {
   const [attendsPresentation, setAttendsPresentation] = useState(true);
@@ -59,6 +68,48 @@ export function CampusJourneyView() {
   const isStepVisited = (step: JourneyStepDetails) => Boolean(step.booth && visitedStampIds.has(step.booth.stamp.id));
   const nextStep = steps.find((step) => !isStepVisited(step)) ?? steps[steps.length - 1];
 
+  const [isLocating, setIsLocating] = useState(false);
+  const { position, error: locationError } = useVisitorPosition(isLocating);
+
+  // "Where to?" directions (features.campusRouting).
+  const [planner, setPlanner] = useState<{ fromId: string; toId?: string }>({ fromId: MY_LOCATION });
+  const destination = features.campusRouting ? buildings.find((building) => building.id === planner.toId) : undefined;
+  const startsAtMe = planner.fromId === MY_LOCATION;
+  const origin = startsAtMe
+    ? position && { lat: position.center[0], lng: position.center[1] }
+    : buildings.find((building) => building.id === planner.fromId)?.position;
+  const { route, status: routeStatus } = useCampusRoute(
+    destination && planner.fromId !== planner.toId ? origin : undefined,
+    destination,
+  );
+  const plannedRoute: PlannedRoute | undefined = destination
+    ? { key: `${planner.fromId}>${destination.id}`, route, destination, isLive: startsAtMe }
+    : undefined;
+  const isFindingLocation = startsAtMe && !position && !locationError;
+
+  const changePlanner = (next: { fromId: string; toId?: string }) => {
+    if (next.toId && next.fromId === MY_LOCATION) {
+      setIsLocating(true);
+    }
+    if (isMobile && next.toId && next.toId !== planner.toId) {
+      setSheetExpanded(false); // Show the new route on the map.
+    }
+    setPlanner(next);
+  };
+
+  const routePlanner = features.campusRouting ? (
+    <RoutePlanner
+      buildings={buildings}
+      fromId={planner.fromId}
+      toId={planner.toId}
+      onChange={changePlanner}
+      route={route}
+      status={routeStatus}
+      isFindingLocation={isFindingLocation}
+      locationError={locationError}
+    />
+  ) : null;
+
   const campusMap = (
     <Suspense fallback={<Group className="campus-map-loading" justify="center"><Loader color="ualbertaGreen" /></Group>}>
       <CampusMap
@@ -66,6 +117,11 @@ export function CampusJourneyView() {
         legs={legs}
         visitedStampIds={visitedStampIds}
         targetStep={nextStep}
+        isLocating={isLocating}
+        onLocatingChange={setIsLocating}
+        position={position}
+        locationError={locationError}
+        plannedRoute={plannedRoute}
         insetBottom={isMobile ? peekHeight : 0}
         showZoomControl={!isMobile}
       />
@@ -136,6 +192,19 @@ export function CampusJourneyView() {
       <div className="map-stage" style={{ "--sheet-peek": `${peekHeight}px` } as CSSProperties}>
         {campusMap}
         <StampToast />
+        {features.campusRouting && !plannedRoute && (
+          <div className="map-overlay-top-left">
+            <Button
+              className="map-fab"
+              variant="white"
+              radius="xl"
+              leftSection={<IconRoute size={18} />}
+              onClick={() => setSheetExpanded(true)}
+            >
+              Where to?
+            </Button>
+          </div>
+        )}
         <div className="map-overlay-bottom-left">
           <ScanStampButton floating />
         </div>
@@ -146,14 +215,27 @@ export function CampusJourneyView() {
             onExpandedChange={setSheetExpanded}
             onPeekHeightChange={setPeekHeight}
             peek={
-              <JourneyPeek
-                step={nextStep}
-                legToStep={nextIndex > 0 ? legs[nextIndex - 1] : undefined}
-                isVisited={isStepVisited(nextStep)}
-              />
+              plannedRoute ? (
+                <RoutePeek
+                  destination={plannedRoute.destination}
+                  route={route}
+                  status={routeStatus}
+                  isFindingLocation={isFindingLocation}
+                  onClear={() => setPlanner({ fromId: planner.fromId })}
+                />
+              ) : (
+                <JourneyPeek
+                  step={nextStep}
+                  legToStep={nextIndex > 0 ? legs[nextIndex - 1] : undefined}
+                  isVisited={isStepVisited(nextStep)}
+                />
+              )
             }
           >
-            {journeyDetails}
+            <Stack gap="md">
+              {routePlanner}
+              {journeyDetails}
+            </Stack>
           </BottomSheet>
         )}
         {printedMapModal}
@@ -171,10 +253,50 @@ export function CampusJourneyView() {
         <Group justify="flex-end">
           <ScanStampButton />
         </Group>
+        {routePlanner}
         {journeyDetails}
       </Stack>
       {printedMapModal}
     </Box>
+  );
+}
+
+function RoutePeek({
+  destination,
+  route,
+  status,
+  isFindingLocation,
+  onClear,
+}: {
+  destination: Building;
+  route?: CampusRoute;
+  status: CampusRouteStatus;
+  isFindingLocation: boolean;
+  onClear: () => void;
+}) {
+  const summary = route
+    ? `${route.minutes} min · ${route.distanceMeters} m`
+    : isFindingLocation
+      ? "Finding your location…"
+      : status === "unavailable"
+        ? "No walking route found"
+        : "Working out the route…";
+  return (
+    <div className="stop-peek">
+      <span className="stop-badge route-peek-badge" aria-hidden="true">
+        <IconRoute size={20} />
+      </span>
+      <div className="stop-peek-text">
+        <Text size="xs" fw={750} c="dimmed" tt="uppercase" lineClamp={1}>Route to {destination.abbreviation}</Text>
+        <Title order={2} size="h5" lineClamp={1}>{summary}</Title>
+        <Text size="xs" c="dimmed" lineClamp={1}>
+          {route?.steps[0]?.instruction ?? "Swipe up for step-by-step directions"}
+        </Text>
+      </div>
+      <ActionIcon size={44} radius="xl" variant="default" aria-label="Clear route" onClick={onClear}>
+        <IconX size={20} />
+      </ActionIcon>
+    </div>
   );
 }
 

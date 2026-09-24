@@ -4,8 +4,19 @@ import L, { type LatLngTuple } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Circle, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMap, useMapEvents } from "react-leaflet";
+import type { VisitorPosition } from "../../hooks/useVisitorPosition";
+import type { CampusRoute } from "../../lib/campusRouter";
 import { distanceMeters, walkingMinutes, type JourneyStepDetails } from "../../lib/map";
-import type { JourneyLeg } from "../../types/content";
+import type { Building, JourneyLeg } from "../../types/content";
+
+export interface PlannedRoute {
+  /** Changes whenever the visitor picks a new start or destination. */
+  key: string;
+  route?: CampusRoute;
+  destination: Building;
+  /** True when the route starts from the visitor's live position. */
+  isLive: boolean;
+}
 
 interface CampusMapProps {
   steps: JourneyStepDetails[];
@@ -13,21 +24,24 @@ interface CampusMapProps {
   visitedStampIds: ReadonlySet<string>;
   /** Where the visitor is heading next; used for the live distance readout. */
   targetStep?: JourneyStepDetails;
+  isLocating: boolean;
+  onLocatingChange: (isLocating: boolean) => void;
+  position?: VisitorPosition;
+  locationError?: string;
+  /** A "Where to?" route, drawn over the fixed journey. */
+  plannedRoute?: PlannedRoute;
   /** Space (px) covered by a bottom sheet, kept clear when fitting the route. */
   insetBottom?: number;
   showZoomControl?: boolean;
-}
-
-interface VisitorPosition {
-  center: LatLngTuple;
-  accuracy: number;
 }
 
 /** Below this GPS accuracy (m) the accuracy circle adds noise rather than information. */
 const SHOW_ACCURACY_ABOVE = 15;
 const ARRIVED_WITHIN = 40;
 
-const routeStyle: L.PathOptions = { color: "#275d38", weight: 5, dashArray: "10 9", lineCap: "round" };
+const journeyStyle: L.PathOptions = { color: "#275d38", weight: 5, dashArray: "10 9", lineCap: "round" };
+const plannedCasingStyle: L.PathOptions = { color: "#ffffff", weight: 10, opacity: 0.95, lineCap: "round", lineJoin: "round" };
+const plannedStyle: L.PathOptions = { color: "#1f6fd1", weight: 6, lineCap: "round", lineJoin: "round" };
 const accuracyStyle: L.PathOptions = { color: "#1f6fd1", weight: 1, opacity: 0.35, fillOpacity: 0.12 };
 
 function stepIcon(step: JourneyStepDetails, isVisited: boolean) {
@@ -39,6 +53,15 @@ function stepIcon(step: JourneyStepDetails, isVisited: boolean) {
     tooltipAnchor: [16, 0],
   });
 }
+
+/** Flag for a "Where to?" destination that isn't one of the journey's numbered stops. */
+const destinationIcon = L.divIcon({
+  className: "campus-pin-wrapper",
+  html: `<span class="campus-destination-pin">★</span>`,
+  iconSize: [30, 30],
+  iconAnchor: [15, 15],
+  tooltipAnchor: [14, 0],
+});
 
 /** Teardrop pin whose tip marks the visitor's exact position at every zoom level. */
 const visitorIcon = L.divIcon({
@@ -54,36 +77,17 @@ const visitorIcon = L.divIcon({
   iconAnchor: [18, 45],
 });
 
-function FitToRoute({ bounds, insetBottom }: { bounds: L.LatLngBounds; insetBottom: number }) {
+/** Fits the map to the journey, or to a planned route when one is chosen. Refits only when that choice changes. */
+function FitToView({ bounds, fitKey, insetBottom }: { bounds: L.LatLngBounds; fitKey: string; insetBottom: number }) {
   const map = useMap();
+  const latestBounds = useRef(bounds);
   useEffect(() => {
-    map.fitBounds(bounds, { paddingTopLeft: [36, 48], paddingBottomRight: [36, 36 + insetBottom] });
-  }, [bounds, insetBottom, map]);
+    latestBounds.current = bounds;
+  });
+  useEffect(() => {
+    map.fitBounds(latestBounds.current, { paddingTopLeft: [36, 56], paddingBottomRight: [36, 36 + insetBottom] });
+  }, [fitKey, insetBottom, map]);
   return null;
-}
-
-function useVisitorPosition(enabled: boolean) {
-  const [position, setPosition] = useState<VisitorPosition>();
-  const [error, setError] = useState<string>();
-  const isSupported = "geolocation" in navigator;
-
-  useEffect(() => {
-    if (!enabled || !isSupported) {
-      return;
-    }
-
-    const watchId = navigator.geolocation.watchPosition(
-      ({ coords }) => {
-        setError(undefined);
-        setPosition({ center: [coords.latitude, coords.longitude], accuracy: coords.accuracy });
-      },
-      () => setError("We couldn't get your location. Check that location access is allowed."),
-      { enableHighAccuracy: true, maximumAge: 10_000 },
-    );
-    return () => navigator.geolocation.clearWatch(watchId);
-  }, [enabled, isSupported]);
-
-  return { position, error: isSupported ? error : "Location isn't available on this device." };
 }
 
 /** Keeps the visitor centred while following; a manual drag pauses following. */
@@ -119,33 +123,51 @@ export default function CampusMap({
   legs,
   visitedStampIds,
   targetStep,
+  isLocating,
+  onLocatingChange,
+  position,
+  locationError,
+  plannedRoute,
   insetBottom = 0,
   showZoomControl = true,
 }: CampusMapProps) {
-  const [isLocating, setIsLocating] = useState(false);
-  const [following, setFollowing] = useState(true);
-  const { position, error } = useVisitorPosition(isLocating);
+  // Following is remembered per planned route: a new route starts zoomed out to show all of it.
+  const routeKey = plannedRoute?.key ?? "";
+  const [followState, setFollowState] = useState({ routeKey, following: true });
+  const following = followState.routeKey === routeKey ? followState.following : !plannedRoute;
+  const setFollowing = (value: boolean) => setFollowState({ routeKey, following: value });
 
-  const bounds = useMemo(() => {
+  const journeyBounds = useMemo(() => {
     const stepPositions = steps.map(({ building }): LatLngTuple => [building.position.lat, building.position.lng]);
     return L.latLngBounds([...legs.flatMap((leg) => leg.path), ...stepPositions]);
   }, [legs, steps]);
+  const routePath = plannedRoute?.route?.path;
+  const bounds = routePath ? L.latLngBounds(routePath) : journeyBounds;
+  const fitKey = routePath ? `route:${routeKey}` : `journey:${steps.map((step) => step.id).join(",")}`;
 
-  const distanceToTarget =
-    isLocating && position && targetStep
-      ? distanceMeters({ lat: position.center[0], lng: position.center[1] }, targetStep.building.position)
-      : undefined;
+  const readout = (() => {
+    if (!isLocating || !position) return undefined;
+    if (plannedRoute?.isLive && plannedRoute.route) {
+      const { distanceMeters: meters, minutes } = plannedRoute.route;
+      return meters <= ARRIVED_WITHIN
+        ? `You've arrived at ${plannedRoute.destination.abbreviation}`
+        : `${Math.round(meters / 10) * 10} m to ${plannedRoute.destination.abbreviation} · ${minutes} min`;
+    }
+    if (!targetStep) return undefined;
+    const meters = distanceMeters({ lat: position.center[0], lng: position.center[1] }, targetStep.building.position);
+    return meters <= ARRIVED_WITHIN
+      ? `You've arrived at ${targetStep.building.abbreviation}`
+      : `${Math.round(meters / 10) * 10} m to ${targetStep.building.abbreviation} · ~${walkingMinutes(meters)} min`;
+  })();
 
-  const startLocating = () => {
-    setFollowing(true);
-    setIsLocating(true);
-  };
+  const destination = plannedRoute?.destination;
+  const destinationIsJourneyStop = destination && steps.some((step) => step.building.id === destination.id);
 
   return (
     <div className="campus-map">
       <MapContainer
         className="campus-map-canvas"
-        bounds={bounds}
+        bounds={journeyBounds}
         scrollWheelZoom={false}
         zoomControl={showZoomControl}
         maxZoom={19}
@@ -157,11 +179,22 @@ export default function CampusMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           maxZoom={19}
         />
-        <FitToRoute bounds={bounds} insetBottom={insetBottom} />
+        <FitToView bounds={bounds} fitKey={fitKey} insetBottom={insetBottom} />
 
         {legs.map((leg) => (
-          <Polyline key={`${leg.from}-${leg.to}`} positions={leg.path} pathOptions={routeStyle} />
+          <Polyline
+            key={`${leg.from}-${leg.to}`}
+            positions={leg.path}
+            pathOptions={routePath ? { ...journeyStyle, opacity: 0.3 } : journeyStyle}
+          />
         ))}
+
+        {routePath && (
+          <>
+            <Polyline positions={routePath} pathOptions={plannedCasingStyle} interactive={false} />
+            <Polyline positions={routePath} pathOptions={plannedStyle} interactive={false} />
+          </>
+        )}
 
         {steps.map((step) => (
           <Marker
@@ -175,6 +208,14 @@ export default function CampusMap({
             </Tooltip>
           </Marker>
         ))}
+
+        {destination && !destinationIsJourneyStop && (
+          <Marker position={[destination.position.lat, destination.position.lng]} icon={destinationIcon} title={destination.name}>
+            <Tooltip direction="right" permanent className="campus-pin-tooltip">
+              {destination.abbreviation}
+            </Tooltip>
+          </Marker>
+        )}
 
         {isLocating && position && (
           <>
@@ -196,12 +237,10 @@ export default function CampusMap({
         )}
       </MapContainer>
 
-      {distanceToTarget !== undefined && targetStep && (
+      {readout && (
         <div className="campus-distance-chip" role="status">
           <IconWalk size={16} stroke={2} aria-hidden="true" />
-          {distanceToTarget <= ARRIVED_WITHIN
-            ? `You've arrived at ${targetStep.building.abbreviation}`
-            : `${Math.round(distanceToTarget / 10) * 10} m to ${targetStep.building.abbreviation} · ~${walkingMinutes(distanceToTarget)} min`}
+          {readout}
         </div>
       )}
 
@@ -212,7 +251,10 @@ export default function CampusMap({
             variant="white"
             radius="xl"
             leftSection={<IconCurrentLocation size={18} />}
-            onClick={startLocating}
+            onClick={() => {
+              setFollowing(true);
+              onLocatingChange(true);
+            }}
           >
             Show my location
           </Button>
@@ -236,16 +278,16 @@ export default function CampusMap({
             variant="filled"
             color="blue"
             aria-label="Stop showing my location"
-            onClick={() => setIsLocating(false)}
+            onClick={() => onLocatingChange(false)}
           >
             <IconCurrentLocation size={20} />
           </ActionIcon>
         )}
       </div>
 
-      {isLocating && error && (
+      {isLocating && locationError && (
         <Alert className="campus-locate-error" color="orange" variant="filled" p="xs">
-          {error}
+          {locationError}
         </Alert>
       )}
     </div>

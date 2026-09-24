@@ -35,6 +35,10 @@ export function getBuildingById(id: string): Building | undefined {
   return buildingsById.get(id);
 }
 
+export function getBuildings(): Building[] {
+  return buildings;
+}
+
 export function getActiveBooths(): BoothDetails[] {
   return booths
     .filter((booth) => booth.isActive)

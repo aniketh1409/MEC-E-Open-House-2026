@@ -5,7 +5,8 @@ import { renderApp } from "../../test/renderApp";
 describe("schedule page", () => {
   afterEach(() => {
     vi.restoreAllMocks();
-    vi.unstubAllGlobals();
+    Reflect.deleteProperty(URL, "createObjectURL");
+    Reflect.deleteProperty(URL, "revokeObjectURL");
   });
 
   it("counts down before the Open House", () => {
@@ -45,12 +46,9 @@ describe("schedule page", () => {
   });
 
   it("links events to the map and to the visitor's calendar", () => {
-    // jsdom has no object URLs, so stand in a URL class that provides them.
+    // jsdom has no object URLs, so provide them for this test.
     const createObjectURL = vi.fn(() => "blob:calendar");
-    vi.stubGlobal("URL", class extends URL {
-      static createObjectURL = createObjectURL;
-      static revokeObjectURL = vi.fn();
-    });
+    Object.assign(URL, { createObjectURL, revokeObjectURL: vi.fn() });
     const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => undefined);
     renderApp("/schedule?now=2026-10-14T09:00");
 

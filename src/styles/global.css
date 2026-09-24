@@ -741,6 +741,13 @@ body {
   pointer-events: auto;
 }
 
+.map-overlay-top-left {
+  position: absolute;
+  z-index: 20;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
 .map-overlay-bottom-left {
   position: absolute;
   z-index: 20;
@@ -1473,6 +1480,95 @@ body {
   font-weight: 700;
   transform: translateX(-50%);
   white-space: nowrap;
+}
+
+.map-stage .campus-distance-chip {
+  top: 3.75rem;
+}
+
+.campus-destination-pin {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background: #1f6fd1;
+  box-shadow: 0 3px 8px rgb(10 40 90 / 35%);
+  color: #ffffff;
+  font: 800 14px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+/* "Where to?" directions */
+
+.route-planner {
+  border-color: #d9dfdb;
+  border-top: 4px solid #1f6fd1;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgb(39 93 56 / 5%);
+}
+
+.route-planner-icon {
+  color: #1f6fd1;
+}
+
+.route-planner-result {
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #e3e8e4;
+}
+
+.route-steps {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.route-steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eef1ef;
+  font-size: 0.875rem;
+}
+
+.route-steps li:last-child {
+  border-bottom: 0;
+}
+
+.route-step-icon {
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #e7f0fb;
+  color: #1f6fd1;
+}
+
+.route-steps li[data-maneuver="arrive"] .route-step-icon {
+  background: #1f6fd1;
+  color: #ffffff;
+}
+
+.route-step-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.route-step-distance {
+  flex: 0 0 auto;
+  color: #607168;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.route-peek-badge {
+  border-color: #1f6fd1;
+  background: #1f6fd1;
+  color: #ffffff;
 }
 
 .campus-map-controls {

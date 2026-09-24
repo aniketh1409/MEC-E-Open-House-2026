@@ -51,3 +51,9 @@ Copy an existing entry and change the values. The order doesn't matter: the page
 ## Previewing a time of day
 
 Add `?now=` to the schedule address to see the page as it will look at that time, e.g. `/schedule?now=10:15` (on the event day) or `/schedule?now=2026-10-14T09:00` (any date). This is handy for checking the "Happening now" card before the event.
+
+## Campus directions ("Where to?")
+
+- **Destinations** are the buildings in `buildings.json`. Adding a building there (with the coordinates of its main entrance) adds it to the "Where to?" lists automatically.
+- **The walking network** (`campusPaths.json`) is generated from OpenStreetMap and shouldn't be edited by hand. To refresh it, for example after campus paths change, run `python scripts/build_campus_paths.py` and then `npm test`. If a new building is outside the covered area, widen `BBOX` in that script first.
+- **Switching the feature off:** set `campusRouting` to `false` in `src/config/features.ts`. The map returns to the fixed journey, with directions handed to Google Maps.
