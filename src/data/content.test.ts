@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { FloorPlan, Journey, Location, Tour } from "../types/content";
+import type { EventInfo, FloorPlan, Journey, Location, ScheduleEvent, Tour } from "../types/content";
 import booths from "./booths.json";
 import buildings from "./buildings.json";
+import eventData from "./event.json";
 import floorPlansData from "./floorPlans.json";
 import journeyData from "./journey.json";
 import locationsData from "./locations.json";
+import scheduleData from "./schedule.json";
 import stamps from "./stamps.json";
 import tourData from "./tour.json";
 
@@ -12,6 +14,8 @@ const locations = locationsData as Location[];
 const floorPlans = floorPlansData as FloorPlan[];
 const tour = tourData as Tour;
 const journey = journeyData as Journey;
+const eventInfo = eventData as EventInfo;
+const schedule = scheduleData as ScheduleEvent[];
 
 function expectUnique(values: string[]) {
   expect(new Set(values).size).toBe(values.length);
@@ -124,6 +128,49 @@ describe("map data", () => {
           journey.legs.some((leg) => leg.from === from && leg.to === to),
           `${from} -> ${to}`,
         ).toBe(true);
+      }
+    }
+  });
+});
+
+describe("schedule data", () => {
+  const time = /^([01]\d|2[0-3]):[0-5]\d$/;
+  const minutes = (value: string) => Number(value.slice(0, 2)) * 60 + Number(value.slice(3));
+
+  it("describes the event day and hours", () => {
+    expect(eventInfo.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(Number.isNaN(new Date(`${eventInfo.date}T00:00:00Z`).getTime())).toBe(false);
+    expect(() => new Intl.DateTimeFormat("en-US", { timeZone: eventInfo.timeZone })).not.toThrow();
+    expect(eventInfo.opensAt).toMatch(time);
+    expect(eventInfo.closesAt).toMatch(time);
+    expect(minutes(eventInfo.closesAt)).toBeGreaterThan(minutes(eventInfo.opensAt));
+  });
+
+  it("uses valid, unique events inside opening hours", () => {
+    expectUnique(schedule.map((event) => event.id));
+    const categories = ["presentation", "tour", "booth-fair", "food", "general"];
+
+    for (const event of schedule) {
+      expect(event.start, `${event.id} start`).toMatch(time);
+      expect(event.end, `${event.id} end`).toMatch(time);
+      expect(minutes(event.end), `${event.id} ends after it starts`).toBeGreaterThan(minutes(event.start));
+      expect(minutes(event.start), `${event.id} starts after opening`).toBeGreaterThanOrEqual(minutes(eventInfo.opensAt));
+      expect(minutes(event.end), `${event.id} ends before closing`).toBeLessThanOrEqual(minutes(eventInfo.closesAt));
+      expect(categories, `${event.id} category`).toContain(event.category);
+      expect(["mece", "university"], `${event.id} scope`).toContain(event.scope);
+    }
+  });
+
+  it("links events to real buildings and stations", () => {
+    const buildingIds = new Set(buildings.map((building) => building.id));
+    const boothIds = new Set(booths.map((booth) => booth.id));
+
+    for (const event of schedule) {
+      if (event.buildingId) {
+        expect(buildingIds.has(event.buildingId), `${event.id} building "${event.buildingId}"`).toBe(true);
+      }
+      if (event.boothId) {
+        expect(boothIds.has(event.boothId), `${event.id} booth "${event.boothId}"`).toBe(true);
       }
     }
   });

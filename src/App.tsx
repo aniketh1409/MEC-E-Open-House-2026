@@ -11,6 +11,7 @@ import { MapIndexRedirect, MapPage } from "./pages/map/MapPage";
 import { TourMapView } from "./pages/map/TourMapView";
 import { PassportPage } from "./pages/PassportPage";
 import { QrCodeSheetPage } from "./pages/QrCodeSheetPage";
+import { SchedulePage } from "./pages/Schedule/SchedulePage";
 import { ScanQrPage } from "./pages/ScanQrPage";
 
 export function App() {
@@ -18,7 +19,7 @@ export function App() {
     <Routes>
       <Route element={<AppLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="schedule" element={<PlaceholderPage title="Schedule" />} />
+        <Route path="schedule" element={<SchedulePage />} />
         <Route path="booths" element={<BoothDirectoryPage />} />
         <Route path="booths/:boothId" element={<BoothDetailPage />} />
         <Route path="map" element={<MapPage />}>
