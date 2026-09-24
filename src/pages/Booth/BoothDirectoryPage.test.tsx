@@ -6,20 +6,20 @@ describe("booth directory", () => {
   it("shows active booths with their locations", () => {
     renderApp("/booths");
 
-    expect(screen.getByText("6 booths")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Mechanical Design Showcase" })).toBeInTheDocument();
-    expect(screen.getByText("ETLC · Floor 2 · Room 2-001")).toBeInTheDocument();
+    expect(screen.getByText("14 booths")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Undergraduate Design Courses" })).toBeInTheDocument();
+    expect(screen.getByText("MEC E · Floor 2 · Room Main hall")).toBeInTheDocument();
   });
 
   it("searches by booth name and filters by category", () => {
     renderApp("/booths");
 
     fireEvent.change(screen.getByRole("searchbox", { name: "Search booths" }), {
-      target: { value: "robotics" },
+      target: { value: "robotic" },
     });
 
-    expect(screen.getByRole("heading", { name: "Robotics and Automation" })).toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: "Mechanical Design Showcase" })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Autonomous Robotic Vehicle Project (ARVP)" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Undergraduate Design Courses" })).not.toBeInTheDocument();
 
     fireEvent.change(screen.getByRole("searchbox", { name: "Search booths" }), {
       target: { value: "" },
@@ -27,9 +27,9 @@ describe("booth directory", () => {
     fireEvent.click(screen.getByRole("combobox", { name: "Category" }));
     fireEvent.click(screen.getByRole("option", { name: "Student Group" }));
 
-    expect(screen.getByText("2 booths")).toBeInTheDocument();
+    expect(screen.getByText("7 booths")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "EcoCar" })).toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: "Energy Systems Lab" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Undergraduate Design Courses" })).not.toBeInTheDocument();
   });
 
   it("shows an empty state when no booth matches", () => {
@@ -45,10 +45,10 @@ describe("booth directory", () => {
 
 describe("booth details", () => {
   it("shows the selected booth and visit information", () => {
-    renderApp("/booths/mece-design-01");
+    renderApp("/booths/design-courses");
 
-    expect(screen.getByRole("heading", { name: "Mechanical Design Showcase" })).toBeInTheDocument();
-    expect(screen.getByText("2-001")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Undergraduate Design Courses" })).toBeInTheDocument();
+    expect(screen.getByText("Main hall")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Back to booths" })).toHaveAttribute("href", "/booths");
   });
 

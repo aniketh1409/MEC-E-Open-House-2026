@@ -16,8 +16,8 @@ describe("App", () => {
 
     expect(screen.getByRole("heading", { name: "Help & Support" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Event Questions" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Safety & Emergencies" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Open Map" })).toHaveAttribute("href", "/map");
+    expect(screen.getByRole("heading", { name: "Safety" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Open App Map" })).toHaveAttribute("href", "/map");
     expect(screen.getByRole("link", { name: "View PDF Map" })).toHaveAttribute(
       "target",
       "_blank",
@@ -26,6 +26,6 @@ describe("App", () => {
       "rel",
       "noopener noreferrer",
     );
-    expect(screen.getAllByRole("region")).toHaveLength(5);
+    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(5);
   });
 });

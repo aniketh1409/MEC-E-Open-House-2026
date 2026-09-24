@@ -94,7 +94,7 @@ export function BoothDirectoryPage() {
               <Group className="location-label" gap={7} wrap="nowrap">
                 <IconMapPin size={18} stroke={1.8} aria-hidden="true" />
                 <Text size="sm" fw={650}>
-                  {booth.location.building} · Floor {booth.location.floor} · Room {booth.location.room}
+                  {booth.building.abbreviation} · Floor {booth.location.floor} · Room {booth.location.room}
                 </Text>
               </Group>
               <Button

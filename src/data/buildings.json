@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "id": "butterdome",
+    "abbreviation": "Butterdome",
+    "name": "Butterdome (Universiade Pavilion)",
+    "position": {
+      "lat": 53.523025,
+      "lng": -113.527911
+    }
+  },
+  {
+    "id": "etlc",
+    "abbreviation": "ETLC",
+    "name": "Engineering Teaching and Learning Complex",
+    "position": {
+      "lat": 53.527049,
+      "lng": -113.52915
+    }
+  },
+  {
+    "id": "mece",
+    "abbreviation": "MEC E",
+    "name": "Mechanical Engineering Building",
+    "position": {
+      "lat": 53.527965,
+      "lng": -113.527887
+    }
+  }
+]

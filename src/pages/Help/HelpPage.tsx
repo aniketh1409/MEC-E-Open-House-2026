@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { IconArrowRight, IconExternalLink } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import mapPdf from "../../../assets/map/MECE Tour Map.pdf";
+import mapPdf from "../../../assets/maps/MECE Tour Map.pdf";
 
 export function HelpPage() {
   return (
@@ -24,24 +24,19 @@ export function HelpPage() {
         </Text>
       </Stack>
 
-      <SimpleGrid className="help-grid" cols={{ base: 1, md: 2 }} spacing="lg">
+      <SimpleGrid className="help-grid" cols={{ base: 1, md: 2, lg: 3 }} spacing="lg">
         <Paper className="help-section" component="section" withBorder radius="md" p="lg">
-          <Title order={2} size="h3">
-            Event Questions
-          </Title>
+          <Title order={2} size="h3">Event Questions</Title>
           <Text c="dimmed" mt="xs">
-            Have a question about Open House?
+            For questions about the Mechanical Engineering Open House, please contact the Faculty of Engineering at the University of Alberta.
           </Text>
           <Text c="dimmed" size="sm" mt="md">
-            Official Faculty of Engineering contact information will be added
-            here when approved by the project team.
+            Official Faculty of Engineering contact details will be added here when approved by the project team.
           </Text>
         </Paper>
 
         <Paper className="help-section" component="section" withBorder radius="md" p="lg">
-          <Title order={2} size="h3">
-            Accessibility
-          </Title>
+          <Title order={2} size="h3">Accessibility</Title>
           <Text c="dimmed" mt="xs">
             Need accessibility or accommodation support during your visit?
           </Text>
@@ -56,11 +51,10 @@ export function HelpPage() {
           <Anchor
             href="https://www.ualberta.ca/en/current-students/accessibility-resources/index.html"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             mt="md"
             display="inline-flex"
-            gap="xs"
-            align="center"
+            style={{ gap: "var(--mantine-spacing-xs)", alignItems: "center" }}
           >
             Accessibility &amp; Accommodations
             <IconExternalLink size={15} stroke={1.8} aria-hidden="true" />
@@ -68,15 +62,19 @@ export function HelpPage() {
         </Paper>
 
         <Paper className="help-section" component="section" withBorder radius="md" p="lg">
-          <Title order={2} size="h3">
-            Getting Around
-          </Title>
+          <Title order={2} size="h3">Getting Around</Title>
           <Text c="dimmed" mt="xs">
             Can&apos;t find a booth or activity?
           </Text>
           <Stack className="help-actions" gap="xs" mt="md">
-            <Button component={Link} to="/map" variant="subtle" fullWidth rightSection={<IconArrowRight size={17} stroke={1.8} />}>
-              Open Map
+            <Button
+              component={Link}
+              to="/map"
+              variant="subtle"
+              fullWidth
+              rightSection={<IconArrowRight size={17} stroke={1.8} />}
+            >
+              Open App Map
             </Button>
             <Button component={Link} to="/schedule" variant="subtle" fullWidth rightSection={<IconArrowRight size={17} stroke={1.8} />}>
               View Schedule
@@ -88,7 +86,7 @@ export function HelpPage() {
               rel="noopener noreferrer"
               variant="subtle"
               fullWidth
-              leftSection={<IconExternalLink size={17} stroke={1.8} />}
+              rightSection={<IconExternalLink size={17} stroke={1.8} />}
             >
               View PDF Map
             </Button>
@@ -96,43 +94,33 @@ export function HelpPage() {
         </Paper>
 
         <Paper className="help-section help-emergency" component="section" withBorder radius="md" p="lg">
-          <Title order={2} size="h3">
-            Safety &amp; Emergencies
-          </Title>
+          <Title order={2} size="h3">Safety</Title>
           <Text mt="xs" fw={650}>
             Emergency information is separate from general Open House questions.
           </Text>
           <Stack gap={4} mt="md">
-            <Text size="sm">
-              Emergency: <Anchor href="tel:911">911</Anchor>
-            </Text>
-            <Text size="sm">
-              U of A Protective Services: <Anchor href="tel:+17804925050">780-492-5050</Anchor>
-            </Text>
-            <Text size="sm">
-              Building Emergency: <Anchor href="tel:+17804925555">780-492-5555</Anchor>
-            </Text>
+            <Text size="sm">Emergency: <Anchor href="tel:911">911</Anchor></Text>
+            <Text size="sm">U of A Protective Services: <Anchor href="tel:+17804925050">780-492-5050</Anchor></Text>
+            <Text size="sm">Building Emergency: <Anchor href="tel:+17804925555">780-492-5555</Anchor></Text>
           </Stack>
           <Anchor
             href="https://www.ualberta.ca/en/services/student-services-directory/emergency-information-and-procedures.html"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             mt="md"
             display="inline-flex"
-            gap="xs"
-            align="center"
+            style={{ gap: "var(--mantine-spacing-xs)", alignItems: "center" }}
           >
             UAlberta emergency information
             <IconExternalLink size={15} stroke={1.8} aria-hidden="true" />
           </Anchor>
-          <div className="help-subsection">
-            <Title order={3} size="h4">
-              Lost &amp; Found
-            </Title>
-            <Text c="dimmed" mt="xs">
-              Lost something during your visit? Contact event staff for assistance.
-            </Text>
-          </div>
+        </Paper>
+
+        <Paper className="help-section" component="section" withBorder radius="md" p="lg">
+          <Title order={2} size="h3">Lost &amp; Found</Title>
+          <Text c="dimmed" mt="xs">
+            Lost something during your visit? Contact event staff for assistance.
+          </Text>
         </Paper>
       </SimpleGrid>
     </section>

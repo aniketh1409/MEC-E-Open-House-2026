@@ -10,9 +10,10 @@ import {
   ThemeIcon,
   Title,
 } from "@mantine/core";
-import { IconArrowLeft, IconBuilding, IconDoor, IconLayersIntersect } from "@tabler/icons-react";
+import { IconArrowLeft, IconBuilding, IconDoor, IconLayersIntersect, IconMap2 } from "@tabler/icons-react";
 import { Link, useParams } from "react-router-dom";
 import { formatCategory, getActiveBoothById } from "../../lib/content";
+import { boothMapPath } from "../../lib/map";
 
 export function BoothDetailPage() {
   const { boothId = "" } = useParams();
@@ -63,7 +64,7 @@ export function BoothDetailPage() {
             </ThemeIcon>
             <Box>
               <Text component="dt" size="xs" c="dimmed" tt="uppercase" fw={700}>Building</Text>
-              <Text component="dd" m={0} fw={700}>{booth.location.building}</Text>
+              <Text component="dd" m={0} fw={700}>{booth.building.abbreviation}</Text>
             </Box>
           </Group>
           <Group component="div" wrap="nowrap" align="flex-start">
@@ -85,6 +86,16 @@ export function BoothDetailPage() {
             </Box>
           </Group>
         </SimpleGrid>
+        <Button
+          component={Link}
+          to={boothMapPath(booth.id)}
+          variant="light"
+          leftSection={<IconMap2 size={18} stroke={1.8} />}
+          mt="xl"
+          w="fit-content"
+        >
+          Show on map
+        </Button>
       </Paper>
     </Stack>
   );

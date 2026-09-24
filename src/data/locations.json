@@ -1,44 +1,134 @@
 [
   {
-    "id": "etlc-2-001",
-    "building": "ETLC",
-    "floor": 2,
-    "room": "2-001",
-    "coordinates": { "x": 0.42, "y": 0.68 }
-  },
-  {
-    "id": "etlc-2-003",
-    "building": "ETLC",
-    "floor": 2,
-    "room": "2-003",
-    "coordinates": { "x": 0.58, "y": 0.66 }
-  },
-  {
-    "id": "mece-4-10",
-    "building": "MEC E",
-    "floor": 4,
-    "room": "4-10",
-    "coordinates": { "x": 0.31, "y": 0.38 }
-  },
-  {
-    "id": "mece-2-20",
-    "building": "MEC E",
-    "floor": 2,
-    "room": "2-20",
-    "coordinates": { "x": 0.64, "y": 0.44 }
-  },
-  {
-    "id": "etlc-1-005",
-    "building": "ETLC",
+    "id": "butterdome-open-house-booth",
+    "buildingId": "butterdome",
     "floor": 1,
-    "room": "1-005",
-    "coordinates": { "x": 0.24, "y": 0.72 }
+    "room": "Booth fair"
   },
   {
-    "id": "etlc-1-007",
-    "building": "ETLC",
+    "id": "etlc-program-presentation",
+    "buildingId": "etlc",
     "floor": 1,
-    "room": "1-007",
-    "coordinates": { "x": 0.76, "y": 0.72 }
+    "room": "TBD"
+  },
+  {
+    "id": "mece-west-entry",
+    "buildingId": "mece",
+    "floor": 2,
+    "room": "West entry",
+    "coordinates": {
+      "x": 0.236,
+      "y": 0.349
+    }
+  },
+  {
+    "id": "mece-design-courses",
+    "buildingId": "mece",
+    "floor": 2,
+    "room": "Main hall",
+    "coordinates": {
+      "x": 0.372,
+      "y": 0.498
+    }
+  },
+  {
+    "id": "mece-arvp",
+    "buildingId": "mece",
+    "floor": 2,
+    "room": "East hall",
+    "coordinates": {
+      "x": 0.662,
+      "y": 0.604
+    }
+  },
+  {
+    "id": "mece-ecocar",
+    "buildingId": "mece",
+    "floor": 2,
+    "room": "East hall",
+    "coordinates": {
+      "x": 0.684,
+      "y": 0.763
+    }
+  },
+  {
+    "id": "mece-formula-racing",
+    "buildingId": "mece",
+    "floor": 2,
+    "room": "East hall",
+    "coordinates": {
+      "x": 0.738,
+      "y": 0.62
+    }
+  },
+  {
+    "id": "mece-mece-403-lab",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "3-26",
+    "coordinates": {
+      "x": 0.714,
+      "y": 0.491
+    }
+  },
+  {
+    "id": "mece-dra-capstone",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "Main corridor",
+    "coordinates": {
+      "x": 0.513,
+      "y": 0.67
+    }
+  },
+  {
+    "id": "mece-albertasat",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "West hall",
+    "coordinates": {
+      "x": 0.29,
+      "y": 0.566
+    }
+  },
+  {
+    "id": "mece-starr",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "West hall",
+    "coordinates": {
+      "x": 0.159,
+      "y": 0.649
+    }
+  },
+  {
+    "id": "mece-esw",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "West hall",
+    "coordinates": {
+      "x": 0.238,
+      "y": 0.566
+    }
+  },
+  {
+    "id": "mece-mece-club",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "West hall",
+    "coordinates": {
+      "x": 0.233,
+      "y": 0.343
+    }
+  },
+  {
+    "id": "mece-mece-301-lab",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "3-10",
+    "coordinates": {
+      "x": 0.103,
+      "y": 0.104
+    }
   }
 ]

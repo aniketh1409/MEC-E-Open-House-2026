@@ -3,8 +3,15 @@ import { AppLayout } from "./components/AppLayout";
 import { BoothDetailPage } from "./pages/Booth/BoothDetailPage";
 import { BoothDirectoryPage } from "./pages/Booth/BoothDirectoryPage";
 import { PlaceholderPage } from "./pages/Booth/PlaceholderPage";
-import { HomePage } from "./pages/Home/HomePage";
+import { CollectStampPage } from "./pages/CollectStampPage";
 import { HelpPage } from "./pages/Help/HelpPage";
+import { HomePage } from "./pages/Home/HomePage";
+import { CampusJourneyView } from "./pages/map/CampusJourneyView";
+import { MapIndexRedirect, MapPage } from "./pages/map/MapPage";
+import { TourMapView } from "./pages/map/TourMapView";
+import { PassportPage } from "./pages/PassportPage";
+import { QrCodeSheetPage } from "./pages/QrCodeSheetPage";
+import { ScanQrPage } from "./pages/ScanQrPage";
 
 export function App() {
   return (
@@ -14,8 +21,15 @@ export function App() {
         <Route path="schedule" element={<PlaceholderPage title="Schedule" />} />
         <Route path="booths" element={<BoothDirectoryPage />} />
         <Route path="booths/:boothId" element={<BoothDetailPage />} />
-        <Route path="map" element={<PlaceholderPage title="Map" />} />
-        <Route path="passport" element={<PlaceholderPage title="Passport" />} />
+        <Route path="map" element={<MapPage />}>
+          <Route index element={<MapIndexRedirect />} />
+          <Route path="campus" element={<CampusJourneyView />} />
+          <Route path="tour" element={<TourMapView />} />
+        </Route>
+        <Route path="passport" element={<PassportPage />} />
+        <Route path="passport/scan" element={<ScanQrPage />} />
+        <Route path="passport/collect/:qrCode" element={<CollectStampPage />} />
+        <Route path="qr-codes" element={<QrCodeSheetPage />} />
         <Route path="student-groups" element={<PlaceholderPage title="Student Groups" />} />
         <Route path="faq" element={<PlaceholderPage title="FAQ" />} />
         <Route path="help" element={<HelpPage />} />
