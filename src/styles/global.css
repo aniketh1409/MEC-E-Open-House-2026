@@ -487,6 +487,165 @@ body {
   max-width: 43rem;
 }
 
+/* Schedule */
+
+.schedule-card {
+  border-color: #d9dfdb;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgb(39 93 56 / 5%);
+}
+
+.schedule-now-card {
+  background: #275d38;
+  box-shadow: 0 10px 28px rgb(39 93 56 / 18%);
+  color: #ffffff;
+}
+
+.schedule-now-card .mantine-Title-root {
+  color: #ffffff;
+}
+
+.schedule-now-card .mantine-Anchor-root {
+  color: #f2cd00;
+}
+
+.schedule-now-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #f2cd00;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.schedule-live-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #ff6b6b;
+  box-shadow: 0 0 0 0 rgb(255 107 107 / 60%);
+  animation: live-dot 1.6s ease-out infinite;
+}
+
+@keyframes live-dot {
+  to {
+    box-shadow: 0 0 0 0.5rem rgb(255 107 107 / 0%);
+  }
+}
+
+.schedule-now-detail {
+  color: rgb(255 255 255 / 78%);
+}
+
+.schedule-up-next {
+  border-top: 1px solid rgb(255 255 255 / 18%);
+}
+
+.schedule-filters {
+  flex-wrap: nowrap;
+  margin-inline: calc(var(--mantine-spacing-md) * -1);
+  padding: 0.15rem var(--mantine-spacing-md) 0.35rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.schedule-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.schedule-filters .mantine-Chip-root {
+  flex: 0 0 auto;
+}
+
+.schedule-timeline {
+  max-width: 52rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schedule-map-button {
+  flex-shrink: 0;
+}
+
+.schedule-slot-row {
+  display: grid;
+  grid-template-columns: 4.75rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+}
+
+.schedule-slot-time {
+  position: relative;
+  padding-top: 0.9rem;
+  color: #275d38;
+  font-size: 0.875rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.schedule-slot-events {
+  position: relative;
+  padding-left: 1rem;
+  border-left: 2px solid #d9dfdb;
+}
+
+.schedule-slot-events::before {
+  position: absolute;
+  top: 1.1rem;
+  left: -0.4rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 2px solid #275d38;
+  border-radius: 50%;
+  background: #ffffff;
+  content: "";
+}
+
+.schedule-event[data-status="live"] {
+  border-color: #007a33;
+  box-shadow: 0 0 0 2px rgb(0 122 51 / 25%), 0 6px 20px rgb(39 93 56 / 8%);
+}
+
+.schedule-event[data-status="past"] {
+  opacity: 0.6;
+}
+
+.schedule-location {
+  color: #3f5147;
+}
+
+.schedule-now-marker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  color: #c92a2a;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.schedule-now-marker::after {
+  height: 2px;
+  flex: 1;
+  background: #fa5252;
+  content: "";
+}
+
+@media (max-width: 30em) {
+  .schedule-slot-row {
+    grid-template-columns: 3.9rem minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .schedule-slot-time {
+    font-size: 0.8125rem;
+  }
+}
+
 /* Map: shared */
 
 .floor-plan-card,
@@ -504,6 +663,8 @@ body {
 .campus-map-card {
   position: relative;
   overflow: hidden;
+  /* Keep the maps' own layering (Leaflet uses z-index up to ~1000) from covering the site header. */
+  isolation: isolate;
 }
 
 .tour-layout,
@@ -1495,6 +1656,10 @@ body {
   .plan-pin-pulse,
   .stamp-toast,
   .visitor-pin-pulse {
+    animation: none;
+  }
+
+  .schedule-live-dot {
     animation: none;
   }
 

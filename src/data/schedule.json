@@ -1,1 +1,79 @@
-[]
+[
+  {
+    "id": "booth-fair",
+    "title": "Open House booth fair",
+    "description": "Visit the MEC E booth to pick up your first passport stamp and meet the department.",
+    "start": "09:00",
+    "end": "15:00",
+    "category": "booth-fair",
+    "scope": "university",
+    "buildingId": "butterdome",
+    "boothId": "open-house-booth",
+    "locationLabel": "Main floor",
+    "isConfirmed": false
+  },
+  {
+    "id": "presentation-1",
+    "title": "MEC E program presentation",
+    "description": "Dr. Nobes introduces the Mechanical Engineering program, followed by questions.",
+    "start": "09:30",
+    "end": "10:00",
+    "category": "presentation",
+    "scope": "mece",
+    "buildingId": "etlc",
+    "boothId": "program-presentation",
+    "locationLabel": "Room TBD",
+    "isConfirmed": false
+  },
+  {
+    "id": "building-tour",
+    "title": "MEC E building tour",
+    "description": "Self-guided tour through the Mechanical Engineering Building. Start at the second-floor west entry.",
+    "start": "10:00",
+    "end": "14:30",
+    "category": "tour",
+    "scope": "mece",
+    "buildingId": "mece",
+    "boothId": "west-entry",
+    "locationLabel": "Second-floor west entry",
+    "isConfirmed": false
+  },
+  {
+    "id": "presentation-2",
+    "title": "MEC E program presentation",
+    "description": "Dr. Nobes introduces the Mechanical Engineering program, followed by questions.",
+    "start": "11:00",
+    "end": "11:30",
+    "category": "presentation",
+    "scope": "mece",
+    "buildingId": "etlc",
+    "boothId": "program-presentation",
+    "locationLabel": "Room TBD",
+    "isConfirmed": false
+  },
+  {
+    "id": "concession",
+    "title": "Concession open",
+    "description": "Food and drinks on the Butterdome second-level concourse.",
+    "start": "11:30",
+    "end": "13:30",
+    "category": "food",
+    "scope": "university",
+    "buildingId": "butterdome",
+    "locationLabel": "Second-level concourse",
+    "isConfirmed": false
+  },
+  {
+    "id": "presentation-3",
+    "title": "MEC E program presentation",
+    "description": "Dr. Nobes introduces the Mechanical Engineering program, followed by questions.",
+    "start": "13:00",
+    "end": "13:30",
+    "category": "presentation",
+    "scope": "mece",
+    "buildingId": "etlc",
+    "boothId": "program-presentation",
+    "locationLabel": "Room TBD",
+    "isConfirmed": false
+  }
+]
