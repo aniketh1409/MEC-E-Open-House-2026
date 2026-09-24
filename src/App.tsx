@@ -1,17 +1,17 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AppLayout } from "./components/AppLayout";
-import { BoothDetailPage } from "./pages/BoothDetailPage";
-import { BoothDirectoryPage } from "./pages/BoothDirectoryPage";
+import { BoothDetailPage } from "./pages/Booth/BoothDetailPage";
+import { BoothDirectoryPage } from "./pages/Booth/BoothDirectoryPage";
+import { PlaceholderPage } from "./pages/Booth/PlaceholderPage";
 import { CollectStampPage } from "./pages/CollectStampPage";
+import { HelpPage } from "./pages/Help/HelpPage";
+import { HomePage } from "./pages/Home/HomePage";
 import { CampusJourneyView } from "./pages/map/CampusJourneyView";
 import { MapIndexRedirect, MapPage } from "./pages/map/MapPage";
 import { TourMapView } from "./pages/map/TourMapView";
 import { PassportPage } from "./pages/PassportPage";
-import { PlaceholderPage } from "./pages/PlaceholderPage";
 import { QrCodeSheetPage } from "./pages/QrCodeSheetPage";
 import { ScanQrPage } from "./pages/ScanQrPage";
-import { HomePage } from "./pages/Home/HomePage";
-import { Help } from "./pages/Help";
 
 export function App() {
   return (
@@ -32,7 +32,7 @@ export function App() {
         <Route path="qr-codes" element={<QrCodeSheetPage />} />
         <Route path="student-groups" element={<PlaceholderPage title="Student Groups" />} />
         <Route path="faq" element={<PlaceholderPage title="FAQ" />} />
-        <Route path="help" element={<Help />} />
+        <Route path="help" element={<HelpPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

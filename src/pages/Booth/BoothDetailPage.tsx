@@ -12,8 +12,8 @@ import {
 } from "@mantine/core";
 import { IconArrowLeft, IconBuilding, IconDoor, IconLayersIntersect, IconMap2 } from "@tabler/icons-react";
 import { Link, useParams } from "react-router-dom";
-import { formatCategory, getActiveBoothById } from "../lib/content";
-import { boothMapPath } from "../lib/map";
+import { formatCategory, getActiveBoothById } from "../../lib/content";
+import { boothMapPath } from "../../lib/map";
 
 export function BoothDetailPage() {
   const { boothId = "" } = useParams();

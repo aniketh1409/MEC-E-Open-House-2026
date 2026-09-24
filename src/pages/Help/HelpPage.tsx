@@ -9,9 +9,9 @@ import {
 } from "@mantine/core";
 import { IconArrowRight, IconExternalLink } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import mapPdf from "../../assets/maps/MECE Tour Map.pdf";
+import mapPdf from "../../../assets/maps/MECE Tour Map.pdf";
 
-export function Help() {
+export function HelpPage() {
   return (
     <section className="help-page" aria-labelledby="help-heading">
       <Stack className="help-intro" gap="xs" maw={720}>
@@ -54,8 +54,7 @@ export function Help() {
             rel="noopener noreferrer"
             mt="md"
             display="inline-flex"
-            gap="xs"
-            align="center"
+            style={{ gap: "var(--mantine-spacing-xs)", alignItems: "center" }}
           >
             Accessibility &amp; Accommodations
             <IconExternalLink size={15} stroke={1.8} aria-hidden="true" />
@@ -110,8 +109,7 @@ export function Help() {
             rel="noopener noreferrer"
             mt="md"
             display="inline-flex"
-            gap="xs"
-            align="center"
+            style={{ gap: "var(--mantine-spacing-xs)", alignItems: "center" }}
           >
             UAlberta emergency information
             <IconExternalLink size={15} stroke={1.8} aria-hidden="true" />
