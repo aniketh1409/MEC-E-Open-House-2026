@@ -38,7 +38,8 @@ describe("map page", () => {
     collect("stamp-west-entry");
     renderApp("/map/tour");
 
-    expect(screen.getByText("1 of 12 stops visited")).toBeInTheDocument();
+    expect(screen.getByText("1 of 14 stops visited")).toBeInTheDocument();
+    expect(screen.getByText("2nd floor: 1 of 5 here")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Undergraduate Design Courses" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Stop 1: Tour Start – West Entry, visited" })).toBeInTheDocument();
   });
@@ -63,6 +64,26 @@ describe("map page", () => {
     expect(screen.queryByRole("button", { name: /Stop 5: UAlberta Formula Racing/ })).not.toBeInTheDocument();
   });
 
+  it("shows the way up from the entrance before the first stop", () => {
+    renderApp("/map/tour");
+
+    expect(screen.getByText(/Enter on the 1st floor and take the stairs beside room 1-3A/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Show the 1st floor" }));
+
+    expect(screen.getByRole("button", { name: "1st floor, all stops visited" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByText("1st floor: no stops, just passing through")).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "1st floor plan of the Mechanical Engineering Building" })).toBeInTheDocument();
+  });
+
+  it("offers the next floor's plan when the next stop is upstairs", () => {
+    renderApp("/map/tour?stop=formula-racing");
+
+    fireEvent.click(screen.getByRole("button", { name: "Show the 3rd floor" }));
+
+    expect(screen.getByRole("group", { name: "3rd floor plan of the Mechanical Engineering Building" })).toBeInTheDocument();
+    expect(screen.getByText("3rd floor: 0 of 7 here")).toBeInTheDocument();
+  });
+
   it("selects a stop from the stop list", () => {
     renderApp("/map/tour");
 
@@ -84,7 +105,8 @@ describe("map page", () => {
     renderApp("/map");
 
     expect(screen.getByRole("tab", { name: "MEC E tour" })).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByText("1 of 12 stops visited")).toBeInTheDocument();
+    // Campus stamps count too, matching the Passport's total.
+    expect(screen.getByText("2 of 14 stops visited")).toBeInTheDocument();
   });
 
   it("returns scans started from the map straight back to it", () => {

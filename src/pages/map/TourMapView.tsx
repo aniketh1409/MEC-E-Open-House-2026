@@ -19,7 +19,9 @@ import {
   IconChevronLeft,
   IconChevronRight,
   IconCurrentLocation,
+  IconDoorEnter,
   IconInfoCircle,
+  IconStairs,
   IconWalk,
 } from "@tabler/icons-react";
 import { useMemo, useRef, useState, type CSSProperties } from "react";
@@ -33,7 +35,9 @@ import { renderStopIcon } from "../../components/map/stopIcons";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { usePassport } from "../../hooks/usePassport";
 import { useSheetHistory } from "../../hooks/useSheetHistory";
+import { getActiveBooths } from "../../lib/content";
 import {
+  getTourArrival,
   getTourFloorPlans,
   getTourStopByBoothId,
   getTourStops,
@@ -44,6 +48,9 @@ import type { FloorPlan } from "../../types/content";
 
 const stops = getTourStops();
 const floorPlans = getTourFloorPlans();
+const arrival = getTourArrival();
+/** Every stamp on the day, campus and building alike: the same total as the Passport. */
+const allStampIds = getActiveBooths().map((booth) => booth.stamp.id);
 /** Height (px) of the overlays across the top of the mobile map. */
 const MOBILE_TOP_OVERLAY = 64;
 
@@ -95,7 +102,20 @@ export function TourMapView() {
   const mapRef = useRef<HTMLDivElement>(null);
 
   const floorPlan = floorPlans.find((plan) => plan.floor === floor) ?? floorPlans[0];
-  const visitedCount = stops.filter((stop) => visitedStampIds.has(stop.booth.stamp.id)).length;
+  const visitedCount = allStampIds.filter((stampId) => visitedStampIds.has(stampId)).length;
+  const floorStops = stops.filter((stop) => stop.floorPlan.id === floorPlan?.id);
+  const floorVisitedCount = floorStops.filter((stop) => visitedStampIds.has(stop.booth.stamp.id)).length;
+  const progressChip = (
+    <ProgressChip
+      visited={visitedCount}
+      total={allStampIds.length}
+      detail={
+        floorStops.length
+          ? `${floorPlan?.label}: ${floorVisitedCount} of ${floorStops.length} here`
+          : `${floorPlan?.label}: no stops, just passing through`
+      }
+    />
+  );
   const progressAnchor = currentStop ?? lastCollectedStop(state.collectedStamps);
 
   if (!floorPlan || stops.length === 0) {
@@ -119,7 +139,12 @@ export function TourMapView() {
     }
   };
 
-  const floorStops = stops.filter((stop) => stop.floorPlan.id === floorPlan.id);
+  const showFloor = (targetFloor: number) => {
+    setFloor(targetFloor);
+    if (isMobile) {
+      setSheetExpanded(false);
+    }
+  };
   const selectedIndex = selectedStop ? stops.indexOf(selectedStop) : -1;
   const previousStop = selectedIndex > 0 ? stops[selectedIndex - 1] : undefined;
   const nextStop = selectedIndex >= 0 ? stops[selectedIndex + 1] : undefined;
@@ -158,10 +183,14 @@ export function TourMapView() {
 
   if (isMobile) {
     return (
-      <div className="map-stage" style={{ "--sheet-peek": `${peekHeight}px` } as CSSProperties}>
+      <div
+        className="map-stage"
+        data-sheet-expanded={sheetExpanded || undefined}
+        style={{ "--sheet-peek": `${peekHeight}px` } as CSSProperties}
+      >
         {floorPlanView}
         <div className="map-overlay-top">
-          <ProgressChip visited={visitedCount} total={stops.length} />
+          {progressChip}
           {floorSwitcher}
         </div>
         <StampToast />
@@ -197,6 +226,7 @@ export function TourMapView() {
                 previousStop={previousStop}
                 nextStop={nextStop}
                 onSelectStop={selectStop}
+                onShowFloor={showFloor}
               />
               <div>
                 <Text className="eyebrow" mb="xs">All stops</Text>
@@ -212,7 +242,7 @@ export function TourMapView() {
   return (
     <Stack gap="lg">
       <Group justify="space-between" align="center" gap="sm">
-        <ProgressChip visited={visitedCount} total={stops.length} />
+        {progressChip}
         <ScanStampButton />
       </Group>
 
@@ -240,6 +270,7 @@ export function TourMapView() {
                 previousStop={previousStop}
                 nextStop={nextStop}
                 onSelectStop={selectStop}
+                onShowFloor={showFloor}
               />
             </Paper>
           )}
@@ -252,7 +283,7 @@ export function TourMapView() {
   );
 }
 
-function ProgressChip({ visited, total }: { visited: number; total: number }) {
+function ProgressChip({ visited, total, detail }: { visited: number; total: number; detail: string }) {
   return (
     <div className="progress-chip" aria-live="polite">
       <RingProgress
@@ -262,9 +293,12 @@ function ProgressChip({ visited, total }: { visited: number; total: number }) {
         sections={[{ value: total ? (visited / total) * 100 : 0, color: "ualbertaGreen" }]}
         aria-hidden="true"
       />
-      <Text size="sm" fw={750}>
-        {visited} of {total} stops visited
-      </Text>
+      <div className="progress-chip-text">
+        <Text size="sm" fw={750} lh={1.2}>
+          {visited} of {total} stops visited
+        </Text>
+        <Text size="xs" c="dimmed" lh={1.2}>{detail}</Text>
+      </div>
     </div>
   );
 }
@@ -323,7 +357,7 @@ function StopHeading({ stop, total, isCurrent, isVisited }: StopSummaryProps) {
   return (
     <>
       <Group justify="space-between" gap="xs" mb={6}>
-        <Text className="eyebrow">Stop {stop.number} of {total}</Text>
+        <Text className="eyebrow">Tour stop {stop.number} of {total}</Text>
         <StatusBadges isCurrent={isCurrent} isVisited={isVisited} />
       </Group>
       <Title order={2} size="h3">{stop.booth.name}</Title>
@@ -365,7 +399,7 @@ function StopPeek({
       <div className="stop-peek-text">
         <Title order={2} size="h5" lineClamp={1}>{stop.booth.name}</Title>
         <Text size="xs" c="dimmed" lineClamp={1}>
-          {isCurrent ? "You are here · " : ""}Stop {stop.number} of {total} · {stop.floorPlan.label} · {stop.booth.location.room}
+          {isCurrent ? "You are here · " : ""}Tour stop {stop.number} of {total} · {stop.floorPlan.label} · {stop.booth.location.room}
         </Text>
       </div>
       <ActionIcon
@@ -386,14 +420,30 @@ interface StopDetailsProps {
   previousStop?: TourStop;
   nextStop?: TourStop;
   onSelectStop: (boothId: string) => void;
+  onShowFloor: (floor: number) => void;
 }
 
-function StopDetails({ stop, previousStop, nextStop, onSelectStop }: StopDetailsProps) {
+function StopDetails({ stop, previousStop, nextStop, onSelectStop, onShowFloor }: StopDetailsProps) {
   const changesFloor = nextStop && nextStop.floorPlan.floor !== stop.floorPlan.floor;
+  const arrivalPlan = arrival && !previousStop ? floorPlans.find((plan) => plan.floor === arrival.floor) : undefined;
 
   return (
     <div>
       <Text size="sm" mt="sm">{stop.booth.shortDescription}</Text>
+
+      {arrival && arrivalPlan && (
+        <Group className="next-directions" gap="sm" wrap="nowrap" align="flex-start" mt="md">
+          <ThemeIcon variant="light" color="ualbertaGreen" size="md" radius="xl">
+            <IconDoorEnter size={16} stroke={1.8} />
+          </ThemeIcon>
+          <div>
+            <Text size="sm" c="dimmed">{arrival.directions}</Text>
+            <Button variant="subtle" size="compact-sm" px={0} mt={4} onClick={() => onShowFloor(arrival.floor)}>
+              Show the {arrivalPlan.label}
+            </Button>
+          </div>
+        </Group>
+      )}
 
       {nextStop && stop.directionsToNext && (
         <Group className="next-directions" gap="sm" wrap="nowrap" align="flex-start" mt="md">
@@ -406,6 +456,18 @@ function StopDetails({ stop, previousStop, nextStop, onSelectStop }: StopDetails
             </Text>
             <Text size="sm" fw={650}>{nextStop.booth.name}</Text>
             <Text size="sm" c="dimmed">{stop.directionsToNext}</Text>
+            {changesFloor && (
+              <Button
+                variant="subtle"
+                size="compact-sm"
+                px={0}
+                mt={4}
+                leftSection={<IconStairs size={15} stroke={1.8} />}
+                onClick={() => onShowFloor(nextStop.floorPlan.floor)}
+              >
+                Show the {nextStop.floorPlan.label}
+              </Button>
+            )}
           </div>
         </Group>
       )}

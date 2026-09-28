@@ -854,6 +854,17 @@ body {
   overflow: hidden;
 }
 
+/* An expanded bottom sheet owns the screen: fade out the controls floating over the map. */
+.map-stage :is(.map-overlay-top, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
+  transition: bottom 200ms ease, opacity 0.2s ease, visibility 0.2s;
+}
+
+.map-stage[data-sheet-expanded] :is(.map-overlay-top, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .map-overlay-top {
   position: absolute;
   z-index: 20;
@@ -897,6 +908,10 @@ body {
   border-radius: 999px;
   background: rgb(255 255 255 / 96%);
   box-shadow: 0 3px 10px rgb(23 54 34 / 12%);
+}
+
+.progress-chip-text {
+  padding-block: 0.2rem;
 }
 
 .floor-switcher {
@@ -1148,6 +1163,16 @@ body {
   fill: #d3d9d5;
   stroke: #aab4ae;
   stroke-width: 3;
+}
+
+/* With traced walls, room shapes only place the labels. */
+.plan-room[data-traced] {
+  fill: none;
+  stroke: none;
+}
+
+.plan-walls {
+  pointer-events: none;
 }
 
 .plan-room-label {
@@ -1795,6 +1820,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .map-stage :is(.map-overlay-top, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
+    transition: none;
+  }
+
   .event-countdown-gear,
   .event-countdown-live-dot {
     animation: none;

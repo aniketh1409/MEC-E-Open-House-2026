@@ -13,6 +13,7 @@ import type {
 } from "../types/content";
 import { getActiveBoothById, getBuildingById, type BoothDetails } from "./content";
 
+const wallImages = import.meta.glob<string>("../../assets/maps/*-walls.png", { eager: true, import: "default" });
 const floorPlans = floorPlansData as FloorPlan[];
 const tour = tourData as Tour;
 const journey = journeyData as Journey;
@@ -30,6 +31,11 @@ export interface JourneyStepDetails extends JourneyStep {
   number: number;
   building: Building;
   booth?: BoothDetails;
+}
+
+/** URL of a floor's wall linework image, if it has one. */
+export function floorPlanWallsUrl(plan: FloorPlan): string | undefined {
+  return plan.walls ? wallImages[`../../assets/maps/${plan.walls}`] : undefined;
 }
 
 function getFloorPlan(buildingId: string, floor: number): FloorPlan | undefined {
@@ -71,6 +77,10 @@ export function getTourStops(): TourStop[] {
 
 export function getTourStopByBoothId(boothId: string): TourStop | undefined {
   return tourStops.find((stop) => stop.booth.id === boothId);
+}
+
+export function getTourArrival(): Tour["arrival"] {
+  return tour.arrival;
 }
 
 export function getTourFloorPlans(): FloorPlan[] {

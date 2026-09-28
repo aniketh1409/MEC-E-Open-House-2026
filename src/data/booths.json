@@ -24,7 +24,7 @@
   {
     "id": "west-entry",
     "name": "Tour Start – West Entry",
-    "shortDescription": "Begin the MEC E building tour at the second-floor west entry.",
+    "shortDescription": "Begin the MEC E building tour on the 2nd floor, just east of the elevators.",
     "locationId": "mece-west-entry",
     "stampId": "stamp-west-entry",
     "qrCode": "west-entry",

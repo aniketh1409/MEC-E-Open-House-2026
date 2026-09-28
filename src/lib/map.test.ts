@@ -3,6 +3,7 @@ import {
   boothMapPath,
   campusMapUrl,
   distanceMeters,
+  floorPlanWallsUrl,
   getJourneyLegs,
   getJourneySteps,
   getTourFloorPlans,
@@ -27,8 +28,12 @@ describe("tour map", () => {
     expect(arvp?.point[0]).toBeCloseTo(0.662 * 1798);
   });
 
+  it("has wall linework for every floor", () => {
+    expect(getTourFloorPlans().filter((plan) => !floorPlanWallsUrl(plan)).map((plan) => plan.id)).toEqual([]);
+  });
+
   it("returns the tour building floors in order", () => {
-    expect(getTourFloorPlans().map((plan) => plan.floor)).toEqual([2, 3]);
+    expect(getTourFloorPlans().map((plan) => plan.floor)).toEqual([1, 2, 3]);
   });
 
   it("splits a route at the visitor's progress", () => {

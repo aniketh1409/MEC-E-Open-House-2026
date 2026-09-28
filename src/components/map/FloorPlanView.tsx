@@ -7,7 +7,7 @@ import {
   TransformWrapper,
   type ReactZoomPanPinchContentRef,
 } from "react-zoom-pan-pinch";
-import { routeArrows, splitRoute, type RouteProgress, type TourStop } from "../../lib/map";
+import { floorPlanWallsUrl, routeArrows, splitRoute, type RouteProgress, type TourStop } from "../../lib/map";
 import type { FloorPlan, PlanPoint } from "../../types/content";
 import { pointOfInterestIcons } from "./pointOfInterestIcons";
 import { renderStopIcon } from "./stopIcons";
@@ -80,6 +80,7 @@ export function FloorPlanView({
   const fitScale = Math.min(1, viewportWidth / contentWidth);
   const pinSize = Math.max(PIN_SIZE, MIN_PIN_PIXELS / pixelsPerUnit);
   const selectedStop = stops.find((stop) => stop.booth.id === selectedBoothId);
+  const wallsUrl = floorPlanWallsUrl(floorPlan);
 
   const route = useMemo(() => {
     const { walked, ahead } = splitRoute(floorPlan.route, progress);
@@ -98,14 +99,17 @@ export function FloorPlanView({
     [contentWidth, fitScale, viewportHeight, viewportWidth],
   );
 
+  // With no selected stop on this floor, start where visitors arrive: the start of the floor's route.
+  const focusPoint = selectedStop?.point ?? floorPlan.route[0];
+
   const focusSelectedStop = useCallback(
     (animationTime = 300) => {
-      if (!selectedStop) {
+      if (!focusPoint) {
         showWholeFloor(animationTime);
         return;
       }
 
-      const [x, y] = selectedStop.point;
+      const [x, y] = focusPoint;
       const visibleCenterY = insetTop + (viewportHeight - insetTop - insetBottom) / 2;
       zoomRef.current?.setTransform(
         clampOffset(viewportWidth / 2 - x * pixelsPerUnit * FOCUS_SCALE, viewportWidth, contentWidth * FOCUS_SCALE),
@@ -114,7 +118,7 @@ export function FloorPlanView({
         animationTime,
       );
     },
-    [contentWidth, insetBottom, insetTop, pixelsPerUnit, selectedStop, showWholeFloor, viewportHeight, viewportWidth],
+    [contentWidth, focusPoint, insetBottom, insetTop, pixelsPerUnit, showWholeFloor, viewportHeight, viewportWidth],
   );
 
   // Animate when the visitor picks another stop; jump instantly when only the size changed.
@@ -162,7 +166,7 @@ export function FloorPlanView({
               const [labelX, labelY] = labelPosition(room.points);
               return (
                 <g key={`${room.label ?? "room"}-${index}`} aria-hidden="true">
-                  <polygon className="plan-room" points={toPoints(room.points)} />
+                  <polygon className="plan-room" data-traced={wallsUrl ? true : undefined} points={toPoints(room.points)} />
                   {room.label && (
                     <text className="plan-room-label" x={labelX} y={labelY} textAnchor="middle" dominantBaseline="central">
                       {room.label}
@@ -171,6 +175,32 @@ export function FloorPlanView({
                 </g>
               );
             })}
+
+            {wallsUrl && (
+              <image
+                className="plan-walls"
+                href={wallsUrl}
+                x={0}
+                y={0}
+                width={floorPlan.width}
+                height={floorPlan.height}
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              />
+            )}
+            {floorPlan.labels?.map((label) => (
+              <text
+                key={label.text}
+                className="plan-room-label"
+                x={label.x}
+                y={label.y}
+                textAnchor="middle"
+                dominantBaseline="central"
+                aria-hidden="true"
+              >
+                {label.text}
+              </text>
+            ))}
 
             <g aria-hidden="true">
               <polyline className="plan-route-casing" points={toPoints(floorPlan.route)} />

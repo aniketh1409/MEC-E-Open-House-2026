@@ -112,7 +112,11 @@ export interface FloorPlan {
   width: number;
   height: number;
   outline: PlanPoint[];
+  /** Wall linework image in assets/maps, drawn 1:1 over the plan (see scripts/build_floor_art.py). */
+  walls?: string;
   rooms: FloorPlanRoom[];
+  /** Room names drawn without a room shape. */
+  labels?: { text: string; x: number; y: number }[];
   pointsOfInterest: PointOfInterest[];
   /** Suggested walking route on this floor, drawn as a line. */
   route: PlanPoint[];
@@ -126,6 +130,8 @@ export interface TourStopEntry {
 
 export interface Tour {
   buildingId: string;
+  /** How visitors get from the building entrance to the first stop. */
+  arrival?: { floor: number; directions: string };
   stops: TourStopEntry[];
 }
 
