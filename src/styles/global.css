@@ -525,24 +525,414 @@ body {
   box-shadow: 0 6px 20px rgb(39 93 56 / 5%);
 }
 
-.passport-progress,
-.stamp-card {
-  border-color: #d9dfdb;
-  background: #ffffff;
-  box-shadow: 0 6px 20px rgb(39 93 56 / 5%);
+/* Passport: cover */
+
+.passport-cover {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 85% 0%, rgb(242 205 0 / 16%), transparent 45%),
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 3%) 0 2px, transparent 2px 9px),
+    #275d38;
+  box-shadow: 0 14px 34px rgb(23 54 34 / 22%), inset 0 0 0 2px rgb(242 205 0 / 35%);
+  color: #ffffff;
 }
 
-.stamp-card {
-  min-height: 14rem;
+/* Stitched spine along the left edge. */
+.passport-cover::before {
+  position: absolute;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.6rem;
+  border-left: 2px dashed rgb(242 205 0 / 45%);
+  content: "";
 }
 
-.stamp-card[data-collected] {
-  border-color: #8dc0a1;
-  border-top: 4px solid #007a33;
+.passport-cover-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-left: 0.6rem;
 }
+
+.passport-cover-crest {
+  width: 3.25rem;
+  height: auto;
+  flex: 0 0 auto;
+}
+
+.passport-cover-kicker {
+  color: #f2cd00;
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.passport-cover-title.mantine-Title-root {
+  background: linear-gradient(100deg, #f2cd00 20%, #fff3a6 45%, #f2cd00 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.4rem, 8vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.passport-cover-progress {
+  margin-top: 1.25rem;
+  padding-left: 0.6rem;
+}
+
+.passport-count {
+  font-variant-numeric: tabular-nums;
+}
+
+.passport-count-value {
+  display: inline-block;
+  color: #f2cd00;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+  animation: count-pop 500ms cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.passport-count-total {
+  color: rgb(255 255 255 / 80%);
+  font-weight: 650;
+}
+
+@keyframes count-pop {
+  from {
+    transform: scale(1.6);
+  }
+}
+
+.passport-meter {
+  height: 0.6rem;
+  margin-top: 0.6rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 25%);
+}
+
+.passport-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f2cd00, #ffe36b);
+  transition: width 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.passport-cover .passport-scan-button {
+  margin-left: 0.6rem;
+  background: #f2cd00;
+  color: #173622;
+}
+
+.passport-sound .mantine-Switch-label {
+  color: #ffffff;
+}
+
+/* The gold "COMPLETE" ink stamp pressed onto the cover. */
+.passport-complete-stamp {
+  margin-right: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border: 3px solid #f2cd00;
+  border-radius: 6px;
+  color: #f2cd00;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transform: rotate(-12deg);
+}
+
+.passport-complete-stamp[data-animate] {
+  animation: stamp-press 650ms cubic-bezier(0.2, 0.9, 0.3, 1.2) 400ms backwards;
+}
+
+@keyframes stamp-press {
+  from {
+    opacity: 0;
+    transform: rotate(-12deg) scale(2.6);
+  }
+
+  70% {
+    opacity: 1;
+    transform: rotate(-12deg) scale(0.92);
+  }
+}
+
+/* Passport: pages of stickers */
+
+.passport-page {
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid #e3ddc8;
+  border-radius: 12px;
+  background:
+    linear-gradient(rgb(39 93 56 / 6%) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(90deg, rgb(39 93 56 / 6%) 1px, transparent 1px) 0 0 / 22px 22px,
+    #fffdf6;
+  box-shadow: 0 6px 20px rgb(39 93 56 / 6%);
+}
+
+.passport-page-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid rgb(39 93 56 / 12%);
+}
+
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 1.25rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sticker-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sticker-cell:not([data-collected]) {
+  opacity: 0.8;
+}
+
+@media (max-width: 30em) {
+  .sticker-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.passport-locked-seal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
+/* Stickers */
+
+.sticker {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  transform: rotate(var(--sticker-tilt, 0deg));
+  filter: drop-shadow(0 3px 4px rgb(23 54 34 / 25%));
+}
+
+.sticker svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.sticker-cut {
+  fill: #ffffff;
+}
+
+/* Slapped onto the page: drops in big, squashes, settles at its tilt. */
+.sticker[data-animate] {
+  animation: sticker-slap 700ms cubic-bezier(0.25, 0.9, 0.3, 1) both;
+}
+
+@keyframes sticker-slap {
+  0% {
+    opacity: 0;
+    transform: translateY(-70%) rotate(-28deg) scale(1.9);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateY(0) rotate(calc(var(--sticker-tilt, 0deg) + 5deg)) scale(0.88, 0.82);
+  }
+
+  75% {
+    transform: rotate(calc(var(--sticker-tilt, 0deg) - 2deg)) scale(1.06);
+  }
+
+  100% {
+    transform: rotate(var(--sticker-tilt, 0deg)) scale(1);
+  }
+}
+
+/* Student-group stickers: a sheen sweeps across now and then. */
+.sticker[data-holo]::after {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 55%) 45%, rgb(160 255 220 / 35%) 50%, rgb(255 230 120 / 35%) 55%, transparent 65%) -200% 0 / 250% 100% no-repeat;
+  mix-blend-mode: soft-light;
+  animation: holo-sweep 5s ease-in-out 1s infinite;
+  content: "";
+  pointer-events: none;
+}
+
+@keyframes holo-sweep {
+  0%,
+  60% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 250% 0;
+  }
+}
+
+.sticker-slot {
+  display: grid;
+  place-items: center;
+  border: 3px dashed rgb(39 93 56 / 28%);
+  border-radius: 50%;
+  background: rgb(39 93 56 / 4%);
+  color: rgb(39 93 56 / 35%);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.5rem;
+}
+
+/* Scan result: the sticker lands with an ink ring and sparks. */
 
 .collection-result {
   max-width: 42rem;
+  margin-inline: auto;
+}
+
+.sticker-drop {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 240px;
+  height: 240px;
+}
+
+.sticker-drop-ring {
+  position: absolute;
+  inset: 20px;
+  border: 6px solid #f2cd00;
+  border-radius: 50%;
+  opacity: 0;
+  animation: ink-ring 700ms ease-out 380ms;
+}
+
+@keyframes ink-ring {
+  from {
+    opacity: 0.8;
+    transform: scale(0.7);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+.sticker-sparks span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px;
+  border-radius: 2px;
+  background: #f2cd00;
+  opacity: 0;
+  transform: rotate(var(--angle)) translateY(0);
+  animation: spark 650ms ease-out 400ms;
+}
+
+.sticker-sparks span:nth-child(even) {
+  background: #275d38;
+}
+
+@keyframes spark {
+  from {
+    opacity: 1;
+    transform: rotate(var(--angle)) translateY(-70px) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(-130px) scale(0.3);
+  }
+}
+
+.stamp-toast-sticker {
+  margin: -0.35rem 0;
+}
+
+/* Completion */
+
+.completion-celebration {
+  position: relative;
+  width: 100%;
+  padding: 1.5rem 1rem;
+  border: 2px solid #f2cd00;
+  border-radius: 14px;
+  background: radial-gradient(circle at 50% 0%, #fff6c4, #fffdf6 60%);
+}
+
+.completion-seal {
+  display: inline-block;
+  filter: drop-shadow(0 6px 10px rgb(23 54 34 / 25%));
+}
+
+.completion-seal svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.completion-seal[data-animate] {
+  animation: seal-in 1s cubic-bezier(0.2, 0.9, 0.3, 1.15) 200ms both;
+}
+
+@keyframes seal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.2) rotate(-200deg);
+  }
+}
+
+.confetti {
+  position: fixed;
+  z-index: 300;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -5%;
+  display: block;
+  opacity: 0;
+  animation: confetti-fall linear forwards;
+}
+
+.confetti-piece[data-shape="square"] {
+  background: currentColor;
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(var(--drift), 110vh) rotate(var(--spin));
+  }
 }
 
 .qr-reader {
@@ -1954,6 +2344,20 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .sticker[data-animate],
+  .sticker[data-holo]::after,
+  .completion-seal[data-animate],
+  .passport-complete-stamp[data-animate],
+  .passport-count-value {
+    animation: none;
+  }
+
+  .sticker-drop-ring,
+  .sticker-sparks,
+  .confetti {
+    display: none;
+  }
+
   .map-stage :is(.map-overlay-top, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
     transition: none;
   }

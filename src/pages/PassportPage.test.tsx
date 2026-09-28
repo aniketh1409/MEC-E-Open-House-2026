@@ -1,27 +1,46 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { screen } from "@testing-library/react";
-import { PASSPORT_STORAGE_KEY } from "../lib/passport";
+import { screen, within } from "@testing-library/react";
+import { stickerDesigns } from "../components/passport/stickerArt";
+import { getActiveBooths } from "../lib/content";
+import { PASSPORT_STORAGE_KEY, savePassport } from "../lib/passport";
 import { renderApp } from "../test/renderApp";
+
+const allStampIds = getActiveBooths().map((booth) => booth.stamp.id);
 
 describe("passport", () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
+  it("has a sticker design for every stamp", () => {
+    expect(allStampIds.filter((stampId) => !stickerDesigns[stampId])).toEqual([]);
+  });
+
   it("starts with an anonymous empty passport", () => {
     renderApp("/passport");
 
     expect(screen.getByRole("heading", { name: "Passport" })).toBeInTheDocument();
-    expect(screen.getByText("0 of 14 stamps")).toBeInTheDocument();
-    expect(screen.getAllByText("Locked")).toHaveLength(14);
+    expect(screen.getByRole("progressbar", { name: "0 of 14 stamps collected" })).toBeInTheDocument();
+    expect(screen.getAllByText("Visit to collect")).toHaveLength(14);
     expect(localStorage.getItem(PASSPORT_STORAGE_KEY)).not.toBeNull();
   });
 
-  it("collects a stamp from a valid QR route", () => {
+  it("groups stickers by where they are collected", () => {
+    renderApp("/passport");
+
+    const campus = screen.getByRole("heading", { name: "On campus" }).closest("section")!;
+    expect(within(campus).getByText("0 of 2")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "MEC E · 2nd floor" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "MEC E · 3rd floor" })).toBeInTheDocument();
+  });
+
+  it("collects a sticker from a valid QR route", () => {
     renderApp("/passport/collect/design-courses");
 
-    expect(screen.getByRole("heading", { name: "Stamp collected" })).toBeInTheDocument();
-    expect(screen.getByText("Design Explorer")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Sticker collected!" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Design Explorer sticker" })).toBeInTheDocument();
+    expect(screen.getByText(/1 of 14 collected/)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "View passport" })).toHaveAttribute("href", "/passport?new=stamp-design-courses");
 
     const storedPassport = localStorage.getItem(PASSPORT_STORAGE_KEY);
     expect(storedPassport).toContain("stamp-design-courses");
@@ -31,7 +50,7 @@ describe("passport", () => {
     renderApp("/passport/collect/design-courses").unmount();
     renderApp("/passport/collect/design-courses");
 
-    expect(screen.getByRole("heading", { name: "Stamp already collected" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Already in your passport" })).toBeInTheDocument();
   });
 
   it("rejects an unknown QR code", () => {
@@ -45,7 +64,24 @@ describe("passport", () => {
     renderApp("/passport/collect/design-courses").unmount();
     renderApp("/passport");
 
-    expect(screen.getByText("1 of 14 stamps")).toBeInTheDocument();
-    expect(screen.getByText("Design Explorer")).toBeInTheDocument();
+    expect(screen.getByRole("progressbar", { name: "1 of 14 stamps collected" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Design Explorer sticker" })).toBeInTheDocument();
+  });
+
+  it("celebrates the last sticker", () => {
+    savePassport({ passportId: "test-passport", collectedStamps: allStampIds.filter((id) => id !== "stamp-mece-301-lab") });
+    renderApp("/passport/collect/mece-301-lab");
+
+    expect(screen.getByText(/14 of 14 collected/)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "You're a Certified Explorer!" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "MEC E Certified Explorer seal" })).toBeInTheDocument();
+  });
+
+  it("shows the completed passport", () => {
+    savePassport({ passportId: "test-passport", collectedStamps: allStampIds });
+    renderApp("/passport");
+
+    expect(screen.getByText("Complete")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "You're a Certified Explorer!" })).toBeInTheDocument();
   });
 });
