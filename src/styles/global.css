@@ -350,6 +350,44 @@ body {
   background: #006b32;
 }
 
+.booth-logo {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #e3e8e4;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.booth-logo img {
+  display: block;
+  width: auto;
+  object-fit: contain;
+}
+
+.booth-logo-card {
+  min-width: 3.5rem;
+  height: 3.5rem;
+  padding: 0.35rem;
+}
+
+.booth-logo-card img {
+  height: 2.8rem;
+  max-width: 7rem;
+}
+
+.booth-logo-detail {
+  min-width: clamp(4.5rem, 16vw, 6.5rem);
+  padding: 0.5rem;
+  box-shadow: 0 6px 20px rgb(39 93 56 / 8%);
+}
+
+.booth-logo-detail img {
+  height: clamp(3.5rem, 13vw, 5.5rem);
+  max-width: min(40vw, 14rem);
+}
+
 .directory-controls,
 .visit-details {
   border-color: #d9dfdb;

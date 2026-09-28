@@ -82,13 +82,20 @@ export function BoothDirectoryPage() {
         <SimpleGrid component="ul" cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg" className="booth-grid">
           {filteredBooths.map((booth) => (
             <Card component="li" className="booth-card" key={booth.id} withBorder radius="md" padding="lg">
-              <Badge variant="light" color="ualbertaGreen" size="sm" w="fit-content">
-                {formatCategory(booth.category)}
-              </Badge>
+              <Group justify="space-between" align="flex-start" wrap="nowrap" gap="sm">
+                <Badge variant="light" color="ualbertaGreen" size="sm" w="fit-content">
+                  {formatCategory(booth.category)}
+                </Badge>
+                {booth.logoUrl && (
+                  <span className="booth-logo booth-logo-card">
+                    <img src={booth.logoUrl} alt={`${booth.name} logo`} loading="lazy" />
+                  </span>
+                )}
+              </Group>
               <Title order={2} size="h3" mt="md">
                 {booth.name}
               </Title>
-              <Text c="dimmed" mt="xs" size="sm">
+              <Text c="dimmed" mt="xs" size="sm" lineClamp={4}>
                 {booth.shortDescription}
               </Text>
               <Group className="location-label" gap={7} wrap="nowrap">

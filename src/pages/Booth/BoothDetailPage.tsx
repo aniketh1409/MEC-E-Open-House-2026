@@ -46,13 +46,26 @@ export function BoothDetailPage() {
       >
         Back to booths
       </Button>
-      <Badge variant="light" color="ualbertaGreen" w="fit-content">
-        {formatCategory(booth.category)}
-      </Badge>
-      <Title order={1}>{booth.name}</Title>
-      <Text className="booth-summary" c="dimmed" size="lg">
-        {booth.shortDescription}
-      </Text>
+      <Group className="booth-detail-header" wrap="nowrap" align="center" gap="lg">
+        {booth.logoUrl && (
+          <span className="booth-logo booth-logo-detail">
+            <img src={booth.logoUrl} alt={`${booth.name} logo`} />
+          </span>
+        )}
+        <Stack gap="xs">
+          <Badge variant="light" color="ualbertaGreen" w="fit-content">
+            {formatCategory(booth.category)}
+          </Badge>
+          <Title order={1}>{booth.name}</Title>
+        </Stack>
+      </Group>
+      <Stack className="booth-summary" gap="sm" maw={760}>
+        {[booth.shortDescription, ...(booth.moreDescription ?? [])].map((paragraph, index) => (
+          <Text key={index} size={index === 0 ? "lg" : "md"} c={index === 0 ? undefined : "#3f5147"}>
+            {paragraph}
+          </Text>
+        ))}
+      </Stack>
 
       <Paper component="section" className="visit-details" withBorder radius="md" p={{ base: "lg", sm: "xl" }} mt="md" aria-labelledby="visit-heading">
         <Text className="eyebrow">Location</Text>
