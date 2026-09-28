@@ -18,7 +18,7 @@
     {
       "id": "tour",
       "title": "MEC E building tour",
-      "description": "Enter the Mechanical Engineering Building at the second-floor west entry and follow the tour stops.",
+      "description": "Enter the Mechanical Engineering Building on the 1st floor, take the stairs beside room 1-3A up to the 2nd floor, and follow the tour stops.",
       "buildingId": "mece",
       "boothId": "west-entry"
     }

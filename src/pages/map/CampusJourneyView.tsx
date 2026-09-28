@@ -133,7 +133,11 @@ export function CampusJourneyView() {
   if (isMobile) {
     const nextIndex = nextStep ? steps.indexOf(nextStep) : -1;
     return (
-      <div className="map-stage" style={{ "--sheet-peek": `${peekHeight}px` } as CSSProperties}>
+      <div
+        className="map-stage"
+        data-sheet-expanded={sheetExpanded || undefined}
+        style={{ "--sheet-peek": `${peekHeight}px` } as CSSProperties}
+      >
         {campusMap}
         <StampToast />
         <div className="map-overlay-bottom-left">

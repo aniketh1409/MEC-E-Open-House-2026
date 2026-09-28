@@ -13,13 +13,11 @@ All event content lives in this folder as JSON. Updating the schedule needs no c
 | `programsCalendarUrl` | `"https://…"` | Optional. Adds a "MEC E programs calendar" card. Leave it out to hide the card |
 | `isDraft` | `true` | Shows a "Draft schedule" notice. Set it to `false` (or remove it) once the schedule is final |
 
-## `booths.json`: booth write-ups and logos
+## Building floor plans (`floorPlans.json`, `tour.json`)
 
-| Field | Notes |
-|---|---|
-| `shortDescription` | First paragraph. Shown on the booth card and at the top of the booth page |
-| `moreDescription` | Optional list of extra paragraphs, shown only on the booth page |
-| `logo` | Optional file name in `assets/images/booths/`, e.g. `"arvp.png"`. Transparent PNGs look best |
+- Each floor's walls are an image in `assets/maps/` (`mece-1-walls.png`, …), made by `python scripts/build_floor_art.py` from the tour map PDF and `assets/maps/source/mece-1-floor-plan.png`. Pins, routes and labels use the same pixel coordinates as that image.
+- `route` is the dashed line on each floor; `pointsOfInterest` labels like `"Up to 3F"` mark the stairs to take.
+- `tour.json` → `arrival` holds the "Coming in from outside?" directions shown with the first stop.
 
 ## `schedule.json`: one entry per event
 

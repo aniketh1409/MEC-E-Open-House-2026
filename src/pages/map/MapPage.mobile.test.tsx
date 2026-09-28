@@ -17,7 +17,7 @@ describe("map page on mobile", () => {
 
     const sheet = screen.getByRole("region", { name: "Stop details" });
     expect(within(sheet).getByRole("heading", { name: "Autonomous Robotic Vehicle Project (ARVP)" })).toBeInTheDocument();
-    expect(within(sheet).getByText(/You are here · Stop 3 of 12/)).toBeInTheDocument();
+    expect(within(sheet).getByText(/You are here · Tour stop 3 of 12/)).toBeInTheDocument();
 
     fireEvent.click(within(sheet).getAllByRole("button", { name: "Next stop" })[0]!);
 

@@ -1,5 +1,9 @@
 {
   "buildingId": "mece",
+  "arrival": {
+    "floor": 1,
+    "directions": "Coming in from outside? Enter on the 1st floor and take the stairs beside room 1-3A up to the 2nd floor. Walk past the right side of the elevators to reach Stop 1."
+  },
   "stops": [
     {
       "boothId": "west-entry",
