@@ -14,5 +14,7 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: "./src/test/setup.ts",
+    // Full-page tests render the whole app in jsdom; give them headroom when the suite runs in parallel.
+    testTimeout: 15_000,
   },
 });
