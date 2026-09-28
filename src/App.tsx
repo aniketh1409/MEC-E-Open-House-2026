@@ -32,7 +32,7 @@ export function App() {
         <Route path="passport/collect/:qrCode" element={<CollectStampPage />} />
         <Route path="qr-codes" element={<QrCodeSheetPage />} />
         <Route path="student-groups" element={<PlaceholderPage title="Student Groups" />} />
-        <Route path="faq" element={<PlaceholderPage title="FAQ" />} />
+        <Route path="faq" element={<Navigate to="/help#faq" replace />} />
         <Route path="help" element={<HelpPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

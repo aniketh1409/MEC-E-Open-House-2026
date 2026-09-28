@@ -1,0 +1,114 @@
+[
+  {
+    "id": "when-where",
+    "category": "The day",
+    "question": "When and where is the Open House?",
+    "answer": "Saturday, October 17, 2026, from 9:00 AM to 3:00 PM. Start at the MEC E booth in the Butterdome booth fair, then walk over to the Mechanical Engineering Building for the self-guided tour. The Map page shows the way."
+  },
+  {
+    "id": "register",
+    "category": "The day",
+    "question": "Do I need to register or buy a ticket?",
+    "answer": "Placeholder: registration details for the Mechanical Engineering portion of Open House will be posted here.",
+    "toConfirm": true
+  },
+  {
+    "id": "who",
+    "category": "The day",
+    "question": "Who is the Open House for?",
+    "answer": "Placeholder: future students, their families and anyone curious about Mechanical Engineering are welcome.",
+    "toConfirm": true
+  },
+  {
+    "id": "family",
+    "category": "The day",
+    "question": "Can parents, guardians or friends come along?",
+    "answer": "Placeholder: yes, everyone in your group is welcome to join the tour.",
+    "toConfirm": true
+  },
+  {
+    "id": "parking",
+    "category": "Getting there",
+    "question": "Where can I park?",
+    "answer": "Placeholder: recommended parking lots and rates will be listed here.",
+    "toConfirm": true
+  },
+  {
+    "id": "transit",
+    "category": "Getting there",
+    "question": "Can I take transit?",
+    "answer": "Placeholder: the University LRT station and transit centre are a short walk from the Butterdome. Check ETS for weekend schedules.",
+    "toConfirm": true
+  },
+  {
+    "id": "butterdome-to-mece",
+    "category": "Getting there",
+    "question": "How do I get from the Butterdome to the Mechanical Engineering Building?",
+    "answer": "It's about a 9-minute walk. Open Map → Getting here for the walking route, then enter the building on the 1st floor and take the stairs beside room 1-3A up to the 2nd floor, where the tour starts."
+  },
+  {
+    "id": "tour-length",
+    "category": "In the building",
+    "question": "How long does the building tour take?",
+    "answer": "Placeholder: most visitors spend about 60 to 90 minutes visiting all the stops. You can visit them in any order and leave whenever you like.",
+    "toConfirm": true
+  },
+  {
+    "id": "accessibility",
+    "category": "In the building",
+    "question": "Is the building accessible?",
+    "answer": "Elevators are next to the stairs on each floor and are marked on the tour map. Placeholder: accessible entrance details will be added here. For accommodations, use the contacts in the Accessibility section above.",
+    "toConfirm": true
+  },
+  {
+    "id": "washrooms",
+    "category": "In the building",
+    "question": "Where are the washrooms?",
+    "answer": "Washrooms are marked on each floor of the tour map with the washroom icon."
+  },
+  {
+    "id": "food",
+    "category": "In the building",
+    "question": "Is there food or water available?",
+    "answer": "Placeholder: food and drink options near the Mechanical Engineering Building will be listed here.",
+    "toConfirm": true
+  },
+  {
+    "id": "passport-how",
+    "category": "Passport & stickers",
+    "question": "How does the passport work?",
+    "answer": "Scan the QR code at each station with the Scan button to collect its sticker. There are 14 stickers: 2 on campus and 12 inside the Mechanical Engineering Building. Your passport shows which ones you still need."
+  },
+  {
+    "id": "qr-trouble",
+    "category": "Passport & stickers",
+    "question": "My phone won't scan the QR code. What should I do?",
+    "answer": "Allow camera access when your browser asks, hold the phone steady about 20 to 30 cm from the code, and make sure it's well lit. You can also scan with your phone's camera app. If it still won't work, ask a volunteer at the station."
+  },
+  {
+    "id": "prize",
+    "category": "Passport & stickers",
+    "question": "Is there a prize for collecting every sticker?",
+    "answer": "Placeholder: prize details haven't been confirmed yet. Collect all 14 to earn the Certified Explorer seal, and check back here for updates.",
+    "toConfirm": true
+  },
+  {
+    "id": "progress-lost",
+    "category": "Passport & stickers",
+    "question": "Will I lose my stickers if I close the page?",
+    "answer": "No. Your passport is saved in this browser on this device, so you can close the page and come back. It won't carry over to another phone or browser, and clearing your browser data or using a private window will erase it."
+  },
+  {
+    "id": "privacy",
+    "category": "Passport & stickers",
+    "question": "Do I need an account? Is my information collected?",
+    "answer": "No account is needed. Your collected stickers are stored only on your own device and are never sent to us."
+  },
+  {
+    "id": "help-on-the-day",
+    "category": "On the day",
+    "question": "Who can I ask for help during the event?",
+    "answer": "Placeholder: look for Open House volunteers at each station. For emergencies, see the Safety section above.",
+    "toConfirm": true
+  }
+]

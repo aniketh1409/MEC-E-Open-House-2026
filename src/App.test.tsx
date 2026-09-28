@@ -26,6 +26,7 @@ describe("App", () => {
       "rel",
       "noopener noreferrer",
     );
-    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(5);
+    // Five support sections plus the FAQ.
+    expect(screen.getAllByRole("heading", { level: 2 })).toHaveLength(6);
   });
 });

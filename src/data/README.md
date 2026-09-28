@@ -19,6 +19,10 @@ All event content lives in this folder as JSON. Updating the schedule needs no c
 - `route` is the dashed line on each floor; `pointsOfInterest` labels like `"Up to 3F"` mark the stairs to take.
 - `tour.json` → `arrival` holds the "Coming in from outside?" directions shown with the first stop.
 
+## `faq.json`: questions on the Help page
+
+Each entry has an `id`, a `category` (entries are grouped by it, in first-seen order), a `question` and an `answer`. Add `"toConfirm": true` to show a "To be confirmed" badge while an answer is a placeholder; remove it once the answer is final.
+
 ## `schedule.json`: one entry per event
 
 Copy an existing entry and change the values. The order doesn't matter: the page sorts events by time.
