@@ -4,6 +4,8 @@ import locationsData from "../data/locations.json";
 import stampsData from "../data/stamps.json";
 import type { Booth, Building, Location, Stamp } from "../types/content";
 
+const logoUrls = import.meta.glob<string>("../../assets/images/booths/*", { eager: true, import: "default" });
+
 const booths = boothsData as Booth[];
 const buildings = buildingsData as Building[];
 const locations = locationsData as Location[];
@@ -17,6 +19,7 @@ export interface BoothDetails extends Booth {
   location: Location;
   building: Building;
   stamp: Stamp;
+  logoUrl?: string;
 }
 
 function joinBooth(booth: Booth): BoothDetails {
@@ -28,7 +31,12 @@ function joinBooth(booth: Booth): BoothDetails {
     throw new Error(`Booth "${booth.id}" has an invalid content reference.`);
   }
 
-  return { ...booth, location, building, stamp };
+  const logoUrl = booth.logo ? logoUrls[`../../assets/images/booths/${booth.logo}`] : undefined;
+  if (booth.logo && !logoUrl) {
+    throw new Error(`Booth "${booth.id}" logo "${booth.logo}" is missing from assets/images/booths.`);
+  }
+
+  return { ...booth, location, building, stamp, logoUrl };
 }
 
 export function getBuildingById(id: string): Building | undefined {
