@@ -46,7 +46,11 @@
   {
     "id": "arvp",
     "name": "Autonomous Robotic Vehicle Project (ARVP)",
-    "shortDescription": "A multidisciplinary team that designs, builds, and tests autonomous underwater vehicles for the international RoboSub Competition.",
+    "shortDescription": "Members from any field of study are welcome as ARVP provides the education, experience, and training to become a subject matter expert in one portion of ARVP's vehicle design.",
+    "moreDescription": [
+      "ARVP is governed by a triple mandate to provide skills in mechatronics, provide a social support network for students, and provide opportunities to network with companies in the robotics industry. So in addition to onboarding and work on our robots, ARVP is committed to providing social events, company tours, and job opportunities."
+    ],
+    "logo": "arvp.png",
     "locationId": "mece-arvp",
     "stampId": "stamp-arvp",
     "qrCode": "arvp",
@@ -57,7 +61,8 @@
   {
     "id": "ecocar",
     "name": "EcoCar",
-    "shortDescription": "A student-run team that designs and builds ultra-efficient hydrogen fuel cell vehicles for the Shell Eco-Marathon.",
+    "shortDescription": "The University of Alberta EcoCar is a student vehicle project group which designs and builds ultra-efficient hydrogen fuel cell powered cars to participate in the annual Shell Eco-Marathon competition in the Hydrogen Fuel Cell category. We build circuit boards, design suspensions and fuel cells, develop autonomous technology, and more by ourselves.",
+    "logo": "ecocar.png",
     "locationId": "mece-ecocar",
     "stampId": "stamp-ecocar",
     "qrCode": "ecocar",
@@ -68,7 +73,13 @@
   {
     "id": "formula-racing",
     "name": "UAlberta Formula Racing",
-    "shortDescription": "A student team that designs, builds, tests, and races a Formula-style car at SAE's international collegiate competition.",
+    "shortDescription": "We're a team of U of A students who design and build a formula style race car every year, then race it against university teams from around the world at Formula SAE. The club has been running since 1998.",
+    "moreDescription": [
+      "The car is electric. We switched from gas in 2024, and that first EV could do 0 to 100 km/h in under 4 seconds.",
+      "Students build nearly all of it: frame, suspension, battery pack, motor setup, aero, wiring. Most of the fabrication happens in the Elko Engineering Garage. You'll learn to run a CNC mill and a laser cutter, and you'll spend plenty of time with the 3D printers. A lot of what you learn in first-year physics shows up here as a real part that you designed, made, and then watched get tested hard.",
+      "Not everyone is in mechanical. We have electrical students, computer students, and people from other programs too. You don't need to know anything about cars to start. You just need to want to build something."
+    ],
+    "logo": "formula-racing.png",
     "locationId": "mece-formula-racing",
     "stampId": "stamp-formula-racing",
     "qrCode": "formula-racing",
@@ -101,7 +112,8 @@
   {
     "id": "albertasat",
     "name": "AlbertaSat",
-    "shortDescription": "A student team that designs, builds, and operates CubeSat satellites, with two already launched.",
+    "shortDescription": "AlbertaSat is a group of students and faculty at the University of Alberta that have come together to design, build, test, and operate satellites. Our goal is to support Albertan and Canadian access to space through high-impact small-satellite missions. We achieve this through ambitious spacecraft mission execution, development of open-source CubeSat components, and our award-winning outreach program. Beyond students working with spacecraft, we’re also a network of passionate individuals working in space science and technology, representing Alberta’s aerospace talent on the global stage.",
+    "logo": "albertasat.png",
     "locationId": "mece-albertasat",
     "stampId": "stamp-albertasat",
     "qrCode": "albertasat",
@@ -112,7 +124,8 @@
   {
     "id": "starr",
     "name": "Student Team for Alberta Rocketry Research",
-    "shortDescription": "A student team competing in intercollegiate rocketry with its own airframes, avionics, and liquid rocket engines.",
+    "shortDescription": "The Student Team for Alberta Rocketry Research (STARR) is a team of like-minded students from an array of disciplines and faculties who seek to expand Alberta’s space industry through the development, testing, and launching of high altitude sounding rockets in intercollegiate competitions. Our mission is to provide experience for students in developing launch vehicles and scientific payloads, educate the public through outreach activities, and promote STEM to students across Alberta. We also seek to provide to our members the necessary experience and skills to pursue a career in the aerospace industry and strengthen Alberta's position as a leader in the Canadian aerospace community.",
+    "logo": "starr.png",
     "locationId": "mece-starr",
     "stampId": "stamp-starr",
     "qrCode": "starr",
@@ -123,7 +136,11 @@
   {
     "id": "esw",
     "name": "Engineers for a Sustainable World",
-    "shortDescription": "A student group building sustainability-focused projects that make an impact around the university community.",
+    "shortDescription": "ESW uAlberta is affiliated with Engineers for a Sustainable World, an international nonprofit network of students and professionals working together with a shared passion to solve sustainability challenges. They envision a world of environmental, social and economic prosperity.",
+    "moreDescription": [
+      "ESW uAlberta aims to support this vision by engaging the University of Alberta community in sustainable activities through events and projects. The group was founded in 2022 by diverse critical thinkers eager to collaborate with others in the journey towards sustainable spaces and practices. ESW uAlberta hopes to continuously create innovative designs to make the University of Alberta campus more sustainable and foster a vibrant community along the way."
+    ],
+    "logo": "esw.png",
     "locationId": "mece-esw",
     "stampId": "stamp-esw",
     "qrCode": "esw",
@@ -134,7 +151,8 @@
   {
     "id": "mece-club",
     "name": "Mechanical Engineering Club",
-    "shortDescription": "The student community for MEC E: social and industry events, intramurals, snacks, and printing.",
+    "shortDescription": "The Mechanical Engineering Club offers a variety of services to mechanical engineering students, ranging from social events, professional events, intramural teams, selling snacks, and printing services.",
+    "logo": "mece-club.png",
     "locationId": "mece-mece-club",
     "stampId": "stamp-mece-club",
     "qrCode": "mece-club",

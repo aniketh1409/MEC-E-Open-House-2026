@@ -13,6 +13,14 @@ All event content lives in this folder as JSON. Updating the schedule needs no c
 | `programsCalendarUrl` | `"https://…"` | Optional. Adds a "MEC E programs calendar" card. Leave it out to hide the card |
 | `isDraft` | `true` | Shows a "Draft schedule" notice. Set it to `false` (or remove it) once the schedule is final |
 
+## `booths.json`: booth write-ups and logos
+
+| Field | Notes |
+|---|---|
+| `shortDescription` | First paragraph. Shown on the booth card and at the top of the booth page |
+| `moreDescription` | Optional list of extra paragraphs, shown only on the booth page |
+| `logo` | Optional file name in `assets/images/booths/`, e.g. `"arvp.png"`. Transparent PNGs look best |
+
 ## `schedule.json`: one entry per event
 
 Copy an existing entry and change the values. The order doesn't matter: the page sorts events by time.
