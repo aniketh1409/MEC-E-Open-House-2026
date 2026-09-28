@@ -20,7 +20,7 @@ export function HomePage() {
 
         <Box className="home-hero-editorial">
           <Text className="home-hero-editorial-label">Open House 2026</Text>
-          <Title order={2}>The Open House that opens doors.</Title>
+          <Title order={2}>The Open House That Opens Doors.</Title>
           <EventCountdown />
         </Box>
       </Box>
