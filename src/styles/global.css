@@ -282,9 +282,143 @@ body {
   max-width: 40rem;
   color: #ffffff;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(3.75rem, 6vw, 6.5rem);
+  font-size: clamp(2.75rem, 6vw, 6.5rem);
   font-weight: 400;
   line-height: 0.98;
+}
+
+/* Countdown: a small mechanical counter under the hero headline. */
+
+.event-countdown {
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+}
+
+.event-countdown-counter {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem 0.6rem;
+  border: 1px solid rgb(242 205 0 / 35%);
+  border-radius: 10px;
+  background: rgb(10 30 17 / 28%);
+}
+
+.event-countdown-gears {
+  position: relative;
+  width: 2.1rem;
+  height: 2.6rem;
+  flex: 0 0 auto;
+  align-self: center;
+  color: #f2cd00;
+}
+
+.event-countdown-gear {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation: gear-turn 14s linear infinite;
+}
+
+.event-countdown-gear-small {
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  opacity: 0.8;
+  animation-direction: reverse;
+  animation-duration: 8.6s;
+}
+
+@keyframes gear-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.event-countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-countdown-wheels {
+  display: flex;
+  gap: 2px;
+}
+
+.event-countdown-wheel {
+  display: block;
+  width: 0.78em;
+  height: 1.2em;
+  overflow: hidden;
+  border-radius: 4px;
+  background: linear-gradient(#10281a, #1f4a2d 50%, #10281a);
+  box-shadow:
+    inset 0 7px 6px -5px rgb(0 0 0 / 55%),
+    inset 0 -7px 6px -5px rgb(0 0 0 / 55%);
+  color: #f2cd00;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: 1.2em;
+  text-align: center;
+}
+
+.event-countdown-strip {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.7s cubic-bezier(0.3, 1.45, 0.5, 1);
+}
+
+.event-countdown-strip span {
+  display: block;
+  height: 1.2em;
+}
+
+.event-countdown-unit-label {
+  margin-top: 0.3rem;
+  color: rgb(255 255 255 / 72%);
+  font-size: 0.65rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.event-countdown-when {
+  margin-top: 0.7rem;
+  color: rgb(255 255 255 / 82%);
+  font-size: 0.95rem;
+}
+
+.event-countdown-hours {
+  white-space: nowrap;
+}
+
+.event-countdown-status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  color: #f2cd00;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-weight: 700;
+}
+
+.event-countdown-live-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #7be08f;
+  box-shadow: 0 0 0 0 rgb(123 224 143 / 70%);
+  animation: open-dot 1.8s ease-out infinite;
+}
+
+@keyframes open-dot {
+  to {
+    box-shadow: 0 0 0 0.6rem rgb(123 224 143 / 0%);
+  }
 }
 
 .home-event-band {
@@ -301,10 +435,6 @@ body {
 
 .home-event-band p {
   margin: 0;
-}
-
-.home-mobile-heading {
-  display: none;
 }
 
 .home-introduction {
@@ -1564,89 +1694,116 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
 
-  @media (max-width: 48em) {
-    .home-page {
-      margin-top: -28px;
-      margin-inline: calc(-1 * var(--mantine-spacing-md));
-      padding-bottom: 5.25rem;
-    }
+/* Phones and small tablets: the green headline panel leads, the yellow graphic becomes a strip under it. */
+@media (max-width: 48em) {
+  .home-page {
+    margin-top: -28px;
+    margin-inline: calc(-1 * var(--mantine-spacing-md));
+  }
 
-    .home-mobile-heading {
-      display: block;
-      padding: 0.75rem 2rem 0.65rem;
-      background: #275d38;
-    }
+  .home-hero {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin: 0;
+  }
 
-    .home-mobile-heading .mantine-Title-root {
-      color: #f2cd00;
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      font-size: clamp(1.75rem, 8vw, 2rem);
-      font-weight: 400;
-      line-height: 1.05;
-    }
+  .home-hero-editorial {
+    order: -1;
+    padding: 1.75rem 1.5rem 2rem;
+  }
 
-    .home-mobile-heading-line {
-      white-space: nowrap;
-    }
+  .home-hero-editorial-label {
+    margin-bottom: 0.75rem;
+    font-size: 0.75rem;
+  }
 
-    .home-hero {
-      display: block;
-      min-height: 0;
-      margin: 0;
-    }
+  .home-hero-editorial .mantine-Title-root {
+    font-size: clamp(2.6rem, 12vw, 4.25rem);
+  }
 
-    .home-hero-visual {
-      height: clamp(100px, 30vw, 130px);
-      min-height: 0;
-      padding: 0;
-      background-size: cover;
-      background-position: center;
-    }
+  .home-hero-visual {
+    height: 7rem;
+    min-height: 0;
+  }
 
-    .home-hero-visual img {
-      width: 5rem;
-    }
+  .home-hero-visual::before {
+    top: -10%;
+    right: 6%;
+    width: 60%;
+    height: 90%;
+  }
 
-    .home-hero-visual-caption {
-      display: none;
-    }
+  .home-hero-visual::after {
+    top: 8%;
+    right: 20%;
+    width: 44%;
+    height: 70%;
+  }
 
-    .home-hero-editorial {
-      display: none;
-    }
+  .home-hero-visual img {
+    display: none;
+  }
 
-    .home-event-band {
-      padding: 1rem 1.5rem;
-      font-size: 1.125rem;
-      letter-spacing: 0;
-    }
+  .home-hero-visual-caption {
+    right: auto;
+    bottom: 1rem;
+    left: 1.5rem;
+    font-size: 0.72rem;
+    text-align: left;
+  }
 
-    .home-introduction {
-      padding: 1.25rem 2rem 1.75rem;
-    }
+  .home-event-band {
+    padding: 0.9rem 1.5rem;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+  }
 
-    .home-introduction-stack {
-      gap: 0.75rem;
-    }
+  .home-introduction {
+    padding: 1.5rem 1.5rem 2rem;
+  }
 
-    .home-introduction .mantine-Title-root,
-    .home-introduction-eyebrow {
-      display: none;
-    }
+  .home-introduction-stack {
+    gap: 0.85rem;
+  }
 
-    .home-hero-copy {
-      font-size: 1rem;
-      line-height: 1.45;
-    }
+  .home-introduction .mantine-Title-root {
+    font-size: 1.6rem;
+  }
 
-    .home-hero-cta {
-      min-height: 3rem;
-    }
+  .home-introduction-eyebrow {
+    display: none;
+  }
+
+  .home-hero-copy {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 23em) {
+  .event-countdown-counter {
+    gap: 0.5rem;
+    padding-inline: 0.75rem;
+  }
+
+  .event-countdown-wheel {
+    font-size: 1.3rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .event-countdown-gear,
+  .event-countdown-live-dot {
+    animation: none;
+  }
+
+  .event-countdown-strip {
+    transition: none;
+  }
+
   .booth-card,
   .plan-pin {
     transition: none;
