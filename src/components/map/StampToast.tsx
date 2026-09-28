@@ -1,8 +1,10 @@
 import { CloseButton } from "@mantine/core";
-import { IconCircleCheck, IconTicket } from "@tabler/icons-react";
+import { IconTicket } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { celebrateStamp } from "../../lib/celebrate";
 import { getActiveBoothById } from "../../lib/content";
+import { Sticker } from "../passport/Sticker";
 
 const VISIBLE_FOR_MS = 4500;
 
@@ -13,19 +15,31 @@ export function StampToast() {
   const booth = getActiveBoothById(searchParams.get("booth") ?? "");
   const [isVisible, setIsVisible] = useState(true);
 
+  const isNew = result === "collected";
+  const hasBooth = Boolean(booth);
+
   useEffect(() => {
     const timer = window.setTimeout(() => setIsVisible(false), VISIBLE_FOR_MS);
     return () => window.clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (isNew && hasBooth) {
+      celebrateStamp();
+    }
+  }, [hasBooth, isNew]);
+
   if (!booth || (result !== "collected" && result !== "duplicate") || !isVisible) {
     return null;
   }
 
-  const isNew = result === "collected";
   return (
     <div className="stamp-toast" role="status" data-new={isNew || undefined}>
-      {isNew ? <IconCircleCheck size={22} aria-hidden="true" /> : <IconTicket size={22} aria-hidden="true" />}
+      {isNew ? (
+        <Sticker stampId={booth.stamp.id} name={booth.stamp.name} size={46} animate tilt={-6} className="stamp-toast-sticker" />
+      ) : (
+        <IconTicket size={22} aria-hidden="true" />
+      )}
       <div>
         <strong>{isNew ? "Stamp collected!" : "Already collected"}</strong>
         <span>{booth.stamp.name}</span>
