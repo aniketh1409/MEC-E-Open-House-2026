@@ -7,7 +7,7 @@ describe("home page", () => {
     renderApp("/");
 
     expect(screen.getByRole("heading", { level: 1, name: "Mechanical Engineering Open House" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "The Open House that opens doors." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "The Open House That Opens Doors" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Explore the Open House" })).toHaveAttribute("href", "/booths");
   });
 
