@@ -2,18 +2,11 @@ import { Box, Button, Stack, Text, Title } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import logoUrl from "../../../assets/images/ualberta-logo.png";
+import { EventCountdown } from "../../components/home/EventCountdown";
 
 export function HomePage() {
   return (
     <section className="home-page" aria-labelledby="home-heading">
-      <Box className="home-mobile-heading">
-        <Title id="home-heading" order={1}>
-          <span className="home-mobile-heading-line">Mechanical Engineering</span>
-          <br />
-          Open House
-        </Title>
-      </Box>
-
       <Box className="home-hero">
         <Box
           component="figure"
@@ -28,6 +21,7 @@ export function HomePage() {
         <Box className="home-hero-editorial">
           <Text className="home-hero-editorial-label">Open House 2026</Text>
           <Title order={2}>The Open House that opens doors.</Title>
+          <EventCountdown />
         </Box>
       </Box>
 
@@ -37,7 +31,7 @@ export function HomePage() {
 
       <Box className="home-introduction">
         <Stack className="home-introduction-stack" gap="lg">
-          <Title order={1}>Mechanical Engineering Open House</Title>
+          <Title id="home-heading" order={1}>Mechanical Engineering Open House</Title>
           <Text className="home-introduction-eyebrow">SEE ENGINEERING IN ACTION</Text>
           <Text className="home-hero-copy">
             Come explore Mechanical Engineering through interactive activities
