@@ -184,6 +184,31 @@ body {
   background: #fff9df;
 }
 
+.faq-section {
+  margin-top: 3rem;
+  scroll-margin-top: 5rem;
+}
+
+.faq-category {
+  margin-top: 1.5rem;
+}
+
+.faq-category-title {
+  margin-bottom: 0.6rem;
+  color: #275d38;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.faq-section .mantine-Accordion-item {
+  border-color: #d9dfdb;
+  background: #ffffff;
+}
+
+.faq-section .mantine-Accordion-item[data-active] {
+  border-left: 4px solid #f2cd00;
+}
+
 .help-subsection {
   border-top: 1px solid #e3e8e4;
   padding-top: 1rem;

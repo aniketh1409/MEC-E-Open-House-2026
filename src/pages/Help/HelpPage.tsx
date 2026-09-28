@@ -8,10 +8,21 @@ import {
   Title,
 } from "@mantine/core";
 import { IconArrowRight, IconExternalLink } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import mapPdf from "../../../assets/maps/MECE Tour Map.pdf";
+import { FaqSection } from "./FaqSection";
 
 export function HelpPage() {
+  const { hash } = useLocation();
+
+  // /help#faq (and the old /faq link) jumps straight to the questions.
+  useEffect(() => {
+    if (hash) {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" });
+    }
+  }, [hash]);
+
   return (
     <section className="help-page" aria-labelledby="help-heading">
       <Stack className="help-intro" gap="xs" maw={720}>
@@ -20,7 +31,8 @@ export function HelpPage() {
           Help &amp; Support
         </Title>
         <Text c="dimmed" size="lg">
-          Need a hand during Open House? Find the right contact or resource below.
+          Need a hand during Open House? Find the right contact or resource below, or jump to the{" "}
+          <Anchor component={Link} to="/help#faq">FAQ</Anchor>.
         </Text>
       </Stack>
 
@@ -123,6 +135,8 @@ export function HelpPage() {
           </Text>
         </Paper>
       </SimpleGrid>
+
+      <FaqSection />
     </section>
   );
 }
