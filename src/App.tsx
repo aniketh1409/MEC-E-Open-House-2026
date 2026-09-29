@@ -12,7 +12,6 @@ import { PassportPage } from "./pages/PassportPage";
 import { QrCodeSheetPage } from "./pages/QrCodeSheetPage";
 import { SchedulePage } from "./pages/Schedule/SchedulePage";
 import { ScanQrPage } from "./pages/ScanQrPage";
-import { StickerSheetPage } from "./pages/StickerSheetPage";
 
 export function App() {
   return (
@@ -30,7 +29,6 @@ export function App() {
         <Route path="passport" element={<PassportPage />} />
         <Route path="passport/scan" element={<ScanQrPage />} />
         <Route path="passport/collect/:qrCode" element={<CollectStampPage />} />
-        <Route path="passport/stickers" element={<StickerSheetPage />} />
         <Route path="qr-codes" element={<QrCodeSheetPage />} />
         <Route path="faq" element={<Navigate to="/help#faq" replace />} />
         <Route path="help" element={<HelpPage />} />
