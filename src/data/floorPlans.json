@@ -68,7 +68,13 @@
         "type": "entrance",
         "x": 185,
         "y": 572,
-        "label": "Enter here"
+        "label": "South-west doors"
+      },
+      {
+        "type": "entrance",
+        "x": 240,
+        "y": 72,
+        "label": "North doors"
       },
       {
         "type": "stairs",
@@ -103,6 +109,53 @@
         195,
         462
       ]
+    ],
+    "alternateRoutes": [
+      {
+        "label": "From the north doors",
+        "points": [
+          [
+            240,
+            72
+          ],
+          [
+            270,
+            112
+          ],
+          [
+            300,
+            160
+          ],
+          [
+            322,
+            205
+          ],
+          [
+            326,
+            245
+          ],
+          [
+            326,
+            300
+          ],
+          [
+            310,
+            330
+          ],
+          [
+            308,
+            478
+          ],
+          [
+            240,
+            482
+          ],
+          [
+            195,
+            462
+          ]
+        ]
+      }
     ]
   },
   {

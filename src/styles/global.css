@@ -1672,6 +1672,24 @@ body {
   stroke-width: 5;
 }
 
+.plan-route-alt,
+.plan-route-alt-arrow {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.plan-route-alt {
+  stroke: #c99a00;
+  stroke-width: 6;
+  stroke-dasharray: 12 12;
+}
+
+.plan-route-alt-arrow {
+  stroke: #8a6a00;
+  stroke-width: 4;
+}
+
 .plan-poi rect {
   fill: #ffffff;
   stroke: #275d38;
@@ -1878,6 +1896,10 @@ body {
 
 .legend-route[data-walked] {
   border-top: 4px solid #8dc0a1;
+}
+
+.legend-route[data-alternate] {
+  border-top: 4px dashed #c99a00;
 }
 
 /* Map: tour details */

@@ -554,6 +554,7 @@ function MapLegend() {
       <li><span className="legend-pin" data-visited aria-hidden="true"><IconCheck size={11} stroke={3} /></span>Visited</li>
       <li><span className="legend-route" aria-hidden="true" />Route ahead</li>
       <li><span className="legend-route" data-walked aria-hidden="true" />Walked</li>
+      <li><span className="legend-route" data-alternate aria-hidden="true" />Other entrance</li>
       {Object.entries(pointOfInterestIcons).map(([type, { icon: LegendIcon, label }]) => (
         <li key={type}>
           <span className="legend-poi" data-type={type} aria-hidden="true"><LegendIcon size={13} stroke={2} /></span>

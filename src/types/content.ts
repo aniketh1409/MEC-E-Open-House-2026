@@ -125,6 +125,8 @@ export interface FloorPlan {
   pointsOfInterest: PointOfInterest[];
   /** Suggested walking route on this floor, drawn as a line. */
   route: PlanPoint[];
+  /** Other ways to the same place, e.g. from a second entrance; drawn in a lighter style. */
+  alternateRoutes?: { label: string; points: PlanPoint[] }[];
 }
 
 export interface TourStopEntry {
