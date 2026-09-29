@@ -69,7 +69,10 @@ export function RoutePlanner({
     { group: "Event buildings", items: buildings.map((building) => ({ value: building.id, label: building.name })) },
     ...PLACE_CATEGORIES.map(({ id, label }) => ({
       group: label,
-      items: places.filter((place) => place.category === id).map((place) => ({ value: place.id, label: place.name })),
+      // Bus stops are for finding on the map, not walking to; they'd swamp the list.
+      items: places
+        .filter((place) => place.category === id && place.kind !== "bus")
+        .map((place) => ({ value: place.id, label: place.name })),
     })).filter((group) => group.items.length > 0),
   ];
   const isSamePlace = Boolean(toId) && fromId === toId;
@@ -89,11 +92,15 @@ export function RoutePlanner({
             value={fromId}
             onChange={(value) => onChange({ fromId: value ?? MY_LOCATION, toId })}
             allowDeselect={false}
+            searchable
+            nothingFoundMessage="No matching place"
             data={[{ group: "Start", items: [{ value: MY_LOCATION, label: "My location" }] }, ...buildingOptions]}
           />
           <Select
             label="To"
             placeholder="Choose a building or place"
+            searchable
+            nothingFoundMessage="No matching place"
             value={toId ?? null}
             onChange={(value) => onChange({ fromId, toId: value ?? undefined })}
             data={buildingOptions}

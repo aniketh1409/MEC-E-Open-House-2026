@@ -23,6 +23,8 @@ All event content lives in this folder as JSON. Updating the schedule needs no c
 
 Shown on the campus map when a visitor turns on the matching "Nearby" chip, and offered as "Where to?" destinations. Each entry has an `id`, a `category` (`food`, `parking`, `help` or `transit`), a `name`, a short `abbreviation` for the map label, an optional `note` (e.g. `"Free 8 AM – 5 PM"`) and a `position` (`lat`/`lng`, e.g. from OpenStreetMap or Google Maps).
 
+Optional: `"official": true` marks an organizer-recommended spot with a star and always shows it; `"minZoom": 17` only shows a place once the map is zoomed in (used for the extra cafés and the bus stops); `"kind": "bus"` gives transit stops the small bus pin and keeps them out of the "Where to?" list.
+
 ## `faq.json`: questions on the Help page
 
 Each entry has an `id`, a `category` (entries are grouped by it, in first-seen order), a `question` and an `answer`. Optional: `list` (bullet points under the answer), `links` (`[{ "label", "url" }]`), `"hidden": true` to keep an entry in the file without showing it, and `"toConfirm": true` to show a "To be confirmed" badge.

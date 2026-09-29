@@ -37,6 +37,8 @@ interface CampusMapProps {
   places?: Place[];
   /** "Walk here" from a place's popup. */
   onPlaceSelect?: (placeId: string) => void;
+  /** Phones: round icon-only location buttons, stacked, to leave the map visible. */
+  compactControls?: boolean;
 }
 
 /** Below this GPS accuracy (m) the accuracy circle adds noise rather than information. */
@@ -74,18 +76,36 @@ const placeGlyphs: Record<PlaceCategory, string> = {
   transit: `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="3" width="12" height="13" rx="3" /><path d="M6 10h12M9 20l-2 2M15 20l2 2M9 13h.01M15 13h.01" /></svg>`,
 };
 
-const placeIcons = Object.fromEntries(
-  Object.entries(placeGlyphs).map(([category, glyph]) => [
-    category,
-    L.divIcon({
+const busGlyph = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="13" rx="2" /><path d="M5 11h14M8 20v-3M16 20v-3" /></svg>`;
+
+const placeIconCache = new Map<string, L.DivIcon>();
+
+/** Round category pin; organizer picks get a star, bus stops a smaller pin. */
+function placeIcon(place: Place): L.DivIcon {
+  const key = `${place.category}:${place.kind ?? ""}:${place.official ? 1 : 0}`;
+  let icon = placeIconCache.get(key);
+  if (!icon) {
+    const size = place.kind === "bus" ? 22 : 28;
+    icon = L.divIcon({
       className: "campus-pin-wrapper",
-      html: `<span class="campus-place-pin" data-category="${category}">${glyph}</span>`,
-      iconSize: [28, 28],
-      iconAnchor: [14, 14],
-      popupAnchor: [0, -12],
-    }),
-  ]),
-) as Record<PlaceCategory, L.DivIcon>;
+      html: `<span class="campus-place-pin" data-category="${place.category}"${place.kind ? ` data-kind="${place.kind}"` : ""}>${
+        place.kind === "bus" ? busGlyph : placeGlyphs[place.category]
+      }${place.official ? `<i class="campus-place-star">★</i>` : ""}</span>`,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+      popupAnchor: [0, -size / 2 + 2],
+    });
+    placeIconCache.set(key, icon);
+  }
+  return icon;
+}
+
+/** Tracks the map's zoom so detail pins appear only when zoomed in. */
+function ZoomWatcher({ onZoom }: { onZoom: (zoom: number) => void }) {
+  const map = useMapEvents({ zoomend: () => onZoom(map.getZoom()) });
+  useEffect(() => onZoom(map.getZoom()), [map, onZoom]);
+  return null;
+}
 
 /** Teardrop pin whose tip marks the visitor's exact position at every zoom level. */
 const visitorIcon = L.divIcon({
@@ -156,6 +176,7 @@ export default function CampusMap({
   showZoomControl = true,
   places = [],
   onPlaceSelect,
+  compactControls = false,
 }: CampusMapProps) {
   // Following is remembered per planned route: a new route starts zoomed out to show all of it.
   const routeKey = plannedRoute?.key ?? "";
@@ -186,6 +207,9 @@ export default function CampusMap({
       : `${Math.round(meters / 10) * 10} m to ${targetStep.building.abbreviation} · ~${walkingMinutes(meters)} min`;
   })();
 
+  const [zoom, setZoom] = useState(16);
+  const visiblePlaces = places.filter((place) => (place.minZoom ?? 0) <= zoom);
+
   const destination = plannedRoute?.destination;
   const destinationIsJourneyStop = destination && steps.some((step) => step.building.id === destination.id);
 
@@ -206,6 +230,7 @@ export default function CampusMap({
           maxZoom={19}
         />
         <FitToView bounds={bounds} fitKey={fitKey} insetBottom={insetBottom} />
+        <ZoomWatcher onZoom={setZoom} />
 
         {legs.map((leg) => (
           <Polyline
@@ -235,18 +260,19 @@ export default function CampusMap({
           </Marker>
         ))}
 
-        {places
+        {visiblePlaces
           .filter((place) => place.id !== destination?.id)
           .map((place) => (
             <Marker
               key={place.id}
               position={[place.position.lat, place.position.lng]}
-              icon={placeIcons[place.category]}
+              icon={placeIcon(place)}
               title={place.name}
             >
               <Popup className="campus-place-popup">
                 <strong>{place.name}</strong>
                 {place.note && <span>{place.note}</span>}
+                {place.official && <span className="campus-place-official">★ Recommended by the organizers</span>}
                 {onPlaceSelect && (
                   <Button size="compact-sm" mt={6} leftSection={<IconWalk size={15} />} onClick={() => onPlaceSelect(place.id)}>
                     Walk here
@@ -291,8 +317,28 @@ export default function CampusMap({
         </div>
       )}
 
-      <div className="campus-map-controls">
-        {!isLocating && (
+      <div className="campus-map-controls" data-compact={compactControls || undefined}>
+        {!isLocating && compactControls && (
+          <ActionIcon
+            className="map-fab"
+            size={44}
+            radius="xl"
+            variant="white"
+            aria-label="Show my location"
+            onClick={() => {
+              setFollowing(true);
+              onLocatingChange(true);
+            }}
+          >
+            <IconCurrentLocation size={21} />
+          </ActionIcon>
+        )}
+        {isLocating && !following && compactControls && (
+          <ActionIcon className="map-fab" size={44} radius="xl" variant="white" aria-label="Re-center" onClick={() => setFollowing(true)}>
+            <IconNavigation size={20} />
+          </ActionIcon>
+        )}
+        {!isLocating && !compactControls && (
           <Button
             className="map-fab"
             variant="white"
@@ -306,7 +352,7 @@ export default function CampusMap({
             Show my location
           </Button>
         )}
-        {isLocating && !following && (
+        {isLocating && !following && !compactControls && (
           <Button
             className="map-fab"
             variant="white"

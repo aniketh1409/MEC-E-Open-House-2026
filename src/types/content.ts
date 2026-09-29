@@ -61,6 +61,12 @@ export interface Place extends Building {
   category: PlaceCategory;
   /** Short detail shown in the map popup, e.g. "Free 8 AM – 5 PM". */
   note?: string;
+  /** Listed by the organizers: always shown, with a star. */
+  official?: boolean;
+  /** Only shown once the map is zoomed in this far (keeps the overview uncluttered). */
+  minZoom?: number;
+  /** Transit subtype: bus stops get a smaller pin than LRT stations. */
+  kind?: "bus";
 }
 
 /** Event-wide details (event.json). */
