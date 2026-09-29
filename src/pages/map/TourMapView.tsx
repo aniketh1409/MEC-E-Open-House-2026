@@ -44,13 +44,19 @@ import {
   type RouteProgress,
   type TourStop,
 } from "../../lib/map";
-import type { FloorPlan } from "../../types/content";
+import type { FloorPlan, PlanPoint } from "../../types/content";
 
 const stops = getTourStops();
 const floorPlans = getTourFloorPlans();
 const arrival = getTourArrival();
 /** Every stamp on the day, campus and building alike: the same total as the Passport. */
 const allStampIds = getActiveBooths().map((booth) => booth.stamp.id);
+/**
+ * A step between stops: getting in from the entrance, or changing floors. The tour walks
+ * visitors through these so they never have to work out the stairs themselves.
+ */
+type Guide = { kind: "arrival" } | { kind: "floor"; from: TourStop; to: TourStop };
+
 /** Height (px) of the overlays across the top of the mobile map. */
 const MOBILE_TOP_OVERLAY = 64;
 
@@ -98,7 +104,13 @@ export function TourMapView() {
     () => initialStop(currentBoothId ?? searchParams.get("stop"), visitedStampIds)?.booth.id,
   );
   const selectedStop = selectedBoothId ? getTourStopByBoothId(selectedBoothId) : undefined;
-  const [floor, setFloor] = useState(() => selectedStop?.floorPlan.floor ?? floorPlans[0]?.floor ?? 0);
+  // "?start=entrance" (from the campus journey) begins with the way in on the 1st floor.
+  const [guide, setGuide] = useState<Guide | null>(() =>
+    searchParams.get("start") === "entrance" && arrival ? { kind: "arrival" } : null,
+  );
+  const [floor, setFloor] = useState(() =>
+    guide?.kind === "arrival" && arrival ? arrival.floor : (selectedStop?.floorPlan.floor ?? floorPlans[0]?.floor ?? 0),
+  );
   const mapRef = useRef<HTMLDivElement>(null);
 
   const floorPlan = floorPlans.find((plan) => plan.floor === floor) ?? floorPlans[0];
@@ -132,6 +144,7 @@ export function TourMapView() {
     if (!stop) {
       return;
     }
+    setGuide(null);
     setSelectedBoothId(boothId);
     setFloor(stop.floorPlan.floor);
     if (scrollToMap) {
@@ -149,6 +162,49 @@ export function TourMapView() {
   const previousStop = selectedIndex > 0 ? stops[selectedIndex - 1] : undefined;
   const nextStop = selectedIndex >= 0 ? stops[selectedIndex + 1] : undefined;
 
+  /** Next along the tour: via a "go up a floor" step when the next stop is on another floor. */
+  const goNext = (from: TourStop) => {
+    const next = stops[stops.indexOf(from) + 1];
+    if (!next) {
+      return;
+    }
+    if (next.floorPlan.floor !== from.floorPlan.floor) {
+      setGuide({ kind: "floor", from, to: next });
+      setSelectedBoothId(from.booth.id);
+      setFloor(from.floorPlan.floor);
+      return;
+    }
+    selectStop(next.booth.id);
+  };
+
+  const showArrival = () => {
+    if (!arrival) {
+      return;
+    }
+    setGuide({ kind: "arrival" });
+    showFloor(arrival.floor);
+  };
+
+  const guideFloor = guide?.kind === "floor" ? guide.from.floorPlan.floor : arrival?.floor;
+  // While changing floors, centre on the stairs at the end of this floor's route.
+  const guideFocus: PlanPoint | undefined =
+    guide?.kind === "floor" && floorPlan.floor === guideFloor ? floorPlan.route.at(-1) : undefined;
+  const continueGuide = () => {
+    if (guide?.kind === "floor") {
+      selectStop(guide.to.booth.id);
+    } else if (stops[0]) {
+      selectStop(stops[0].booth.id);
+    }
+  };
+  const backFromGuide = () => {
+    if (guide?.kind === "floor") {
+      selectStop(guide.from.booth.id);
+    } else {
+      setGuide(null);
+    }
+  };
+  const guideCard = guide && <GuideCard guide={guide} onContinue={continueGuide} onBack={backFromGuide} />;
+
   const floorPlanView = (
     <FloorPlanView
       floorPlan={floorPlan}
@@ -162,6 +218,7 @@ export function TourMapView() {
       controls={isMobile ? "compact" : "full"}
       insetTop={isMobile ? MOBILE_TOP_OVERLAY : 0}
       insetBottom={isMobile ? peekHeight : 0}
+      focus={guideFocus}
     />
   );
   const floorSwitcher = (
@@ -197,37 +254,57 @@ export function TourMapView() {
         <div className="map-overlay-bottom-left">
           <ScanStampButton floating />
         </div>
-        {selectedStop && (
+        {(guide || selectedStop) && (
           <BottomSheet
             label="Stop details"
             expanded={sheetExpanded}
             onExpandedChange={setSheetExpanded}
             onPeekHeightChange={setPeekHeight}
             onSwipe={(direction) => {
-              const target = direction === "next" ? nextStop : previousStop;
-              if (target) {
-                selectStop(target.booth.id);
+              if (guide) {
+                if (direction === "next") {
+                  continueGuide();
+                } else {
+                  backFromGuide();
+                }
+                return;
+              }
+              if (direction === "next" && selectedStop) {
+                goNext(selectedStop);
+              } else if (previousStop) {
+                selectStop(previousStop.booth.id);
               }
             }}
             peek={
-              <StopPeek
-                stop={selectedStop}
-                total={stops.length}
-                isCurrent={selectedStop === currentStop}
-                isVisited={visitedStampIds.has(selectedStop.booth.stamp.id)}
-                nextStop={nextStop}
-                onSelectStop={selectStop}
-              />
+              guide ? (
+                <GuidePeek guide={guide} onContinue={continueGuide} />
+              ) : (
+                selectedStop && (
+                  <StopPeek
+                    stop={selectedStop}
+                    total={stops.length}
+                    isCurrent={selectedStop === currentStop}
+                    isVisited={visitedStampIds.has(selectedStop.booth.stamp.id)}
+                    nextStop={nextStop}
+                    onNext={() => goNext(selectedStop)}
+                  />
+                )
+              )
             }
           >
             <Stack gap="lg">
-              <StopDetails
-                stop={selectedStop}
-                previousStop={previousStop}
-                nextStop={nextStop}
-                onSelectStop={selectStop}
-                onShowFloor={showFloor}
-              />
+              {guideCard}
+              {!guide && selectedStop && (
+                <StopDetails
+                  stop={selectedStop}
+                  previousStop={previousStop}
+                  nextStop={nextStop}
+                  onSelectStop={selectStop}
+                  onNext={() => goNext(selectedStop)}
+                  onShowFloor={showFloor}
+                  onShowArrival={showArrival}
+                />
+              )}
               <div>
                 <Text className="eyebrow" mb="xs">All stops</Text>
                 {stopList}
@@ -257,7 +334,12 @@ export function TourMapView() {
         </Stack>
 
         <Stack gap="md" className="tour-side-column">
-          {selectedStop && (
+          {guide && (
+            <Paper className="selected-stop-card" withBorder radius="md" p="lg" aria-live="polite">
+              {guideCard}
+            </Paper>
+          )}
+          {!guide && selectedStop && (
             <Paper className="selected-stop-card" withBorder radius="md" p="lg" aria-live="polite">
               <StopHeading
                 stop={selectedStop}
@@ -270,7 +352,9 @@ export function TourMapView() {
                 previousStop={previousStop}
                 nextStop={nextStop}
                 onSelectStop={selectStop}
+                onNext={() => goNext(selectedStop)}
                 onShowFloor={showFloor}
+                onShowArrival={showArrival}
               />
             </Paper>
           )}
@@ -391,8 +475,8 @@ function StopPeek({
   isCurrent,
   isVisited,
   nextStop,
-  onSelectStop,
-}: StopSummaryProps & { nextStop?: TourStop; onSelectStop: (boothId: string) => void }) {
+  onNext,
+}: StopSummaryProps & { nextStop?: TourStop; onNext: () => void }) {
   return (
     <div className="stop-peek" aria-live="polite">
       <StopBadge stop={stop} isVisited={isVisited} />
@@ -407,7 +491,7 @@ function StopPeek({
         radius="xl"
         aria-label="Next stop"
         disabled={!nextStop}
-        onClick={() => nextStop && onSelectStop(nextStop.booth.id)}
+        onClick={onNext}
       >
         <IconChevronRight size={22} />
       </ActionIcon>
@@ -420,10 +504,14 @@ interface StopDetailsProps {
   previousStop?: TourStop;
   nextStop?: TourStop;
   onSelectStop: (boothId: string) => void;
+  /** Next along the tour (may first show a "go up a floor" step). */
+  onNext: () => void;
   onShowFloor: (floor: number) => void;
+  /** Show the way in from the entrance. */
+  onShowArrival: () => void;
 }
 
-function StopDetails({ stop, previousStop, nextStop, onSelectStop, onShowFloor }: StopDetailsProps) {
+function StopDetails({ stop, previousStop, nextStop, onSelectStop, onNext, onShowFloor, onShowArrival }: StopDetailsProps) {
   const changesFloor = nextStop && nextStop.floorPlan.floor !== stop.floorPlan.floor;
   const arrivalPlan = arrival && !previousStop ? floorPlans.find((plan) => plan.floor === arrival.floor) : undefined;
 
@@ -438,7 +526,7 @@ function StopDetails({ stop, previousStop, nextStop, onSelectStop, onShowFloor }
           </ThemeIcon>
           <div>
             <Text size="sm" c="dimmed">{arrival.directions}</Text>
-            <Button variant="subtle" size="compact-sm" px={0} mt={4} onClick={() => onShowFloor(arrival.floor)}>
+            <Button variant="subtle" size="compact-sm" px={0} mt={4} onClick={onShowArrival}>
               Show the {arrivalPlan.label}
             </Button>
           </div>
@@ -487,7 +575,7 @@ function StopDetails({ stop, previousStop, nextStop, onSelectStop, onShowFloor }
         <Button
           rightSection={<IconChevronRight size={16} />}
           disabled={!nextStop}
-          onClick={() => nextStop && onSelectStop(nextStop.booth.id)}
+          onClick={onNext}
         >
           Next stop
         </Button>
@@ -544,6 +632,68 @@ function StopList({ selectedBoothId, currentStop, visitedStampIds, onSelectStop 
         })}
       </Stack>
     </nav>
+  );
+}
+
+function guideText(guide: Guide) {
+  if (guide.kind === "arrival") {
+    const firstFloor = stops[0]?.floorPlan.label ?? "2nd floor";
+    return {
+      eyebrow: "Getting in",
+      title: "Enter the building",
+      body: arrival?.directions ?? "",
+      done: `I'm on the ${firstFloor}`,
+      icon: <IconDoorEnter size={20} stroke={1.8} />,
+    };
+  }
+  return {
+    eyebrow: `${guide.from.floorPlan.label} → ${guide.to.floorPlan.label}`,
+    title: `Go up to the ${guide.to.floorPlan.label}`,
+    body: guide.from.directionsToNext ?? `Take the stairs or the elevator up to the ${guide.to.floorPlan.label}.`,
+    done: `I'm on the ${guide.to.floorPlan.label}`,
+    icon: <IconStairs size={20} stroke={1.8} />,
+  };
+}
+
+/** Full "get in" / "change floors" step, in the sheet or the side panel. */
+function GuideCard({ guide, onContinue, onBack }: { guide: Guide; onContinue: () => void; onBack: () => void }) {
+  const text = guideText(guide);
+  return (
+    <div className="guide-card">
+      <Group gap="sm" wrap="nowrap" align="flex-start">
+        <ThemeIcon color="ualbertaGold.5" c="ualbertaGreen.9" size="lg" radius="xl">{text.icon}</ThemeIcon>
+        <div>
+          <Text className="eyebrow">{text.eyebrow}</Text>
+          <Title order={2} size="h3">{text.title}</Title>
+        </div>
+      </Group>
+      <Text size="sm" mt="sm">{text.body}</Text>
+      <SimpleGrid cols={2} spacing="xs" mt="lg">
+        <Button variant="default" leftSection={<IconChevronLeft size={16} />} onClick={onBack}>
+          Back
+        </Button>
+        <Button rightSection={<IconChevronRight size={16} />} onClick={onContinue}>
+          {text.done}
+        </Button>
+      </SimpleGrid>
+    </div>
+  );
+}
+
+/** Compact version of the guide step for the mobile sheet's peek bar. */
+function GuidePeek({ guide, onContinue }: { guide: Guide; onContinue: () => void }) {
+  const text = guideText(guide);
+  return (
+    <div className="stop-peek" aria-live="polite">
+      <span className="stop-badge guide-badge" aria-hidden="true">{text.icon}</span>
+      <div className="stop-peek-text">
+        <Title order={2} size="h5" lineClamp={1}>{text.title}</Title>
+        <Text size="xs" c="dimmed" lineClamp={1}>{text.body}</Text>
+      </div>
+      <ActionIcon size={44} radius="xl" aria-label={text.done} onClick={onContinue}>
+        <IconChevronRight size={22} />
+      </ActionIcon>
+    </div>
   );
 }
 

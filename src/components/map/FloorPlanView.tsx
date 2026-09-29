@@ -38,6 +38,8 @@ interface FloorPlanViewProps {
   insetBottom?: number;
   /** "compact" drops the zoom buttons (pinch works) for small screens. */
   controls?: "full" | "compact";
+  /** Centre here instead of on the selected stop, e.g. the stairs to the next floor. */
+  focus?: PlanPoint;
 }
 
 function toPoints(points: PlanPoint[]): string {
@@ -69,6 +71,7 @@ export function FloorPlanView({
   insetTop = 0,
   insetBottom = 0,
   controls = "full",
+  focus,
 }: FloorPlanViewProps) {
   const { ref: viewportRef, width: measuredWidth, height: measuredHeight } = useElementSize();
   const zoomRef = useRef<ReactZoomPanPinchContentRef>(null);
@@ -100,7 +103,7 @@ export function FloorPlanView({
   );
 
   // With no selected stop on this floor, start where visitors arrive: the start of the floor's route.
-  const focusPoint = selectedStop?.point ?? floorPlan.route[0];
+  const focusPoint = focus ?? selectedStop?.point ?? floorPlan.route[0];
 
   const focusSelectedStop = useCallback(
     (animationTime = 300) => {
@@ -125,7 +128,7 @@ export function FloorPlanView({
   // The frame delay lets the zoom library finish re-measuring resized content first.
   const lastFocusKey = useRef<string>(undefined);
   useEffect(() => {
-    const focusKey = `${floorPlan.id}:${selectedStop?.booth.id ?? ""}`;
+    const focusKey = `${floorPlan.id}:${selectedStop?.booth.id ?? ""}:${focus?.join(",") ?? ""}`;
     const animationTime = lastFocusKey.current && lastFocusKey.current !== focusKey ? 300 : 0;
     lastFocusKey.current = focusKey;
 
@@ -137,7 +140,7 @@ export function FloorPlanView({
       cancelAnimationFrame(frame);
       window.clearTimeout(settle);
     };
-  }, [floorPlan.id, focusSelectedStop, selectedStop]);
+  }, [floorPlan.id, focus, focusSelectedStop, selectedStop]);
 
   const handlePinKeyDown = (event: KeyboardEvent<SVGGElement>, boothId: string) => {
     if (event.key === "Enter" || event.key === " ") {
