@@ -1,5 +1,5 @@
-import { Accordion, Badge, Group, Paper, Stack, Text, TextInput, Title } from "@mantine/core";
-import { IconSearch } from "@tabler/icons-react";
+import { Accordion, Anchor, Badge, Group, List, Paper, Stack, Text, TextInput, Title } from "@mantine/core";
+import { IconExternalLink, IconSearch } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 import faqData from "../../data/faq.json";
 
@@ -8,11 +8,16 @@ interface FaqEntry {
   category: string;
   question: string;
   answer: string;
+  /** Bullet points shown under the answer. */
+  list?: string[];
+  links?: { label: string; url: string }[];
   /** Placeholder answer still waiting on the organizers. */
   toConfirm?: boolean;
+  /** Kept in the file but not shown, e.g. until an answer is ready. */
+  hidden?: boolean;
 }
 
-const faqs = faqData as FaqEntry[];
+const faqs = (faqData as FaqEntry[]).filter((faq) => !faq.hidden);
 const categories = [...new Set(faqs.map((faq) => faq.category))];
 
 export function FaqSection() {
@@ -21,7 +26,7 @@ export function FaqSection() {
   const matches = useMemo(() => {
     const words = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
     return faqs.filter((faq) => {
-      const text = `${faq.question} ${faq.answer} ${faq.category}`.toLocaleLowerCase();
+      const text = [faq.question, faq.answer, faq.category, ...(faq.list ?? [])].join(" ").toLocaleLowerCase();
       return words.every((word) => text.includes(word));
     });
   }, [query]);
@@ -37,7 +42,7 @@ export function FaqSection() {
         className="faq-search"
         type="search"
         label="Search questions"
-        placeholder="Try “parking” or “prize”"
+        placeholder="Try “parking” or “food”"
         value={query}
         onChange={(event) => setQuery(event.currentTarget.value)}
         leftSection={<IconSearch size={18} stroke={1.8} />}
@@ -74,6 +79,25 @@ export function FaqSection() {
                     </Accordion.Control>
                     <Accordion.Panel>
                       <Text c="dimmed">{faq.answer}</Text>
+                      {faq.list && (
+                        <List size="sm" c="dimmed" mt="xs" spacing={4}>
+                          {faq.list.map((item) => <List.Item key={item}>{item}</List.Item>)}
+                        </List>
+                      )}
+                      {faq.links?.map((link) => (
+                        <Anchor
+                          key={link.url}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          display="inline-flex"
+                          mt="xs"
+                          style={{ gap: 4, alignItems: "center" }}
+                        >
+                          {link.label}
+                          <IconExternalLink size={15} stroke={1.8} aria-hidden="true" />
+                        </Anchor>
+                      ))}
                     </Accordion.Panel>
                   </Accordion.Item>
                 ))}

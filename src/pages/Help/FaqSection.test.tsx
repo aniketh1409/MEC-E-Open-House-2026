@@ -17,19 +17,22 @@ describe("FAQ", () => {
     expect(within(faq).getByRole("button", { name: /How does the passport work\?/ })).toBeInTheDocument();
   });
 
-  it("flags placeholder answers", () => {
+  it("lists parking lots and hides unanswered questions", () => {
     renderApp("/help");
 
-    const parking = screen.getByRole("button", { name: /Where can I park\?/ });
-    expect(within(parking).getByText("To be confirmed")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Where can I park\?/ }));
+    expect(screen.getByText("Windsor Car Park")).toBeInTheDocument();
+    expect(screen.queryByText("To be confirmed")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Is there a prize/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Is the building accessible/ })).not.toBeInTheDocument();
   });
 
   it("filters questions as you type", () => {
     renderApp("/help");
 
-    fireEvent.change(screen.getByRole("searchbox", { name: "Search questions" }), { target: { value: "prize" } });
+    fireEvent.change(screen.getByRole("searchbox", { name: "Search questions" }), { target: { value: "Lister" } });
 
-    expect(screen.getByRole("button", { name: /Is there a prize/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Is there food or water/ })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Where can I park\?/ })).not.toBeInTheDocument();
   });
 
