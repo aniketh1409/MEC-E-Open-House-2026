@@ -1370,11 +1370,11 @@ body {
 }
 
 /* An expanded bottom sheet owns the screen: fade out the controls floating over the map. */
-.map-stage :is(.map-overlay-top, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
+.map-stage :is(.map-overlay-top, .map-overlay-top-bar, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
   transition: bottom 200ms ease, opacity 0.2s ease, visibility 0.2s;
 }
 
-.map-stage[data-sheet-expanded] :is(.map-overlay-top, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
+.map-stage[data-sheet-expanded] :is(.map-overlay-top, .map-overlay-top-bar, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -2385,6 +2385,31 @@ body {
   color: #ffffff;
 }
 
+/* Phones: "Where to?" and the Layers menu share one row at the top of the map. */
+.map-overlay-top-bar {
+  position: absolute;
+  z-index: 20;
+  top: 0.75rem;
+  right: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.map-search-bar {
+  flex: 1;
+  height: 44px;
+  color: #3f5147;
+  font-weight: 600;
+}
+
+.campus-map-controls[data-compact] {
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 .campus-map-controls {
   position: absolute;
   z-index: 500;
@@ -2590,7 +2615,7 @@ body {
     display: none;
   }
 
-  .map-stage :is(.map-overlay-top, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
+  .map-stage :is(.map-overlay-top, .map-overlay-top-bar, .map-overlay-bottom-left, .floor-plan-controls, .campus-map-controls, .campus-distance-chip, .campus-locate-error) {
     transition: none;
   }
 

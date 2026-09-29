@@ -3,11 +3,14 @@ import {
   Badge,
   Box,
   Button,
+  Checkbox,
   Chip,
+  Indicator,
   Group,
   Loader,
   Modal,
   Paper,
+  Popover,
   Stack,
   Switch,
   Text,
@@ -19,6 +22,7 @@ import {
   IconCheck,
   IconExternalLink,
   IconMap,
+  IconStack2,
   IconRoute,
   IconWalk,
   IconX,
@@ -131,12 +135,35 @@ export function CampusJourneyView() {
         plannedRoute={plannedRoute}
         insetBottom={isMobile ? peekHeight : 0}
         showZoomControl={!isMobile}
+        compactControls={isMobile}
         places={places.filter((place) => shownCategories.includes(place.category))}
         onPlaceSelect={
           features.campusRouting ? (placeId) => changePlanner({ fromId: planner.fromId, toId: placeId }) : undefined
         }
       />
     </Suspense>
+  );
+
+  const layersMenu = (
+    <Popover position="bottom-end" shadow="md" radius="md" withArrow zIndex={400}>
+      <Popover.Target>
+        <Indicator disabled={shownCategories.length === 0} color="ualbertaGold.5" size={11} offset={5}>
+          <ActionIcon className="map-fab" size={44} radius="xl" variant="white" aria-label="Map layers">
+            <IconStack2 size={21} />
+          </ActionIcon>
+        </Indicator>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Text size="xs" fw={750} c="dimmed" tt="uppercase" mb={8}>Show nearby</Text>
+        <Checkbox.Group value={shownCategories} onChange={(value) => setShownCategories(value as PlaceCategory[])}>
+          <Stack gap={10}>
+            {PLACE_CATEGORIES.map(({ id, label }) => (
+              <Checkbox key={id} value={id} label={label} color="ualbertaGreen" />
+            ))}
+          </Stack>
+        </Checkbox.Group>
+      </Popover.Dropdown>
+    </Popover>
   );
 
   const nearbyChips = (
@@ -219,19 +246,20 @@ export function CampusJourneyView() {
       >
         {campusMap}
         <StampToast />
-        <div className="map-overlay-top-left">
+        <div className="map-overlay-top-bar">
           {features.campusRouting && !plannedRoute && (
             <Button
-              className="map-fab"
+              className="map-fab map-search-bar"
               variant="white"
               radius="xl"
+              justify="flex-start"
               leftSection={<IconRoute size={18} />}
               onClick={() => setSheetExpanded(true)}
             >
               Where to?
             </Button>
           )}
-          {nearbyChips}
+          {layersMenu}
         </div>
         <div className="map-overlay-bottom-left">
           <ScanStampButton floating />

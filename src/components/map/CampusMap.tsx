@@ -37,6 +37,8 @@ interface CampusMapProps {
   places?: Place[];
   /** "Walk here" from a place's popup. */
   onPlaceSelect?: (placeId: string) => void;
+  /** Phones: round icon-only location buttons, stacked, to leave the map visible. */
+  compactControls?: boolean;
 }
 
 /** Below this GPS accuracy (m) the accuracy circle adds noise rather than information. */
@@ -174,6 +176,7 @@ export default function CampusMap({
   showZoomControl = true,
   places = [],
   onPlaceSelect,
+  compactControls = false,
 }: CampusMapProps) {
   // Following is remembered per planned route: a new route starts zoomed out to show all of it.
   const routeKey = plannedRoute?.key ?? "";
@@ -314,8 +317,28 @@ export default function CampusMap({
         </div>
       )}
 
-      <div className="campus-map-controls">
-        {!isLocating && (
+      <div className="campus-map-controls" data-compact={compactControls || undefined}>
+        {!isLocating && compactControls && (
+          <ActionIcon
+            className="map-fab"
+            size={44}
+            radius="xl"
+            variant="white"
+            aria-label="Show my location"
+            onClick={() => {
+              setFollowing(true);
+              onLocatingChange(true);
+            }}
+          >
+            <IconCurrentLocation size={21} />
+          </ActionIcon>
+        )}
+        {isLocating && !following && compactControls && (
+          <ActionIcon className="map-fab" size={44} radius="xl" variant="white" aria-label="Re-center" onClick={() => setFollowing(true)}>
+            <IconNavigation size={20} />
+          </ActionIcon>
+        )}
+        {!isLocating && !compactControls && (
           <Button
             className="map-fab"
             variant="white"
@@ -329,7 +352,7 @@ export default function CampusMap({
             Show my location
           </Button>
         )}
-        {isLocating && !following && (
+        {isLocating && !following && !compactControls && (
           <Button
             className="map-fab"
             variant="white"

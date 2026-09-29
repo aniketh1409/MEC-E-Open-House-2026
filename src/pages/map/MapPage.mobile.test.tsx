@@ -5,7 +5,7 @@ import { renderApp } from "../../test/renderApp";
 
 vi.mock("../../hooks/useIsMobile", () => ({ useIsMobile: () => true }));
 vi.mock("../../components/map/CampusMap", () => ({
-  default: () => <div data-testid="campus-map" />,
+  default: ({ places }: { places?: unknown[] }) => <div data-testid="campus-map" data-places={places?.length ?? 0} />,
 }));
 
 describe("map page on mobile", () => {
@@ -39,6 +39,17 @@ describe("map page on mobile", () => {
 
     expect(screen.getByRole("button", { name: "Show details" })).toHaveAttribute("aria-expanded", "false");
     expect(screen.getByRole("button", { name: "3rd floor, 7 stops to visit" })).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("keeps nearby places in a Layers menu instead of over the map", async () => {
+    renderApp("/map/campus");
+    await screen.findByTestId("campus-map");
+
+    expect(screen.queryByRole("checkbox", { name: "Parking" })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Map layers" }));
+    fireEvent.click(await screen.findByRole("checkbox", { name: "Parking" }));
+
+    expect(screen.getByTestId("campus-map").dataset.places).toBe("7");
   });
 
   it("shows the next campus step in the peek bar", async () => {
