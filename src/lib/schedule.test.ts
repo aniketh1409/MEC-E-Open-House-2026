@@ -55,26 +55,26 @@ describe("live schedule", () => {
   it("finds what is on now and what starts next", () => {
     const now = at("10:15");
 
-    expect(getHappeningNow(items, now).map((entry) => entry.id)).toEqual(["building-tour", "booth-fair"]);
-    expect(getUpNext(items, now).map((entry) => entry.id)).toEqual(["presentation-2"]);
-    expect(getItemStatus(item("presentation-1"), now)).toBe("past");
+    expect(getHappeningNow(items, now).map((entry) => entry.id)).toEqual(["program-presentation", "mece-booth"]);
+    expect(getUpNext(items, now).map((entry) => entry.id)).toEqual(["building-tour"]);
+    expect(getItemStatus(item("program-presentation"), at("11:30"))).toBe("past");
   });
 
   it("links events to the right map", () => {
     expect(getScheduleMapLink(item("building-tour"))).toEqual({ kind: "internal", to: "/map/tour?stop=west-entry" });
-    expect(getScheduleMapLink(item("presentation-1"))).toEqual({ kind: "internal", to: "/map/campus" });
-    expect(getScheduleMapLink(item("concession"))).toEqual({ kind: "internal", to: "/map/campus" });
+    expect(getScheduleMapLink(item("program-presentation"))).toEqual({ kind: "internal", to: "/map/campus" });
+    expect(getScheduleMapLink(item("mece-booth"))).toEqual({ kind: "internal", to: "/map/campus" });
   });
 });
 
 describe("calendar files", () => {
   it("creates an iCalendar event in UTC with escaped text", () => {
-    const ics = toIcs(item("concession"), new Date("2026-10-01T00:00:00Z"));
+    const ics = toIcs(item("program-presentation"), new Date("2026-10-01T00:00:00Z"));
 
     expect(ics).toContain("BEGIN:VEVENT\r\n");
-    expect(ics).toContain("DTSTART:20261017T173000Z");
-    expect(ics).toContain("DTEND:20261017T193000Z");
+    expect(ics).toContain("DTSTART:20261017T160000Z");
+    expect(ics).toContain("DTEND:20261017T170000Z");
     expect(ics).toContain("DTSTAMP:20261001T000000Z");
-    expect(ics).toContain("LOCATION:Second-level concourse\\, Butterdome (Universiade Pavilion)");
+    expect(ics).toContain("LOCATION:Room L1-001\\, Engineering Teaching and Learning Complex");
   });
 });

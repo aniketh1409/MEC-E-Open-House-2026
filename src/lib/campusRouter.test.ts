@@ -91,8 +91,8 @@ describe("campus walking network", () => {
     }
   });
 
-  it("finds a realistic Butterdome to MEC E walk", () => {
-    const route = router.route(building("butterdome").position, building("mece").position, "Mechanical Engineering Building")!;
+  it("finds a realistic VVC to MEC E walk", () => {
+    const route = router.route(building("vvc").position, building("mece").position, "Mechanical Engineering Building")!;
 
     expect(route.distanceMeters).toBeGreaterThan(550);
     expect(route.distanceMeters).toBeLessThan(900);

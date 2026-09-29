@@ -12,7 +12,7 @@ describe("campus directions switched off", () => {
     renderApp("/map/campus");
 
     expect(await screen.findByTestId("campus-map")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Start at the Butterdome" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Start at the VVC gym" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Where to?" })).not.toBeInTheDocument();
   });
 });

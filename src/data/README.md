@@ -51,7 +51,7 @@ Copy an existing entry and change the values. The order doesn't matter: the page
 | `start` / `end` | Yes | 24-hour clock, e.g. `"13:30"` for 1:30 PM. Times are on the day set in `event.json` |
 | `category` | Yes | One of `presentation`, `tour`, `booth-fair`, `food`, `general` |
 | `scope` | Yes | `mece` for department events, `university` for Open House-wide ones ("University-wide" badge) |
-| `buildingId` | No | An `id` from `buildings.json` (`butterdome`, `etlc`, `mece`). Adds "Show on map" |
+| `buildingId` | No | An `id` from `buildings.json` (`vvc`, `etlc`, `mece`). Adds "Show on map" |
 | `boothId` | No | An `id` from `booths.json`. "Show on map" then opens that exact station, e.g. a tour stop |
 | `locationLabel` | No | Room or area, e.g. `"Room 3-26"` or `"Room TBD"` |
 | `isConfirmed` | No | Set to `false` while a time may still change ("Time TBC" badge) |
