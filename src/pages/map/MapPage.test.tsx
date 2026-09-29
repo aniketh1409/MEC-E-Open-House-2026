@@ -59,6 +59,11 @@ describe("map page", () => {
     expect(screen.getByText("Next: Stop 6 · 3rd floor")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Next stop" }));
 
+    // A "go up" step comes first, with the 2nd floor (and its stairs) still on screen.
+    expect(screen.getByRole("heading", { name: "Go up to the 3rd floor" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "2nd floor, 5 stops to visit" })).toHaveAttribute("aria-pressed", "true");
+    fireEvent.click(screen.getByRole("button", { name: "I'm on the 3rd floor" }));
+
     expect(screen.getByRole("heading", { name: /MEC E 403/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Stop 6: MEC E 403/ })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Stop 5: UAlberta Formula Racing/ })).not.toBeInTheDocument();
@@ -82,6 +87,25 @@ describe("map page", () => {
 
     expect(screen.getByRole("group", { name: "3rd floor plan of the Mechanical Engineering Building" })).toBeInTheDocument();
     expect(screen.getByText("3rd floor: 0 of 7 here")).toBeInTheDocument();
+  });
+
+  it("starts the building tour at the entrance when arriving from the campus journey", () => {
+    renderApp("/map/tour?start=entrance");
+
+    expect(screen.getByRole("heading", { name: "Enter the building" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /^1st floor/ })).toHaveAttribute("aria-pressed", "true");
+
+    fireEvent.click(screen.getByRole("button", { name: "I'm on the 2nd floor" }));
+
+    expect(screen.getByRole("heading", { name: "Tour Start – West Entry" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /^2nd floor/ })).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("hands over from the campus journey to the building tour", async () => {
+    renderApp("/map/campus");
+    await screen.findByTestId("campus-map");
+
+    expect(screen.getByRole("link", { name: /start the building tour/ })).toHaveAttribute("href", "/map/tour?start=entrance");
   });
 
   it("selects a stop from the stop list", () => {

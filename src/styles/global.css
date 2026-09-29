@@ -2088,6 +2088,12 @@ body {
 
 /* Map: tour details */
 
+.guide-badge {
+  border-color: #f2cd00;
+  background: #f2cd00;
+  color: #173622;
+}
+
 .selected-stop-card {
   border-top: 4px solid #f2cd00;
 }

@@ -392,7 +392,7 @@ function JourneyPeek({
         </Text>
       </div>
       {isTour ? (
-        <ActionIcon component={Link} to={TOUR_MAP_PATH} size={44} radius="xl" aria-label="Open tour map">
+        <ActionIcon component={Link} to={`${TOUR_MAP_PATH}?start=entrance`} size={44} radius="xl" aria-label="Start the building tour">
           <IconArrowRight size={22} />
         </ActionIcon>
       ) : (
@@ -437,8 +437,8 @@ function JourneyStepCard({ step, isVisited }: { step: JourneyStepDetails; isVisi
 
           <Group gap="xs" mt="sm">
             {isTour ? (
-              <Button component={Link} to={TOUR_MAP_PATH} size="xs" rightSection={<IconArrowRight size={15} />}>
-                Open tour map
+              <Button component={Link} to={`${TOUR_MAP_PATH}?start=entrance`} size="xs" rightSection={<IconArrowRight size={15} />}>
+                I'm here: start the building tour
               </Button>
             ) : null}
             <Button
