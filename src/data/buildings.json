@@ -13,8 +13,8 @@
     "abbreviation": "ETLC",
     "name": "Engineering Teaching and Learning Complex",
     "position": {
-      "lat": 53.527049,
-      "lng": -113.52915
+      "lat": 53.527068,
+      "lng": -113.529511
     }
   },
   {
@@ -22,8 +22,8 @@
     "abbreviation": "MEC E",
     "name": "Mechanical Engineering Building",
     "position": {
-      "lat": 53.527965,
-      "lng": -113.527887
+      "lat": 53.527542,
+      "lng": -113.528411
     }
   }
 ]

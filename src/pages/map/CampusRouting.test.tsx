@@ -53,7 +53,7 @@ describe("campus directions", () => {
     expect(await screen.findByText("Arrive at Mechanical Engineering Building", undefined, ROUTE_TIMEOUT)).toBeInTheDocument();
     expect(screen.getByText(/^\d+ min$/)).toBeInTheDocument();
     expect(screen.getByText(/^Head east/)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Google Maps" })).toHaveAttribute("href", expect.stringContaining("destination=53.527965,-113.527887"));
+    expect(screen.getByRole("link", { name: "Google Maps" })).toHaveAttribute("href", expect.stringContaining("destination=53.527542,-113.528411"));
     expect(Number(screen.getByTestId("campus-map").dataset.routePoints)).toBeGreaterThan(10);
   });
 
