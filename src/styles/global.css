@@ -1087,6 +1087,53 @@ body {
 
 /* Schedule */
 
+.presentation-reminder {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.75rem 0.75rem 0.9rem;
+  border: 1px solid #f2cd00;
+  border-left: 6px solid #f2cd00;
+  border-radius: 10px;
+  background: #fffbe6;
+  box-shadow: 0 6px 18px rgb(39 93 56 / 8%);
+}
+
+.presentation-reminder[data-live] {
+  border-color: #2f9e44;
+  background: #ebfbee;
+}
+
+.presentation-reminder-icon {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #275d38;
+  color: #f2cd00;
+}
+
+.presentation-reminder-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.home-presentation-reminder {
+  margin: 1rem clamp(1rem, 4vw, 2rem);
+}
+
+@media (max-width: 30em) {
+  .presentation-reminder {
+    flex-wrap: wrap;
+  }
+
+  .presentation-reminder-text {
+    flex-basis: calc(100% - 6rem);
+  }
+}
+
 .schedule-card {
   border-color: #d9dfdb;
   background: #ffffff;

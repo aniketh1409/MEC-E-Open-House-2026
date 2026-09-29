@@ -24,6 +24,7 @@ import {
 } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { PresentationReminder } from "../../components/schedule/PresentationReminder";
 import { scheduleCategories } from "../../components/schedule/scheduleCategories";
 import { useNow } from "../../hooks/useNow";
 import {
@@ -93,6 +94,7 @@ export function SchedulePage() {
         </Paper>
       ) : (
         <>
+          <PresentationReminder />
           <NowCard now={now} />
 
           <Stack gap="md">
