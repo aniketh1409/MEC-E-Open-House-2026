@@ -181,8 +181,7 @@ export function PassportPage() {
         </div>
       )}
 
-      <Group justify="space-between" align="center">
-        <Text size="xs" c="dimmed">Passport {state.passportId.slice(0, 8)}</Text>
+      <Group justify="flex-end" align="center">
         <Button variant="subtle" color="red" size="compact-sm" leftSection={<IconRefresh size={16} />} onClick={openReset}>
           Reset passport
         </Button>
