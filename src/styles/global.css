@@ -727,10 +727,6 @@ body {
   align-items: center;
 }
 
-.sticker-cell:not([data-collected]) {
-  opacity: 0.8;
-}
-
 @media (max-width: 30em) {
   .sticker-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -764,6 +760,31 @@ body {
 
 .sticker-cut {
   fill: #ffffff;
+}
+
+/* Not collected yet: a faded black-and-white preview. */
+.sticker[data-locked] {
+  filter: grayscale(1) drop-shadow(0 2px 3px rgb(23 54 34 / 12%));
+  opacity: 0.45;
+}
+
+/* Collected: the colour washes in as the sticker lands. */
+.sticker[data-animate] svg {
+  animation: sticker-color-in 900ms ease-out 300ms both;
+}
+
+@keyframes sticker-color-in {
+  from {
+    filter: grayscale(1) brightness(1.15);
+  }
+
+  60% {
+    filter: grayscale(0) brightness(1.2) saturate(1.3);
+  }
+
+  to {
+    filter: none;
+  }
 }
 
 /* Slapped onto the page: drops in big, squashes, settles at its tilt. */
@@ -812,17 +833,6 @@ body {
   100% {
     background-position: 250% 0;
   }
-}
-
-.sticker-slot {
-  display: grid;
-  place-items: center;
-  border: 3px dashed rgb(39 93 56 / 28%);
-  border-radius: 50%;
-  background: rgb(39 93 56 / 4%);
-  color: rgb(39 93 56 / 35%);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 2.5rem;
 }
 
 /* Scan result: the sticker lands with an ink ring and sparks. */
@@ -2370,6 +2380,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .sticker[data-animate],
+  .sticker[data-animate] svg,
   .sticker[data-holo]::after,
   .completion-seal[data-animate],
   .passport-complete-stamp[data-animate],
