@@ -1460,6 +1460,43 @@ body {
   stroke-width: 2.2;
 }
 
+.campus-place-pin {
+  position: relative;
+}
+
+.campus-place-pin[data-kind="bus"] {
+  width: 22px;
+  height: 22px;
+  border-width: 1.5px;
+}
+
+.campus-place-pin[data-kind="bus"] svg {
+  width: 13px;
+  height: 13px;
+}
+
+.campus-place-star {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  display: grid;
+  width: 15px;
+  height: 15px;
+  place-items: center;
+  border: 1.5px solid #ffffff;
+  border-radius: 50%;
+  background: #f2cd00;
+  color: #173622;
+  font-size: 9px;
+  font-style: normal;
+  line-height: 1;
+}
+
+.campus-place-popup .leaflet-popup-content .campus-place-official {
+  color: #8a6a00;
+  font-weight: 700;
+}
+
 .campus-place-pin[data-category="parking"] {
   background: #1f6fd1;
 }
