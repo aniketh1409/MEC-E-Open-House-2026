@@ -67,7 +67,7 @@ describe("map page", () => {
   it("shows the way up from the entrance before the first stop", () => {
     renderApp("/map/tour");
 
-    expect(screen.getByText(/Enter on the 1st floor and take the stairs beside room 1-3A/)).toBeInTheDocument();
+    expect(screen.getByText(/through the south-west doors, or through the north doors/)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Show the 1st floor" }));
 
     expect(screen.getByRole("button", { name: "1st floor, all stops visited" })).toHaveAttribute("aria-pressed", "true");
