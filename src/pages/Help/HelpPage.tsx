@@ -73,7 +73,7 @@ export function HelpPage() {
         <Paper className="help-section" component="section" withBorder radius="md" p="lg">
           <Title order={2} size="h3">Getting Around</Title>
           <Text c="dimmed" mt="xs">
-            Can&apos;t find a booth or activity?
+            Can&apos;t find a stall or activity?
           </Text>
           <Stack className="help-actions" gap="xs" mt="md">
             <Button

@@ -192,7 +192,7 @@ function NowCard({ now }: { now: Date }) {
         <span className="schedule-live-dot" aria-hidden="true" /> Happening now
       </Text>
       {happeningNow.length === 0 ? (
-        <Text mt="xs">Nothing is scheduled right this minute. Explore the booths and tour stops.</Text>
+        <Text mt="xs">Nothing is scheduled right this minute. Explore the stalls and tour stops.</Text>
       ) : (
         <Stack gap="xs" mt="xs">
           {happeningNow.slice(0, HAPPENING_NOW_LIMIT).map((item) => (

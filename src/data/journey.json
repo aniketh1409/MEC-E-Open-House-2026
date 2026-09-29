@@ -3,7 +3,7 @@
     {
       "id": "start",
       "title": "Start at the VVC gym",
-      "description": "Visit the Mechanical Engineering booth in the Van Vliet Complex gym to pick up your first sticker.",
+      "description": "Visit the Mechanical Engineering stall in the Van Vliet Complex gym to pick up your first sticker.",
       "buildingId": "vvc",
       "boothId": "open-house-booth"
     },

@@ -1,8 +1,8 @@
 [
   {
     "id": "open-house-booth",
-    "name": "MEC E Open House Booth",
-    "shortDescription": "Start your visit at the Mechanical Engineering booth in the VVC gym.",
+    "name": "MEC E Open House Stall",
+    "shortDescription": "Start your visit at the Mechanical Engineering stall in the VVC gym.",
     "locationId": "vvc-open-house-booth",
     "stampId": "stamp-open-house-booth",
     "qrCode": "open-house-booth",

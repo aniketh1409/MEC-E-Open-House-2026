@@ -1032,6 +1032,11 @@ body {
   list-style: none;
 }
 
+/* "View stall": a padded button rather than a bare link at the card's edge. */
+.booth-card-action {
+  padding-inline: 1rem;
+}
+
 .booth-card {
   display: flex;
   min-height: 19rem;

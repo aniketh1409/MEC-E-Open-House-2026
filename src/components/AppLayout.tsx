@@ -20,7 +20,7 @@ interface NavigationItem {
 const navigation: NavigationItem[] = [
   { label: "Home", path: "/", icon: IconHome },
   { label: "Schedule", path: "/schedule", icon: IconCalendarEvent },
-  { label: "Booths", path: "/booths", icon: IconMapPin },
+  { label: "Stalls", path: "/booths", icon: IconMapPin },
   { label: "Map", path: "/map", icon: IconMap2 },
   { label: "Passport", path: "/passport", icon: IconTicket },
 ];
