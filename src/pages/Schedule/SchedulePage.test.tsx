@@ -15,17 +15,17 @@ describe("schedule page", () => {
     expect(screen.getByRole("heading", { name: "Schedule" })).toBeInTheDocument();
     expect(screen.getByText("Saturday, October 17 · 9:00 AM – 3:00 PM")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Open House starts in 3 days" })).toBeInTheDocument();
-    expect(screen.getByText("Draft schedule")).toBeInTheDocument();
+    expect(screen.queryByText("Draft schedule")).not.toBeInTheDocument();
   });
 
   it("shows what is happening now and next during the event", () => {
     renderApp("/schedule?now=10:15");
 
     const nowCard = screen.getByText("Happening now").closest("div")!;
-    expect(within(nowCard).getByText("MEC E building tour")).toBeInTheDocument();
+    expect(within(nowCard).getByText("Mechanical Engineering program presentation")).toBeInTheDocument();
     expect(screen.getByText("Up next · 11:00 AM")).toBeInTheDocument();
     expect(screen.getByLabelText("Current time 10:15 AM")).toBeInTheDocument();
-    expect(screen.getAllByText("Ended")).toHaveLength(1);
+    expect(screen.queryAllByText("Ended")).toHaveLength(0);
   });
 
   it("thanks visitors after the event", () => {
@@ -41,8 +41,8 @@ describe("schedule page", () => {
 
     fireEvent.click(screen.getByRole("radio", { name: "Presentations" }));
 
-    expect(within(timeline).getAllByRole("heading", { name: "MEC E program presentation" })).toHaveLength(3);
-    expect(within(timeline).queryByRole("heading", { name: "Concession open" })).not.toBeInTheDocument();
+    expect(within(timeline).getAllByRole("heading", { name: "Mechanical Engineering program presentation" })).toHaveLength(1);
+    expect(within(timeline).queryByRole("heading", { name: "Mechanical Engineering building tour" })).not.toBeInTheDocument();
   });
 
   it("links events to the map and to the visitor's calendar", () => {
@@ -52,12 +52,12 @@ describe("schedule page", () => {
     const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => undefined);
     renderApp("/schedule?now=2026-10-14T09:00");
 
-    expect(screen.getByRole("link", { name: "Show MEC E building tour on the map" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Show Mechanical Engineering building tour on the map" })).toHaveAttribute(
       "href",
       "/map/tour?stop=west-entry",
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "Add Concession open at 11:30 AM to your calendar" }));
+    fireEvent.click(screen.getByRole("button", { name: "Add Mechanical Engineering program presentation at 10:00 AM to your calendar" }));
 
     expect(createObjectURL).toHaveBeenCalledOnce();
     expect(click).toHaveBeenCalledOnce();

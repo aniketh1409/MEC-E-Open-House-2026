@@ -62,7 +62,7 @@ export function MapPage() {
         <Text className="eyebrow">Find your way</Text>
         <Title id="map-heading" order={1}>Event map</Title>
         <Text c="dimmed" size="lg">
-          Walk from the Butterdome to the MEC E building, then follow the tour stops inside.
+          Walk from the VVC gym to the Mechanical Engineering Building, then follow the tour stops inside.
         </Text>
       </Stack>
       {tabList}

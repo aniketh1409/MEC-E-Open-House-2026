@@ -1,11 +1,11 @@
 [
   {
-    "id": "butterdome",
-    "abbreviation": "Butterdome",
-    "name": "Butterdome (Universiade Pavilion)",
+    "id": "vvc",
+    "abbreviation": "VVC",
+    "name": "Van Vliet Complex (VVC)",
     "position": {
-      "lat": 53.523025,
-      "lng": -113.527911
+      "lat": 53.524106,
+      "lng": -113.527134
     }
   },
   {

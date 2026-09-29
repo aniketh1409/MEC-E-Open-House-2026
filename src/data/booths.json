@@ -2,8 +2,8 @@
   {
     "id": "open-house-booth",
     "name": "MEC E Open House Booth",
-    "shortDescription": "Start your visit at the Mechanical Engineering booth in the Open House booth fair.",
-    "locationId": "butterdome-open-house-booth",
+    "shortDescription": "Start your visit at the Mechanical Engineering booth in the VVC gym.",
+    "locationId": "vvc-open-house-booth",
     "stampId": "stamp-open-house-booth",
     "qrCode": "open-house-booth",
     "category": "event",
@@ -13,7 +13,7 @@
   {
     "id": "program-presentation",
     "name": "MEC E Program Presentation",
-    "shortDescription": "Hear from the department about the Mechanical Engineering program.",
+    "shortDescription": "Hear from the department about the Mechanical Engineering program, 10:00 to 11:00 AM in ETLC L1-001.",
     "locationId": "etlc-program-presentation",
     "stampId": "stamp-program-presentation",
     "qrCode": "program-presentation",

@@ -171,13 +171,13 @@ export function CampusJourneyView() {
       fullScreen={isMobile}
       centered
     >
-      <Text size="sm" c="dimmed" mb="sm">Pinch or scroll to zoom. The Butterdome is building 1.</Text>
+      <Text size="sm" c="dimmed" mb="sm">Pinch or scroll to zoom.</Text>
       <Box className="printed-map-viewport">
         <TransformWrapper minScale={1} maxScale={5} centerOnInit>
           <TransformComponent wrapperStyle={{ width: "100%", height: "100%" }}>
             <img
               src={printedCampusMapUrl}
-              alt="University of Alberta North Campus map for Open House, showing the Butterdome, ECHA, and other event buildings"
+              alt="University of Alberta North Campus map for Open House, showing the event buildings"
               className="printed-map-image"
             />
           </TransformComponent>

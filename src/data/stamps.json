@@ -2,7 +2,7 @@
   {
     "id": "stamp-open-house-booth",
     "name": "Journey Starter",
-    "description": "Collected at the MEC E booth in the Butterdome.",
+    "description": "Collected at the Mechanical Engineering booth in the VVC gym.",
     "image": "/assets/stamps/open-house-booth.svg",
     "boothId": "open-house-booth"
   },

@@ -30,9 +30,6 @@ export function HelpPage() {
           <Text c="dimmed" mt="xs">
             For questions about the Mechanical Engineering Open House, please contact the Faculty of Engineering at the University of Alberta.
           </Text>
-          <Text c="dimmed" size="sm" mt="md">
-            Official Faculty of Engineering contact details will be added here when approved by the project team.
-          </Text>
         </Paper>
 
         <Paper className="help-section" component="section" withBorder radius="md" p="lg">

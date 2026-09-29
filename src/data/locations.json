@@ -1,15 +1,15 @@
 [
   {
-    "id": "butterdome-open-house-booth",
-    "buildingId": "butterdome",
+    "id": "vvc-open-house-booth",
+    "buildingId": "vvc",
     "floor": 1,
-    "room": "Booth fair"
+    "room": "Gym"
   },
   {
     "id": "etlc-program-presentation",
     "buildingId": "etlc",
     "floor": 1,
-    "room": "TBD"
+    "room": "L1-001"
   },
   {
     "id": "mece-west-entry",

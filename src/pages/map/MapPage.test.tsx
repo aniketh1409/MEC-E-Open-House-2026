@@ -25,13 +25,13 @@ describe("map page", () => {
 
     expect(screen.getByRole("heading", { name: "Event map" })).toBeInTheDocument();
     expect(await screen.findByTestId("campus-map")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "MEC E program presentation" })).toBeInTheDocument();
-    expect(screen.getByText("8 min walk · 560 m")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Program presentation" })).toBeInTheDocument();
+    expect(screen.getByText("8 min walk · 573 m")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("switch", { name: /attending the MEC E program presentation/ }));
 
-    expect(screen.queryByRole("heading", { name: "MEC E program presentation" })).not.toBeInTheDocument();
-    expect(screen.getByText("9 min walk · 705 m")).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Program presentation" })).not.toBeInTheDocument();
+    expect(screen.getByText("8 min walk · 636 m")).toBeInTheDocument();
   });
 
   it("opens the tour on the first unvisited stop", () => {
