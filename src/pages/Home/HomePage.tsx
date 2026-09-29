@@ -3,6 +3,7 @@ import { IconArrowRight } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import logoUrl from "../../../assets/images/ualberta-logo.png";
 import { EventCountdown } from "../../components/home/EventCountdown";
+import { PresentationReminder } from "../../components/schedule/PresentationReminder";
 
 export function HomePage() {
   return (
@@ -24,6 +25,8 @@ export function HomePage() {
           <EventCountdown />
         </Box>
       </Box>
+
+      <PresentationReminder className="home-presentation-reminder" />
 
       <Box className="home-event-band" aria-label="Event highlight">
         <Text>SEE ENGINEERING IN ACTION</Text>
