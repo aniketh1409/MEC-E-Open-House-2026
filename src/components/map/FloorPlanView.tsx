@@ -130,7 +130,13 @@ export function FloorPlanView({
     lastFocusKey.current = focusKey;
 
     const frame = requestAnimationFrame(() => focusSelectedStop(animationTime));
-    return () => cancelAnimationFrame(frame);
+    // After a floor change the zoom library re-measures the new plan and can undo the first move;
+    // settle on the target again once it has.
+    const settle = window.setTimeout(() => focusSelectedStop(0), animationTime + 120);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(settle);
+    };
   }, [floorPlan.id, focusSelectedStop, selectedStop]);
 
   const handlePinKeyDown = (event: KeyboardEvent<SVGGElement>, boothId: string) => {
@@ -200,6 +206,22 @@ export function FloorPlanView({
               >
                 {label.text}
               </text>
+            ))}
+
+            {floorPlan.alternateRoutes?.map((alternate) => (
+              <g key={alternate.label} className="plan-route-alternate" aria-hidden="true">
+                <title>{alternate.label}</title>
+                <polyline className="plan-route-casing" points={toPoints(alternate.points)} />
+                <polyline className="plan-route-alt" points={toPoints(alternate.points)} />
+                {routeArrows(alternate.points, ARROW_SPACING).map((arrow, index) => (
+                  <path
+                    key={index}
+                    className="plan-route-alt-arrow"
+                    d="M -6 -9 L 5 0 L -6 9"
+                    transform={`translate(${arrow.x} ${arrow.y}) rotate(${arrow.angle})`}
+                  />
+                ))}
+              </g>
             ))}
 
             <g aria-hidden="true">
