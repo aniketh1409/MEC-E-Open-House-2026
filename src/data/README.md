@@ -19,6 +19,10 @@ All event content lives in this folder as JSON. Updating the schedule needs no c
 - `route` is the dashed line on each floor; `pointsOfInterest` labels like `"Up to 3F"` mark the stairs to take.
 - `tour.json` → `arrival` holds the "Coming in from outside?" directions shown with the first stop.
 
+## `places.json`: food, parking, help tents and transit
+
+Shown on the campus map when a visitor turns on the matching "Nearby" chip, and offered as "Where to?" destinations. Each entry has an `id`, a `category` (`food`, `parking`, `help` or `transit`), a `name`, a short `abbreviation` for the map label, an optional `note` (e.g. `"Free 8 AM – 5 PM"`) and a `position` (`lat`/`lng`, e.g. from OpenStreetMap or Google Maps).
+
 ## `faq.json`: questions on the Help page
 
 Each entry has an `id`, a `category` (entries are grouped by it, in first-seen order), a `question` and an `answer`. Optional: `list` (bullet points under the answer), `links` (`[{ "label", "url" }]`), `"hidden": true` to keep an entry in the file without showing it, and `"toConfirm": true` to show a "To be confirmed" badge.

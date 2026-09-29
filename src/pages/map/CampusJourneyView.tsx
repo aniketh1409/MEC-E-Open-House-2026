@@ -3,6 +3,7 @@ import {
   Badge,
   Box,
   Button,
+  Chip,
   Group,
   Loader,
   Modal,
@@ -39,6 +40,7 @@ import { useSheetHistory } from "../../hooks/useSheetHistory";
 import { useVisitorPosition } from "../../hooks/useVisitorPosition";
 import type { CampusRoute } from "../../lib/campusRouter";
 import { getBuildings } from "../../lib/content";
+import { getPlaces, PLACE_CATEGORIES } from "../../lib/places";
 import {
   campusMapUrl,
   getJourneyLegs,
@@ -47,10 +49,13 @@ import {
   walkingDirectionsUrl,
   type JourneyStepDetails,
 } from "../../lib/map";
-import type { Building, JourneyLeg } from "../../types/content";
+import type { Building, JourneyLeg, PlaceCategory } from "../../types/content";
 
 const CampusMap = lazy(() => import("../../components/map/CampusMap"));
 const buildings = getBuildings();
+const places = getPlaces();
+/** Everywhere "Where to?" can start or end. */
+const destinations = [...buildings, ...places];
 
 export function CampusJourneyView() {
   const [attendsPresentation, setAttendsPresentation] = useState(true);
@@ -73,11 +78,12 @@ export function CampusJourneyView() {
 
   // "Where to?" directions (features.campusRouting).
   const [planner, setPlanner] = useState<{ fromId: string; toId?: string }>({ fromId: MY_LOCATION });
-  const destination = features.campusRouting ? buildings.find((building) => building.id === planner.toId) : undefined;
+  const [shownCategories, setShownCategories] = useState<PlaceCategory[]>([]);
+  const destination = features.campusRouting ? destinations.find((place) => place.id === planner.toId) : undefined;
   const startsAtMe = planner.fromId === MY_LOCATION;
   const origin = startsAtMe
     ? position && { lat: position.center[0], lng: position.center[1] }
-    : buildings.find((building) => building.id === planner.fromId)?.position;
+    : destinations.find((place) => place.id === planner.fromId)?.position;
   const { route, status: routeStatus } = useCampusRoute(
     destination && planner.fromId !== planner.toId ? origin : undefined,
     destination,
@@ -100,6 +106,7 @@ export function CampusJourneyView() {
   const routePlanner = features.campusRouting ? (
     <RoutePlanner
       buildings={buildings}
+      places={places}
       fromId={planner.fromId}
       toId={planner.toId}
       onChange={changePlanner}
@@ -124,8 +131,24 @@ export function CampusJourneyView() {
         plannedRoute={plannedRoute}
         insetBottom={isMobile ? peekHeight : 0}
         showZoomControl={!isMobile}
+        places={places.filter((place) => shownCategories.includes(place.category))}
+        onPlaceSelect={
+          features.campusRouting ? (placeId) => changePlanner({ fromId: planner.fromId, toId: placeId }) : undefined
+        }
       />
     </Suspense>
+  );
+
+  const nearbyChips = (
+    <div className="campus-nearby" role="group" aria-label="Show nearby places">
+      <Chip.Group multiple value={shownCategories} onChange={(value) => setShownCategories(value as PlaceCategory[])}>
+        {PLACE_CATEGORIES.map(({ id, label }) => (
+          <Chip key={id} value={id} size="sm" radius="xl" variant="filled" color="ualbertaGreen">
+            {label}
+          </Chip>
+        ))}
+      </Chip.Group>
+    </div>
   );
 
   const journeyDetails = (
@@ -196,8 +219,8 @@ export function CampusJourneyView() {
       >
         {campusMap}
         <StampToast />
-        {features.campusRouting && !plannedRoute && (
-          <div className="map-overlay-top-left">
+        <div className="map-overlay-top-left">
+          {features.campusRouting && !plannedRoute && (
             <Button
               className="map-fab"
               variant="white"
@@ -207,8 +230,9 @@ export function CampusJourneyView() {
             >
               Where to?
             </Button>
-          </div>
-        )}
+          )}
+          {nearbyChips}
+        </div>
         <div className="map-overlay-bottom-left">
           <ScanStampButton floating />
         </div>
@@ -251,6 +275,7 @@ export function CampusJourneyView() {
     <Box className="campus-layout">
       <Paper className="campus-map-card" withBorder radius="md">
         {campusMap}
+        <div className="campus-map-card-nearby">{nearbyChips}</div>
         <StampToast />
       </Paper>
       <Stack gap="md" className="campus-side-column">

@@ -1339,7 +1339,92 @@ body {
   position: absolute;
   z-index: 20;
   top: 0.75rem;
+  right: 0.75rem;
   left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.map-overlay-top-left > * {
+  pointer-events: auto;
+}
+
+/* "Nearby" place filters over the campus map. */
+.campus-nearby {
+  display: flex;
+  max-width: 100%;
+  gap: 0.4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.campus-nearby .mantine-Chip-label {
+  box-shadow: 0 2px 8px rgb(23 54 34 / 18%);
+}
+
+.campus-nearby .mantine-Chip-label:not([data-checked]) {
+  background: #ffffff;
+}
+
+.campus-map-card-nearby {
+  position: absolute;
+  z-index: 500;
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
+.campus-place-pin {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
+  color: #ffffff;
+  font: 800 14px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.campus-place-pin svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.2;
+}
+
+.campus-place-pin[data-category="parking"] {
+  background: #1f6fd1;
+}
+
+.campus-place-pin[data-category="food"] {
+  background: #d9480f;
+}
+
+.campus-place-pin[data-category="help"] {
+  background: #b38600;
+}
+
+.campus-place-pin[data-category="transit"] {
+  background: #5f3dc4;
+}
+
+.campus-place-popup .leaflet-popup-content {
+  display: flex;
+  min-width: 10rem;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0.7rem 0.85rem;
+  font: 500 0.85rem/1.35 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.campus-place-popup .leaflet-popup-content span {
+  color: #607168;
 }
 
 .map-overlay-bottom-left {

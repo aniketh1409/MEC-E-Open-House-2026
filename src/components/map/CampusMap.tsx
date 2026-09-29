@@ -3,11 +3,11 @@ import { IconCurrentLocation, IconNavigation, IconWalk } from "@tabler/icons-rea
 import L, { type LatLngTuple } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Circle, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMap, useMapEvents } from "react-leaflet";
+import { Circle, MapContainer, Marker, Polyline, Popup, TileLayer, Tooltip, useMap, useMapEvents } from "react-leaflet";
 import type { VisitorPosition } from "../../hooks/useVisitorPosition";
 import type { CampusRoute } from "../../lib/campusRouter";
 import { distanceMeters, walkingMinutes, type JourneyStepDetails } from "../../lib/map";
-import type { Building, JourneyLeg } from "../../types/content";
+import type { Building, JourneyLeg, Place, PlaceCategory } from "../../types/content";
 
 export interface PlannedRoute {
   /** Changes whenever the visitor picks a new start or destination. */
@@ -33,6 +33,10 @@ interface CampusMapProps {
   /** Space (px) covered by a bottom sheet, kept clear when fitting the route. */
   insetBottom?: number;
   showZoomControl?: boolean;
+  /** Nearby places to show (food, parking, …). */
+  places?: Place[];
+  /** "Walk here" from a place's popup. */
+  onPlaceSelect?: (placeId: string) => void;
 }
 
 /** Below this GPS accuracy (m) the accuracy circle adds noise rather than information. */
@@ -62,6 +66,26 @@ const destinationIcon = L.divIcon({
   iconAnchor: [15, 15],
   tooltipAnchor: [14, 0],
 });
+
+const placeGlyphs: Record<PlaceCategory, string> = {
+  parking: `<b>P</b>`,
+  help: `<b>?</b>`,
+  food: `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8a2 2 0 0 0 4 0V3M9 3v18M17 3c-2 1-3 3.5-3 7h3v11" /></svg>`,
+  transit: `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="3" width="12" height="13" rx="3" /><path d="M6 10h12M9 20l-2 2M15 20l2 2M9 13h.01M15 13h.01" /></svg>`,
+};
+
+const placeIcons = Object.fromEntries(
+  Object.entries(placeGlyphs).map(([category, glyph]) => [
+    category,
+    L.divIcon({
+      className: "campus-pin-wrapper",
+      html: `<span class="campus-place-pin" data-category="${category}">${glyph}</span>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+      popupAnchor: [0, -12],
+    }),
+  ]),
+) as Record<PlaceCategory, L.DivIcon>;
 
 /** Teardrop pin whose tip marks the visitor's exact position at every zoom level. */
 const visitorIcon = L.divIcon({
@@ -130,6 +154,8 @@ export default function CampusMap({
   plannedRoute,
   insetBottom = 0,
   showZoomControl = true,
+  places = [],
+  onPlaceSelect,
 }: CampusMapProps) {
   // Following is remembered per planned route: a new route starts zoomed out to show all of it.
   const routeKey = plannedRoute?.key ?? "";
@@ -208,6 +234,27 @@ export default function CampusMap({
             </Tooltip>
           </Marker>
         ))}
+
+        {places
+          .filter((place) => place.id !== destination?.id)
+          .map((place) => (
+            <Marker
+              key={place.id}
+              position={[place.position.lat, place.position.lng]}
+              icon={placeIcons[place.category]}
+              title={place.name}
+            >
+              <Popup className="campus-place-popup">
+                <strong>{place.name}</strong>
+                {place.note && <span>{place.note}</span>}
+                {onPlaceSelect && (
+                  <Button size="compact-sm" mt={6} leftSection={<IconWalk size={15} />} onClick={() => onPlaceSelect(place.id)}>
+                    Walk here
+                  </Button>
+                )}
+              </Popup>
+            </Marker>
+          ))}
 
         {destination && !destinationIsJourneyStop && (
           <Marker position={[destination.position.lat, destination.position.lng]} icon={destinationIcon} title={destination.name}>

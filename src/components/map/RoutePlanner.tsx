@@ -20,7 +20,8 @@ import {
 import type { CampusRouteStatus } from "../../hooks/useCampusRoute";
 import type { CampusRoute, Maneuver } from "../../lib/campusRouter";
 import { walkingDirectionsUrl } from "../../lib/map";
-import type { Building } from "../../types/content";
+import { PLACE_CATEGORIES } from "../../lib/places";
+import type { Building, Place } from "../../types/content";
 
 export const MY_LOCATION = "my-location";
 
@@ -40,6 +41,8 @@ const maneuverIcons: Record<Maneuver, Icon> = {
 
 interface RoutePlannerProps {
   buildings: Building[];
+  /** Food, parking and other places, offered as extra destinations. */
+  places?: Place[];
   fromId: string;
   toId?: string;
   onChange: (next: { fromId: string; toId?: string }) => void;
@@ -52,6 +55,7 @@ interface RoutePlannerProps {
 
 export function RoutePlanner({
   buildings,
+  places = [],
   fromId,
   toId,
   onChange,
@@ -60,8 +64,14 @@ export function RoutePlanner({
   isFindingLocation,
   locationError,
 }: RoutePlannerProps) {
-  const destination = buildings.find((building) => building.id === toId);
-  const buildingOptions = buildings.map((building) => ({ value: building.id, label: building.name }));
+  const destination = [...buildings, ...places].find((building) => building.id === toId);
+  const buildingOptions = [
+    { group: "Event buildings", items: buildings.map((building) => ({ value: building.id, label: building.name })) },
+    ...PLACE_CATEGORIES.map(({ id, label }) => ({
+      group: label,
+      items: places.filter((place) => place.category === id).map((place) => ({ value: place.id, label: place.name })),
+    })).filter((group) => group.items.length > 0),
+  ];
   const isSamePlace = Boolean(toId) && fromId === toId;
   const usesMyLocation = fromId === MY_LOCATION;
 
@@ -79,11 +89,11 @@ export function RoutePlanner({
             value={fromId}
             onChange={(value) => onChange({ fromId: value ?? MY_LOCATION, toId })}
             allowDeselect={false}
-            data={[{ value: MY_LOCATION, label: "My location" }, ...buildingOptions]}
+            data={[{ group: "Start", items: [{ value: MY_LOCATION, label: "My location" }] }, ...buildingOptions]}
           />
           <Select
             label="To"
-            placeholder="Choose a building"
+            placeholder="Choose a building or place"
             value={toId ?? null}
             onChange={(value) => onChange({ fromId, toId: value ?? undefined })}
             data={buildingOptions}
