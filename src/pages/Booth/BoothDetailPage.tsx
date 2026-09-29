@@ -22,13 +22,13 @@ export function BoothDetailPage() {
   if (!booth) {
     return (
       <Stack component="section" className="not-found" gap="sm" aria-labelledby="booth-not-found-heading">
-        <Text className="eyebrow">Booth directory</Text>
-        <Title order={1} id="booth-not-found-heading">Booth not found</Title>
+        <Text className="eyebrow">Stalls</Text>
+        <Title order={1} id="booth-not-found-heading">Stall not found</Title>
         <Text c="dimmed" size="lg">
-          This booth may be unavailable, or the link may be incorrect.
+          This stall may be unavailable, or the link may be incorrect.
         </Text>
         <Button component={Link} to="/booths" variant="light" leftSection={<IconArrowLeft size={18} />} w="fit-content">
-          Return to all booths
+          Return to all stalls
         </Button>
       </Stack>
     );
@@ -44,7 +44,7 @@ export function BoothDetailPage() {
         px={0}
         w="fit-content"
       >
-        Back to booths
+        Back to stalls
       </Button>
       <Group className="booth-detail-header" wrap="nowrap" align="center" gap="lg">
         {booth.logoUrl && (
@@ -69,7 +69,7 @@ export function BoothDetailPage() {
 
       <Paper component="section" className="visit-details" withBorder radius="md" p={{ base: "lg", sm: "xl" }} mt="md" aria-labelledby="visit-heading">
         <Text className="eyebrow">Location</Text>
-        <Title order={2} size="h3" id="visit-heading" mt={4} mb="lg">Visit this booth</Title>
+        <Title order={2} size="h3" id="visit-heading" mt={4} mb="lg">Visit this stall</Title>
         <SimpleGrid component="dl" cols={{ base: 1, xs: 3 }} spacing="lg">
           <Group component="div" wrap="nowrap" align="flex-start">
             <ThemeIcon variant="light" color="ualbertaGreen" size="lg">

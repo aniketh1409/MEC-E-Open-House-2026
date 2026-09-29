@@ -68,7 +68,7 @@ export function ScanQrPage() {
       const scanner = scannerRef.current;
       scannerRef.current = null;
       scanner?.clear();
-      setError("Camera access was unavailable. Allow camera permission or enter the booth code below.");
+      setError("Camera access was unavailable. Allow camera permission or enter the stall code below.");
     }
   };
 
@@ -80,7 +80,7 @@ export function ScanQrPage() {
     <Stack component="section" gap="xl" maw={720} aria-labelledby="scan-heading">
       <Stack gap={6}>
         <Text className="eyebrow">Collect a stamp</Text>
-        <Title id="scan-heading" order={1}>Scan booth QR code</Title>
+        <Title id="scan-heading" order={1}>Scan a stall's QR code</Title>
         <Text c="dimmed" size="lg">
           Point your camera at the QR code displayed at the station.
         </Text>
@@ -111,10 +111,10 @@ export function ScanQrPage() {
           <ThemeIcon variant="light" color="ualbertaGreen">
             <IconKeyboard size={18} />
           </ThemeIcon>
-          <Title order={2} size="h4">Enter booth code</Title>
+          <Title order={2} size="h4">Enter stall code</Title>
         </Group>
         <TextInput
-          label="Booth code"
+          label="Stall code"
           placeholder="Example: ecocar"
           value={manualCode}
           onChange={(event) => setManualCode(event.currentTarget.value)}

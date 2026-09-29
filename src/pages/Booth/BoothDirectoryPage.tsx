@@ -52,7 +52,7 @@ export function BoothDirectoryPage() {
       <Paper className="directory-controls" withBorder radius="md" p="md" mt={32}>
         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
           <TextInput
-            label="Search booths"
+            label="Search stalls"
             type="search"
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.currentTarget.value)}
@@ -74,7 +74,7 @@ export function BoothDirectoryPage() {
 
       <Group justify="space-between" mt="lg" mb="sm">
         <Text c="dimmed" size="sm" fw={600} aria-live="polite">
-          {filteredBooths.length} {filteredBooths.length === 1 ? "booth" : "booths"}
+          {filteredBooths.length} {filteredBooths.length === 1 ? "stall" : "stalls"}
         </Text>
       </Group>
 
@@ -105,24 +105,26 @@ export function BoothDirectoryPage() {
                 </Text>
               </Group>
               <Button
+                className="booth-card-action"
                 component={Link}
                 to={`/booths/${booth.id}`}
                 aria-label={`View ${booth.name}`}
-                variant="subtle"
+                variant="light"
+                fullWidth
+                radius="md"
                 justify="space-between"
                 rightSection={<IconArrowRight size={17} stroke={1.8} />}
-                mt="md"
-                px={0}
+                mt="lg"
               >
-                View booth
+                View stall
               </Button>
             </Card>
           ))}
         </SimpleGrid>
       ) : (
         <Paper className="empty-state" withBorder radius="md" p="xl">
-          <Title order={2} size="h3">No booths found</Title>
-          <Text c="dimmed" mt={4}>Try another booth name or category.</Text>
+          <Title order={2} size="h3">No stalls found</Title>
+          <Text c="dimmed" mt={4}>Try another stall name or category.</Text>
         </Paper>
       )}
     </section>

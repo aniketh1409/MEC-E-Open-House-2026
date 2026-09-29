@@ -46,9 +46,9 @@ export function QrCodeSheetPage() {
     <Stack component="section" gap="xl" aria-labelledby="qr-sheet-heading">
       <Stack className="print-hidden" gap={6}>
         <Text className="eyebrow">Event setup</Text>
-        <Title id="qr-sheet-heading" order={1}>Booth QR codes</Title>
+        <Title id="qr-sheet-heading" order={1}>Stall QR codes</Title>
         <Text c="dimmed" maw={720}>
-          Print and place the matching code at each booth. Set VITE_PUBLIC_SITE_URL to the deployed website before producing final copies.
+          Print and place the matching code at each stall. Set VITE_PUBLIC_SITE_URL to the deployed website before producing final copies.
         </Text>
         <Button leftSection={<IconPrinter size={18} />} w="fit-content" onClick={() => window.print()}>
           Print QR sheet

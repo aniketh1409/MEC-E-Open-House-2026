@@ -11,7 +11,7 @@ import type { ScheduleCategory } from "../../types/content";
 export const scheduleCategories: Record<ScheduleCategory, { label: string; icon: Icon; color: string }> = {
   presentation: { label: "Presentations", icon: IconPresentation, color: "ualbertaGreen" },
   tour: { label: "Tours", icon: IconBuildingSkyscraper, color: "ualbertaGold" },
-  "booth-fair": { label: "Booth fair", icon: IconUsersGroup, color: "blue" },
+  "booth-fair": { label: "Stalls", icon: IconUsersGroup, color: "blue" },
   food: { label: "Food", icon: IconToolsKitchen2, color: "orange" },
   general: { label: "General", icon: IconCalendarEvent, color: "gray" },
 };

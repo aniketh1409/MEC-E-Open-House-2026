@@ -106,7 +106,7 @@ export function PassportPage() {
 
         <Group justify="space-between" gap="sm" mt="md">
           <Button component={Link} to="/passport/scan" leftSection={<IconQrcode size={19} />} className="passport-scan-button">
-            Scan a booth code
+            Scan a stall code
           </Button>
           <Switch
             className="passport-sound"
