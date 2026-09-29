@@ -6,15 +6,17 @@ interface StickerProps {
   name: string;
   /** Rendered size in px. */
   size?: number;
-  /** Plays the "slap onto the page" animation. */
+  /** Plays the "slap onto the page" animation, with the colour washing in. */
   animate?: boolean;
+  /** Not collected yet: shown in faded black and white. */
+  locked?: boolean;
   /** Slight resting tilt, in degrees, so a page of stickers looks hand-placed. */
   tilt?: number;
   className?: string;
 }
 
 /** A die-cut sticker for a stamp: coloured disc, illustration, and the name curved along the bottom. */
-export function Sticker({ stampId, name, size = 132, animate = false, tilt = 0, className }: StickerProps) {
+export function Sticker({ stampId, name, size = 132, animate = false, locked = false, tilt = 0, className }: StickerProps) {
   const design = stickerDesigns[stampId] ?? fallbackDesign;
   const pathId = `sticker-arc-${useId().replace(/:/g, "")}`;
   const label = name.toUpperCase();
@@ -22,11 +24,12 @@ export function Sticker({ stampId, name, size = 132, animate = false, tilt = 0, 
   return (
     <span
       className={["sticker", className].filter(Boolean).join(" ")}
-      data-animate={animate || undefined}
-      data-holo={design.holo || undefined}
+      data-animate={(animate && !locked) || undefined}
+      data-locked={locked || undefined}
+      data-holo={(design.holo && !locked) || undefined}
       style={{ width: size, height: size, "--sticker-tilt": `${tilt}deg` } as CSSProperties}
     >
-      <svg viewBox="0 0 200 200" role="img" aria-label={`${name} sticker`}>
+      <svg viewBox="0 0 200 200" role="img" aria-label={locked ? `${name} sticker, not collected yet` : `${name} sticker`}>
         <defs>
           <path id={pathId} d="M 34 104 A 66 66 0 0 0 166 104" />
         </defs>
@@ -46,15 +49,6 @@ export function Sticker({ stampId, name, size = 132, animate = false, tilt = 0, 
           </textPath>
         </text>
       </svg>
-    </span>
-  );
-}
-
-/** The dashed outline of a sticker still to collect. */
-export function StickerSlot({ size = 132, label }: { size?: number; label: string }) {
-  return (
-    <span className="sticker-slot" style={{ width: size, height: size }} aria-label={`${label}: not collected yet`} role="img">
-      <span aria-hidden="true">?</span>
     </span>
   );
 }

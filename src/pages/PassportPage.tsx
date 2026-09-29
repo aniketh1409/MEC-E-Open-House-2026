@@ -4,7 +4,7 @@ import { IconAlertTriangle, IconQrcode, IconRefresh } from "@tabler/icons-react"
 import { useState, type CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { CompletionCelebration } from "../components/passport/CompletionCelebration";
-import { CompletionSeal, Sticker, StickerSlot } from "../components/passport/Sticker";
+import { CompletionSeal, Sticker } from "../components/passport/Sticker";
 import { usePassport } from "../hooks/usePassport";
 import { isSoundEnabled, setSoundEnabled } from "../lib/celebrate";
 import { getActiveBooths, type BoothDetails } from "../lib/content";
@@ -150,16 +150,13 @@ export function PassportPage() {
                     data-collected={collected || undefined}
                     style={{ "--delay": `${index * 40}ms` } as CSSProperties}
                   >
-                    {collected ? (
-                      <Sticker
-                        stampId={booth.stamp.id}
-                        name={booth.stamp.name}
-                        tilt={TILTS[(index + section.id.length) % TILTS.length]}
-                        animate={booth.stamp.id === newStampId}
-                      />
-                    ) : (
-                      <StickerSlot label={booth.name} />
-                    )}
+                    <Sticker
+                      stampId={booth.stamp.id}
+                      name={booth.stamp.name}
+                      tilt={collected ? TILTS[(index + section.id.length) % TILTS.length] : 0}
+                      animate={booth.stamp.id === newStampId}
+                      locked={!collected}
+                    />
                     <Text size="sm" fw={750} ta="center" lh={1.25} mt="xs">
                       {collected ? booth.stamp.name : booth.name}
                     </Text>
