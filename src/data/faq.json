@@ -28,14 +28,28 @@
     "category": "Getting there",
     "question": "Where can I park?",
     "answer": "Parking is complimentary from 8:00 AM to 5:00 PM at these locations:",
-    "list": ["Education Car Park", "Jubilee Car Park", "Lot E", "Lot N", "Lot U", "Stadium Car Park", "Windsor Car Park"]
+    "list": [
+      "Education Car Park",
+      "Jubilee Car Park",
+      "Lot E",
+      "Lot N",
+      "Lot U",
+      "Stadium Car Park",
+      "Windsor Car Park"
+    ],
+    "footer": "Tip: turn on Parking on the Map page to see them and get walking directions."
   },
   {
     "id": "transit",
     "category": "Getting there",
     "question": "Can I take transit?",
     "answer": "Yes. Plan your trip to the University of Alberta with the ETS Trip Planner.",
-    "links": [{ "label": "ETS Trip Planner", "url": "https://www.edmonton.ca/ets/trip-planner" }]
+    "links": [
+      {
+        "label": "ETS Trip Planner",
+        "url": "https://www.edmonton.ca/ets/trip-planner"
+      }
+    ]
   },
   {
     "id": "vvc-to-mece",
@@ -76,7 +90,8 @@
       "Starbucks in Cameron Library, Kipnes Academy and CCIS",
       "Students' Union Building (SUB)",
       "Tim Hortons in CAB"
-    ]
+    ],
+    "footer": "Tip: turn on Food on the Map page to see them all."
   },
   {
     "id": "passport-how",
@@ -119,6 +134,7 @@
       "Outside the Fine Arts Building (FAB)",
       "Outside Kipnes Academy (KHRA)",
       "Along 89 Avenue between the Students' Union Building (SUB) and the South Academic Building (SAB)"
-    ]
+    ],
+    "footer": "Tip: turn on Help tents on the Map page to find the closest one."
   }
 ]

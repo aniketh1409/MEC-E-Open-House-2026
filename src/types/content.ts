@@ -54,6 +54,15 @@ export interface Building {
   position: LatLng;
 }
 
+export type PlaceCategory = "food" | "parking" | "help" | "transit";
+
+/** Somewhere useful around campus (places.json). Shaped like a building so it can be a route destination. */
+export interface Place extends Building {
+  category: PlaceCategory;
+  /** Short detail shown in the map popup, e.g. "Free 8 AM – 5 PM". */
+  note?: string;
+}
+
 /** Event-wide details (event.json). */
 export interface EventInfo {
   name: string;

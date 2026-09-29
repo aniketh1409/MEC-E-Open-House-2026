@@ -4,8 +4,8 @@ import { loadCampusRouter } from "../../lib/loadCampusRouter";
 import { renderApp } from "../../test/renderApp";
 
 vi.mock("../../components/map/CampusMap", () => ({
-  default: ({ plannedRoute }: { plannedRoute?: { route?: { path: unknown[] } } }) => (
-    <div data-testid="campus-map" data-route-points={plannedRoute?.route?.path.length ?? 0} />
+  default: ({ plannedRoute, places }: { plannedRoute?: { route?: { path: unknown[] } }; places?: unknown[] }) => (
+    <div data-testid="campus-map" data-route-points={plannedRoute?.route?.path.length ?? 0} data-places={places?.length ?? 0} />
   ),
 }));
 
@@ -55,6 +55,26 @@ describe("campus directions", () => {
     expect(screen.getByText(/^Head east/)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Google Maps" })).toHaveAttribute("href", expect.stringContaining("destination=53.527965,-113.527887"));
     expect(Number(screen.getByTestId("campus-map").dataset.routePoints)).toBeGreaterThan(10);
+  });
+
+  it("gives walking directions to nearby places like parking lots", async () => {
+    renderApp("/map/campus");
+    await screen.findByTestId("campus-map");
+
+    await choose("From", "Van Vliet Complex (VVC)");
+    await choose("To", "Windsor Car Park");
+
+    expect(await screen.findByText("Arrive at Windsor Car Park", undefined, ROUTE_TIMEOUT)).toBeInTheDocument();
+  });
+
+  it("shows nearby places on the map when their chip is on", async () => {
+    renderApp("/map/campus");
+    await screen.findByTestId("campus-map");
+    expect(screen.getByTestId("campus-map").dataset.places).toBe("0");
+
+    fireEvent.click(screen.getByRole("checkbox", { name: "Parking" }));
+
+    expect(screen.getByTestId("campus-map").dataset.places).toBe("7");
   });
 
   it("routes from the visitor's live location", async () => {

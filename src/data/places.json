@@ -1,0 +1,28 @@
+[
+  { "id": "parking-education", "category": "parking", "name": "Education Car Park", "abbreviation": "Education Car Park", "note": "Free 8 AM – 5 PM", "position": { "lat": 53.523554, "lng": -113.52505 } },
+  { "id": "parking-jubilee", "category": "parking", "name": "Jubilee Car Park", "abbreviation": "Jubilee Car Park", "note": "Free 8 AM – 5 PM", "position": { "lat": 53.521287, "lng": -113.527724 } },
+  { "id": "parking-lot-e", "category": "parking", "name": "Lot E", "abbreviation": "Lot E", "note": "Free 8 AM – 5 PM", "position": { "lat": 53.528897, "lng": -113.523445 } },
+  { "id": "parking-lot-n", "category": "parking", "name": "Lot N", "abbreviation": "Lot N", "note": "Free 8 AM – 5 PM", "position": { "lat": 53.526203, "lng": -113.518948 } },
+  { "id": "parking-lot-u", "category": "parking", "name": "Lot U", "abbreviation": "Lot U", "note": "Free 8 AM – 5 PM", "position": { "lat": 53.52527, "lng": -113.519064 } },
+  { "id": "parking-stadium", "category": "parking", "name": "Stadium Car Park", "abbreviation": "Stadium Car Park", "note": "Free 8 AM – 5 PM", "position": { "lat": 53.525312, "lng": -113.529407 } },
+  { "id": "parking-windsor", "category": "parking", "name": "Windsor Car Park", "abbreviation": "Windsor Car Park", "note": "Free 8 AM – 5 PM", "position": { "lat": 53.528827, "lng": -113.529496 } },
+
+  { "id": "food-daily-grind", "category": "food", "name": "Daily Grind (University Commons)", "abbreviation": "Daily Grind", "note": "Coffee and snacks", "position": { "lat": 53.525374, "lng": -113.524077 } },
+  { "id": "food-trucks", "category": "food", "name": "Food trucks (Flag Plaza)", "abbreviation": "Food trucks", "note": "Outside University Commons", "position": { "lat": 53.52575, "lng": -113.52365 } },
+  { "id": "food-hub", "category": "food", "name": "HUB Mall", "abbreviation": "HUB Mall", "note": "Food court", "position": { "lat": 53.526227, "lng": -113.520488 } },
+  { "id": "food-lister", "category": "food", "name": "Lister Dining Hall", "abbreviation": "Lister Dining Hall", "note": "Dining hall", "position": { "lat": 53.521933, "lng": -113.530584 } },
+  { "id": "food-peter-lougheed", "category": "food", "name": "Peter Lougheed Dining Hall", "abbreviation": "Peter Lougheed Hall", "note": "Dining hall", "position": { "lat": 53.526054, "lng": -113.516925 } },
+  { "id": "food-starbucks-cameron", "category": "food", "name": "Starbucks (Cameron Library)", "abbreviation": "Starbucks · Cameron", "note": "Coffee", "position": { "lat": 53.526848, "lng": -113.524059 } },
+  { "id": "food-starbucks-ccis", "category": "food", "name": "Starbucks (CCIS)", "abbreviation": "Starbucks · CCIS", "note": "Coffee", "position": { "lat": 53.527982, "lng": -113.526094 } },
+  { "id": "food-starbucks-kipnes", "category": "food", "name": "Starbucks (Kipnes Academy)", "abbreviation": "Starbucks · Kipnes", "note": "Coffee", "position": { "lat": 53.518596, "lng": -113.520352 } },
+  { "id": "food-sub", "category": "food", "name": "Students' Union Building (SUB)", "abbreviation": "SUB", "note": "Food court", "position": { "lat": 53.525281, "lng": -113.527125 } },
+  { "id": "food-tim-hortons-cab", "category": "food", "name": "Tim Hortons (CAB)", "abbreviation": "Tim Hortons · CAB", "note": "Coffee and snacks", "position": { "lat": 53.526405, "lng": -113.524923 } },
+
+  { "id": "help-quad", "category": "help", "name": "Wayfinding tent: Main Quad", "abbreviation": "Help tent · Quad", "note": "Near CCIS", "position": { "lat": 53.52735, "lng": -113.52545 } },
+  { "id": "help-fab", "category": "help", "name": "Wayfinding tent: Fine Arts Building", "abbreviation": "Help tent · FAB", "note": "Outside FAB", "position": { "lat": 53.52455, "lng": -113.52035 } },
+  { "id": "help-kipnes", "category": "help", "name": "Wayfinding tent: Kipnes Academy", "abbreviation": "Help tent · KHRA", "note": "Outside Kipnes Academy", "position": { "lat": 53.51885, "lng": -113.52075 } },
+  { "id": "help-89-ave", "category": "help", "name": "Wayfinding tent: 89 Avenue", "abbreviation": "Help tent · 89 Ave", "note": "Between SUB and SAB", "position": { "lat": 53.52495, "lng": -113.52585 } },
+
+  { "id": "transit-university", "category": "transit", "name": "University LRT station", "abbreviation": "University LRT", "note": "Capital Line", "position": { "lat": 53.52485, "lng": -113.522248 } },
+  { "id": "transit-health-sciences", "category": "transit", "name": "Health Sciences / Jubilee LRT station", "abbreviation": "Health Sciences LRT", "note": "Capital Line", "position": { "lat": 53.520064, "lng": -113.525887 } }
+]

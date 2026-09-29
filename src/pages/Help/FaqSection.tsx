@@ -11,6 +11,8 @@ interface FaqEntry {
   /** Bullet points shown under the answer. */
   list?: string[];
   links?: { label: string; url: string }[];
+  /** A closing line under the list, e.g. a tip. */
+  footer?: string;
   /** Placeholder answer still waiting on the organizers. */
   toConfirm?: boolean;
   /** Kept in the file but not shown, e.g. until an answer is ready. */
@@ -84,6 +86,7 @@ export function FaqSection() {
                           {faq.list.map((item) => <List.Item key={item}>{item}</List.Item>)}
                         </List>
                       )}
+                      {faq.footer && <Text size="sm" c="ualbertaGreen.8" fw={600} mt="xs">{faq.footer}</Text>}
                       {faq.links?.map((link) => (
                         <Anchor
                           key={link.url}
