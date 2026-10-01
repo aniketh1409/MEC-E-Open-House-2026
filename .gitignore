@@ -6,6 +6,9 @@ plan.md
 node_modules/
 dist/
 coverage/
+.vite/
+.cache/
+.eslintcache
 *.tsbuildinfo
 
 # Environment secrets and machine-local overrides
@@ -16,6 +19,16 @@ coverage/
 
 # Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE / editor local files
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # Operating system artifacts
 .DS_Store
