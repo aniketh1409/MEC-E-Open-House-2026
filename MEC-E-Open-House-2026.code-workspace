@@ -1,9 +1,7 @@
 {
-	"folders": [
-		{
-			"name": "MEC-E-Open-House-2026",
-			"path": "."
-		}
-	],
-	"settings": {}
+    "folders": [
+        {
+            "path": "."
+        }
+    ]
 }
