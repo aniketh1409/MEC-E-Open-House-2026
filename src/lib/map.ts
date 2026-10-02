@@ -13,7 +13,7 @@ import type {
 } from "../types/content";
 import { getActiveBoothById, getBuildingById, type BoothDetails } from "./content";
 
-const wallImages = import.meta.glob<string>("../../assets/maps/*-walls.png", { eager: true, import: "default" });
+const wallImages = import.meta.glob<string>("../../assets/maps/*-walls.webp", { eager: true, import: "default" });
 const floorPlans = floorPlansData as FloorPlan[];
 const tour = tourData as Tour;
 const journey = journeyData as Journey;

@@ -15,7 +15,7 @@ All event content lives in this folder as JSON. Updating the schedule needs no c
 
 ## Building floor plans (`floorPlans.json`, `tour.json`)
 
-- Each floor's walls are an image in `assets/maps/` (`mece-1-walls.png`, …), made by `python scripts/build_floor_art.py` from the tour map PDF and `assets/maps/source/mece-1-floor-plan.png`. Pins, routes and labels use the same pixel coordinates as that image.
+- Each floor's walls are an image in `assets/maps/` (`mece-1-walls.webp`, …), made by `python scripts/build_floor_art.py` from the original tour map PDF (`assets/maps/source/MECE Tour Map (original).pdf`) and `assets/maps/source/mece-1-floor-plan.png`. Pins, routes and labels use the same pixel coordinates as that image.
 - `route` is the dashed line on each floor; `pointsOfInterest` labels like `"Up to 3F"` mark the stairs to take.
 - `tour.json` → `arrival` holds the "Coming in from outside?" directions shown with the first stop.
 

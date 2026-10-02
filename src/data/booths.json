@@ -50,7 +50,7 @@
     "moreDescription": [
       "ARVP is governed by a triple mandate to provide skills in mechatronics, provide a social support network for students, and provide opportunities to network with companies in the robotics industry. So in addition to onboarding and work on our robots, ARVP is committed to providing social events, company tours, and job opportunities."
     ],
-    "logo": "arvp.png",
+    "logo": "arvp.webp",
     "locationId": "mece-arvp",
     "stampId": "stamp-arvp",
     "qrCode": "arvp",
@@ -62,7 +62,7 @@
     "id": "ecocar",
     "name": "EcoCar",
     "shortDescription": "The University of Alberta EcoCar is a student vehicle project group which designs and builds ultra-efficient hydrogen fuel cell powered cars to participate in the annual Shell Eco-Marathon competition in the Hydrogen Fuel Cell category. We build circuit boards, design suspensions and fuel cells, develop autonomous technology, and more by ourselves.",
-    "logo": "ecocar.png",
+    "logo": "ecocar.webp",
     "locationId": "mece-ecocar",
     "stampId": "stamp-ecocar",
     "qrCode": "ecocar",
@@ -79,7 +79,7 @@
       "Students build nearly all of it: frame, suspension, battery pack, motor setup, aero, wiring. Most of the fabrication happens in the Elko Engineering Garage. You'll learn to run a CNC mill and a laser cutter, and you'll spend plenty of time with the 3D printers. A lot of what you learn in first-year physics shows up here as a real part that you designed, made, and then watched get tested hard.",
       "Not everyone is in mechanical. We have electrical students, computer students, and people from other programs too. You don't need to know anything about cars to start. You just need to want to build something."
     ],
-    "logo": "formula-racing.png",
+    "logo": "formula-racing.webp",
     "locationId": "mece-formula-racing",
     "stampId": "stamp-formula-racing",
     "qrCode": "formula-racing",
@@ -113,7 +113,7 @@
     "id": "albertasat",
     "name": "AlbertaSat",
     "shortDescription": "AlbertaSat is a group of students and faculty at the University of Alberta that have come together to design, build, test, and operate satellites. Our goal is to support Albertan and Canadian access to space through high-impact small-satellite missions. We achieve this through ambitious spacecraft mission execution, development of open-source CubeSat components, and our award-winning outreach program. Beyond students working with spacecraft, we’re also a network of passionate individuals working in space science and technology, representing Alberta’s aerospace talent on the global stage.",
-    "logo": "albertasat.png",
+    "logo": "albertasat.webp",
     "locationId": "mece-albertasat",
     "stampId": "stamp-albertasat",
     "qrCode": "albertasat",
@@ -125,7 +125,7 @@
     "id": "starr",
     "name": "Student Team for Alberta Rocketry Research",
     "shortDescription": "The Student Team for Alberta Rocketry Research (STARR) is a team of like-minded students from an array of disciplines and faculties who seek to expand Alberta’s space industry through the development, testing, and launching of high altitude sounding rockets in intercollegiate competitions. Our mission is to provide experience for students in developing launch vehicles and scientific payloads, educate the public through outreach activities, and promote STEM to students across Alberta. We also seek to provide to our members the necessary experience and skills to pursue a career in the aerospace industry and strengthen Alberta's position as a leader in the Canadian aerospace community.",
-    "logo": "starr.png",
+    "logo": "starr.webp",
     "locationId": "mece-starr",
     "stampId": "stamp-starr",
     "qrCode": "starr",
@@ -140,7 +140,7 @@
     "moreDescription": [
       "ESW uAlberta aims to support this vision by engaging the University of Alberta community in sustainable activities through events and projects. The group was founded in 2022 by diverse critical thinkers eager to collaborate with others in the journey towards sustainable spaces and practices. ESW uAlberta hopes to continuously create innovative designs to make the University of Alberta campus more sustainable and foster a vibrant community along the way."
     ],
-    "logo": "esw.png",
+    "logo": "esw.webp",
     "locationId": "mece-esw",
     "stampId": "stamp-esw",
     "qrCode": "esw",
@@ -152,7 +152,7 @@
     "id": "mece-club",
     "name": "Mechanical Engineering Club",
     "shortDescription": "The Mechanical Engineering Club offers a variety of services to mechanical engineering students, ranging from social events, professional events, intramural teams, selling snacks, and printing services.",
-    "logo": "mece-club.png",
+    "logo": "mece-club.webp",
     "locationId": "mece-mece-club",
     "stampId": "stamp-mece-club",
     "qrCode": "mece-club",
