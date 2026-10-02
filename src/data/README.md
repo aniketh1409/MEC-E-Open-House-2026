@@ -25,6 +25,10 @@ Shown on the campus map when a visitor turns on the matching "Nearby" chip, and 
 
 Optional: `"official": true` marks an organizer-recommended spot with a star and always shows it; `"minZoom": 17` only shows a place once the map is zoomed in (used for the extra cafés and the bus stops); `"kind": "bus"` gives transit stops the small bus pin and keeps them out of the "Where to?" list.
 
+## Sticker artwork (`stamps.json` → `public/assets/stamps/`)
+
+Each stamp's `image` points at its sticker file, e.g. `"/assets/stamps/arvp.svg"` is `public/assets/stamps/arvp.svg`. To change a sticker, open the file in Figma, Illustrator, Inkscape or Canva, edit it, and save it over the old one (keep it square; 200 × 200 works well). A PNG works too: save it in the same folder and update `image`. `"holo": true` adds the shimmer, and the completion seal is `certified-explorer.svg`. If a file is missing, `fallback.svg` is shown instead.
+
 ## `faq.json`: questions on the Help page
 
 Each entry has an `id`, a `category` (entries are grouped by it, in first-seen order), a `question` and an `answer`. Optional: `list` (bullet points under the answer), `links` (`[{ "label", "url" }]`), `"hidden": true` to keep an entry in the file without showing it, and `"toConfirm": true` to show a "To be confirmed" badge.

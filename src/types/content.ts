@@ -32,8 +32,11 @@ export interface Stamp {
   id: string;
   name: string;
   description: string;
+  /** Sticker artwork, e.g. "/assets/stamps/arvp.svg" (a file in public/). */
   image: string;
   boothId: string;
+  /** Student-group stickers shimmer. */
+  holo?: boolean;
 }
 
 export interface VisitorPassportState {

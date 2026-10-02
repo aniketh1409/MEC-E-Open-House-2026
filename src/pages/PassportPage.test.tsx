@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { screen, within } from "@testing-library/react";
-import { stickerDesigns } from "../components/passport/stickerArt";
+import { existsSync } from "node:fs";
+import stamps from "../data/stamps.json";
 import { getActiveBooths } from "../lib/content";
 import { PASSPORT_STORAGE_KEY, savePassport } from "../lib/passport";
 import { renderApp } from "../test/renderApp";
@@ -12,8 +13,10 @@ describe("passport", () => {
     localStorage.clear();
   });
 
-  it("has a sticker design for every stamp", () => {
-    expect(allStampIds.filter((stampId) => !stickerDesigns[stampId])).toEqual([]);
+  it("has a sticker image file for every stamp", () => {
+    expect(stamps.filter((stamp) => !existsSync(`public${stamp.image}`)).map((stamp) => stamp.image)).toEqual([]);
+    expect(existsSync("public/assets/stamps/fallback.svg")).toBe(true);
+    expect(existsSync("public/assets/stamps/certified-explorer.svg")).toBe(true);
   });
 
   it("starts with an anonymous empty passport", () => {

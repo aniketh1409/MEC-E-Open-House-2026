@@ -32,21 +32,24 @@
     "name": "Underwater Innovator",
     "description": "Collected by visiting the Autonomous Robotic Vehicle Project.",
     "image": "/assets/stamps/arvp.svg",
-    "boothId": "arvp"
+    "boothId": "arvp",
+    "holo": true
   },
   {
     "id": "stamp-ecocar",
     "name": "Efficiency Engineer",
     "description": "Collected by visiting EcoCar.",
     "image": "/assets/stamps/ecocar.svg",
-    "boothId": "ecocar"
+    "boothId": "ecocar",
+    "holo": true
   },
   {
     "id": "stamp-formula-racing",
     "name": "Pit Crew Pro",
     "description": "Collected by visiting UAlberta Formula Racing.",
     "image": "/assets/stamps/formula-racing.svg",
-    "boothId": "formula-racing"
+    "boothId": "formula-racing",
+    "holo": true
   },
   {
     "id": "stamp-mece-403-lab",
@@ -67,28 +70,32 @@
     "name": "Orbit Operator",
     "description": "Collected by visiting AlbertaSat.",
     "image": "/assets/stamps/albertasat.svg",
-    "boothId": "albertasat"
+    "boothId": "albertasat",
+    "holo": true
   },
   {
     "id": "stamp-starr",
     "name": "Launch Specialist",
     "description": "Collected by visiting the Student Team for Alberta Rocketry Research.",
     "image": "/assets/stamps/starr.svg",
-    "boothId": "starr"
+    "boothId": "starr",
+    "holo": true
   },
   {
     "id": "stamp-esw",
     "name": "Sustainability Champion",
     "description": "Collected by visiting Engineers for a Sustainable World.",
     "image": "/assets/stamps/esw.svg",
-    "boothId": "esw"
+    "boothId": "esw",
+    "holo": true
   },
   {
     "id": "stamp-mece-club",
     "name": "Club Member",
     "description": "Collected by visiting the MEC E Club.",
     "image": "/assets/stamps/mece-club.svg",
-    "boothId": "mece-club"
+    "boothId": "mece-club",
+    "holo": true
   },
   {
     "id": "stamp-mece-301-lab",
