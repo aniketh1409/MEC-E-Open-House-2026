@@ -751,7 +751,7 @@ body {
   filter: drop-shadow(0 3px 4px rgb(23 54 34 / 25%));
 }
 
-.sticker svg {
+.sticker img {
   display: block;
   width: 100%;
   height: 100%;
@@ -769,7 +769,7 @@ body {
 }
 
 /* Collected: the colour washes in as the sticker lands. */
-.sticker[data-animate] svg {
+.sticker[data-animate] img {
   animation: sticker-color-in 900ms ease-out 300ms both;
 }
 
@@ -921,7 +921,7 @@ body {
   filter: drop-shadow(0 6px 10px rgb(23 54 34 / 25%));
 }
 
-.completion-seal svg {
+.completion-seal img {
   display: block;
   width: 100%;
   height: 100%;
@@ -2607,7 +2607,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .sticker[data-animate],
-  .sticker[data-animate] svg,
+  .sticker[data-animate] img,
   .sticker[data-holo]::after,
   .completion-seal[data-animate],
   .passport-complete-stamp[data-animate],
