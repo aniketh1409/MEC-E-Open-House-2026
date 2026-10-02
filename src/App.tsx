@@ -7,6 +7,7 @@ import { HelpPage } from "./pages/Help/HelpPage";
 import { HomePage } from "./pages/Home/HomePage";
 import { CampusJourneyView } from "./pages/map/CampusJourneyView";
 import { MapIndexRedirect, MapPage } from "./pages/map/MapPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 import { TourMapView } from "./pages/map/TourMapView";
 import { PassportPage } from "./pages/PassportPage";
 import { QrCodeSheetPage } from "./pages/QrCodeSheetPage";
@@ -32,7 +33,7 @@ export function App() {
         <Route path="qr-codes" element={<QrCodeSheetPage />} />
         <Route path="faq" element={<Navigate to="/help#faq" replace />} />
         <Route path="help" element={<HelpPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );
