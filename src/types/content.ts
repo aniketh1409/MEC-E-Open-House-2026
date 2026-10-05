@@ -5,7 +5,7 @@ export interface Booth {
   shortDescription: string;
   /** Extra paragraphs shown only on the booth page. */
   moreDescription?: string[];
-  /** File name in assets/images/booths, e.g. "arvp.png". */
+  /** File name in assets/images/booths, e.g. "arvp.webp". */
   logo?: string;
   locationId: string;
   stampId: string;

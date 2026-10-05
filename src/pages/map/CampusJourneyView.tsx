@@ -22,6 +22,7 @@ import {
   IconCheck,
   IconExternalLink,
   IconMap,
+  IconNavigationFilled,
   IconStack2,
   IconRoute,
   IconWalk,
@@ -33,15 +34,18 @@ import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import printedCampusMapUrl from "../../../assets/maps/campus-map.webp";
 import { BottomSheet } from "../../components/map/BottomSheet";
 import type { PlannedRoute } from "../../components/map/CampusMap";
+import { NavigationBanner } from "../../components/map/NavigationBanner";
 import { MY_LOCATION, RoutePlanner } from "../../components/map/RoutePlanner";
 import { ScanStampButton } from "../../components/map/ScanStampButton";
 import { StampToast } from "../../components/map/StampToast";
 import { features } from "../../config/features";
 import { useCampusRoute, type CampusRouteStatus } from "../../hooks/useCampusRoute";
+import { requestCompassPermission, useCompassHeading } from "../../hooks/useCompassHeading";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { usePassport } from "../../hooks/usePassport";
 import { useSheetHistory } from "../../hooks/useSheetHistory";
 import { useVisitorPosition } from "../../hooks/useVisitorPosition";
+import { useWakeLock } from "../../hooks/useWakeLock";
 import type { CampusRoute } from "../../lib/campusRouter";
 import { getBuildings } from "../../lib/content";
 import { getPlaces, PLACE_CATEGORIES } from "../../lib/places";
@@ -97,6 +101,24 @@ export function CampusJourneyView() {
     : undefined;
   const isFindingLocation = startsAtMe && !position && !locationError;
 
+  // Live turn-by-turn navigation along a route from the visitor's own position.
+  const [navigatingKey, setNavigatingKey] = useState<string>();
+  const navigating = Boolean(plannedRoute?.isLive && navigatingKey === plannedRoute.key);
+  const heading = useCompassHeading(isLocating);
+  useWakeLock(navigating);
+  const startNavigation = plannedRoute?.isLive
+    ? () => {
+        void requestCompassPermission();
+        setIsLocating(true);
+        setNavigatingKey(plannedRoute.key);
+        setSheetExpanded(false);
+      }
+    : undefined;
+  const endNavigation = () => setNavigatingKey(undefined);
+  const navigationBanner = navigating && destination && (
+    <NavigationBanner route={route} destination={destination} onEnd={endNavigation} />
+  );
+
   const changePlanner = (next: { fromId: string; toId?: string }) => {
     if (next.toId && next.fromId === MY_LOCATION) {
       setIsLocating(true);
@@ -118,6 +140,7 @@ export function CampusJourneyView() {
       status={routeStatus}
       isFindingLocation={isFindingLocation}
       locationError={locationError}
+      onStart={startNavigation}
     />
   ) : null;
 
@@ -136,6 +159,8 @@ export function CampusJourneyView() {
         insetBottom={isMobile ? peekHeight : 0}
         showZoomControl={!isMobile}
         compactControls={isMobile}
+        heading={heading}
+        navigating={navigating}
         places={places.filter((place) => shownCategories.includes(place.category))}
         onPlaceSelect={
           features.campusRouting ? (placeId) => changePlanner({ fromId: planner.fromId, toId: placeId }) : undefined
@@ -246,7 +271,8 @@ export function CampusJourneyView() {
       >
         {campusMap}
         <StampToast />
-        <div className="map-overlay-top-bar">
+        {navigationBanner && <div className="nav-banner-overlay">{navigationBanner}</div>}
+        <div className="map-overlay-top-bar" hidden={navigating}>
           {features.campusRouting && !plannedRoute && (
             <Button
               className="map-fab map-search-bar"
@@ -277,7 +303,11 @@ export function CampusJourneyView() {
                   route={route}
                   status={routeStatus}
                   isFindingLocation={isFindingLocation}
-                  onClear={() => setPlanner({ fromId: planner.fromId })}
+                  onStart={navigating ? undefined : startNavigation}
+                  onClear={() => {
+                    endNavigation();
+                    setPlanner({ fromId: planner.fromId });
+                  }}
                 />
               ) : (
                 <JourneyPeek
@@ -303,7 +333,7 @@ export function CampusJourneyView() {
     <Box className="campus-layout">
       <Paper className="campus-map-card" withBorder radius="md">
         {campusMap}
-        <div className="campus-map-card-nearby">{nearbyChips}</div>
+        {navigationBanner ? <div className="nav-banner-overlay">{navigationBanner}</div> : <div className="campus-map-card-nearby">{nearbyChips}</div>}
         <StampToast />
       </Paper>
       <Stack gap="md" className="campus-side-column">
@@ -323,12 +353,15 @@ function RoutePeek({
   route,
   status,
   isFindingLocation,
+  onStart,
   onClear,
 }: {
   destination: Building;
   route?: CampusRoute;
   status: CampusRouteStatus;
   isFindingLocation: boolean;
+  /** Offered for routes from the visitor's own position. */
+  onStart?: () => void;
   onClear: () => void;
 }) {
   const summary = route
@@ -350,6 +383,11 @@ function RoutePeek({
           {route?.steps[0]?.instruction ?? "Swipe up for step-by-step directions"}
         </Text>
       </div>
+      {onStart && route && (
+        <Button className="nav-start-button" radius="xl" leftSection={<IconNavigationFilled size={16} />} onClick={onStart}>
+          Start
+        </Button>
+      )}
       <ActionIcon size={44} radius="xl" variant="default" aria-label="Clear route" onClick={onClear}>
         <IconX size={20} />
       </ActionIcon>

@@ -75,6 +75,6 @@ describe("calendar files", () => {
     expect(ics).toContain("DTSTART:20261017T160000Z");
     expect(ics).toContain("DTEND:20261017T170000Z");
     expect(ics).toContain("DTSTAMP:20261001T000000Z");
-    expect(ics).toContain("LOCATION:Room L1-001\\, Engineering Teaching and Learning Complex");
+    expect(ics).toContain("LOCATION:Room E1-001\\, Engineering Teaching and Learning Complex");
   });
 });

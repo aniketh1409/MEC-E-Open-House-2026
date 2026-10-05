@@ -17,7 +17,7 @@ describe("presentation reminder", () => {
     renderApp("/?now=09:35");
 
     expect(screen.getByText("Program presentation starts in 25 minutes")).toBeInTheDocument();
-    expect(screen.getByText("10:00 AM · Room L1-001 · ETLC")).toBeInTheDocument();
+    expect(screen.getByText("10:00 AM · Room E1-001 · ETLC")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Directions" })).toHaveAttribute("href", "/map/campus");
   });
 
