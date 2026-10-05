@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Confetti } from "./Confetti";
 import { CompletionSeal } from "./Sticker";
 
-const SHARE_TEXT = "I collected all 14 stamps at the UAlberta Mechanical Engineering Open House 2026!";
 
 /** The "passport complete" moment: seal, confetti, prize note and a share button. */
 export function CompletionCelebration({ total, burst = true }: { total: number; burst?: boolean }) {
@@ -12,12 +11,13 @@ export function CompletionCelebration({ total, burst = true }: { total: number; 
 
   const share = async () => {
     const url = window.location.origin;
+    const shareText = `I collected all ${total} stickers at the UAlberta Mechanical Engineering Open House 2026!`;
     try {
       if (navigator.share) {
-        await navigator.share({ title: "MEC E Open House 2026", text: SHARE_TEXT, url });
+        await navigator.share({ title: "MEC E Open House 2026", text: shareText, url });
         return;
       }
-      await navigator.clipboard.writeText(`${SHARE_TEXT} ${url}`);
+      await navigator.clipboard.writeText(`${shareText} ${url}`);
       setCopied(true);
     } catch {
       // Sharing was cancelled or isn't available.

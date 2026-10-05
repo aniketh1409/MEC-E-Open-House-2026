@@ -34,11 +34,11 @@
   {
     "id": "mece-arvp",
     "buildingId": "mece",
-    "floor": 2,
-    "room": "East hall",
+    "floor": 3,
+    "room": "East corridor",
     "coordinates": {
-      "x": 0.662,
-      "y": 0.604
+      "x": 0.805,
+      "y": 0.66
     }
   },
   {
@@ -55,10 +55,10 @@
     "id": "mece-formula-racing",
     "buildingId": "mece",
     "floor": 2,
-    "room": "East hall",
+    "room": "West hall",
     "coordinates": {
-      "x": 0.738,
-      "y": 0.62
+      "x": 0.275,
+      "y": 0.598
     }
   },
   {
@@ -107,8 +107,8 @@
     "floor": 3,
     "room": "West hall",
     "coordinates": {
-      "x": 0.238,
-      "y": 0.566
+      "x": 0.161,
+      "y": 0.651
     }
   },
   {
@@ -117,8 +117,8 @@
     "floor": 3,
     "room": "West hall",
     "coordinates": {
-      "x": 0.233,
-      "y": 0.343
+      "x": 0.245,
+      "y": 0.571
     }
   },
   {
@@ -127,8 +127,58 @@
     "floor": 3,
     "room": "3-10",
     "coordinates": {
-      "x": 0.103,
-      "y": 0.104
+      "x": 0.153,
+      "y": 0.164
+    }
+  },
+  {
+    "id": "mece-aero-design",
+    "buildingId": "mece",
+    "floor": 2,
+    "room": "East hall",
+    "coordinates": {
+      "x": 0.66,
+      "y": 0.603
+    }
+  },
+  {
+    "id": "mece-mission-spacewalker",
+    "buildingId": "mece",
+    "floor": 2,
+    "room": "East hall",
+    "coordinates": {
+      "x": 0.685,
+      "y": 0.758
+    }
+  },
+  {
+    "id": "mece-uaarg",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "West hall",
+    "coordinates": {
+      "x": 0.285,
+      "y": 0.571
+    }
+  },
+  {
+    "id": "mece-room-3-1",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "3-1",
+    "coordinates": {
+      "x": 0.271,
+      "y": 0.817
+    }
+  },
+  {
+    "id": "mece-mctr-club",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "North hall",
+    "coordinates": {
+      "x": 0.233,
+      "y": 0.343
     }
   }
 ]

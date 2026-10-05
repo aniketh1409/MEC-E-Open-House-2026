@@ -7,23 +7,27 @@
   "stops": [
     {
       "boothId": "west-entry",
-      "directionsToNext": "Follow the hallway east, past the stairs, into the open hall."
-    },
-    {
-      "boothId": "design-courses",
-      "directionsToNext": "Keep heading east through the open hall and the double doors."
-    },
-    {
-      "boothId": "arvp",
-      "directionsToNext": "EcoCar is just across the hallway, to your right."
-    },
-    {
-      "boothId": "ecocar",
-      "directionsToNext": "Continue a few steps east. Formula Racing is beside the elevator."
+      "directionsToNext": "Walk around the right side of the round stairwell. Formula Racing is just past it."
     },
     {
       "boothId": "formula-racing",
-      "directionsToNext": "Take the elevator beside Formula Racing, or the east stairs, up to the third floor. Room 3-26 is on your right as you head west."
+      "directionsToNext": "Head east into the open hall for the Undergraduate Design Courses."
+    },
+    {
+      "boothId": "design-courses",
+      "directionsToNext": "Keep heading east through the double doors. Aero Design is in front of the elevator."
+    },
+    {
+      "boothId": "aero-design",
+      "directionsToNext": "Mission SpaceWalker is a few steps south, across the hallway."
+    },
+    {
+      "boothId": "mission-spacewalker",
+      "directionsToNext": "Take the east stairs or the elevator up to the third floor. ARVP is right there in the east corridor."
+    },
+    {
+      "boothId": "arvp",
+      "directionsToNext": "Walk west along the corridor. Room 3-26 is on your right."
     },
     {
       "boothId": "mece-403-lab",
@@ -31,22 +35,26 @@
     },
     {
       "boothId": "dra-capstone",
-      "directionsToNext": "Continue west to the end of the corridor, then turn right toward the central stairs."
+      "directionsToNext": "Continue west to the end of the corridor. UAARG is just past the corner, by the central stairs."
     },
     {
-      "boothId": "albertasat",
-      "directionsToNext": "Head west past the elevator. The rocketry team is in front of the elevator."
+      "boothId": "uaarg",
+      "directionsToNext": "Room 3-1 is just south, through the doors on the corner."
     },
     {
-      "boothId": "starr",
-      "directionsToNext": "Walk back toward the central stairs. Engineers for a Sustainable World is beside AlbertaSat."
+      "boothId": "program-room-3-1",
+      "directionsToNext": "Head back out and west past the elevator. Engineers for a Sustainable World is in front of it."
     },
     {
       "boothId": "esw",
-      "directionsToNext": "Go north past the stairs to the top of the hallway."
+      "directionsToNext": "Walk back toward the central stairs. The MEC E Club is beside them."
     },
     {
       "boothId": "mece-club",
+      "directionsToNext": "Go north past the stairs. The Mechatronics Club is at the top of the hallway."
+    },
+    {
+      "boothId": "mctr-club",
       "directionsToNext": "Turn left and head west. Room 3-10 is in the north-west corner."
     },
     {

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200"><title>Drone Pilot sticker</title><defs><path id="name-arc" d="M 34 104 A 66 66 0 0 0 166 104"></path></defs><circle fill="#ffffff" cx="100" cy="100" r="97"></circle><circle cx="100" cy="100" r="87" fill="#275d38"></circle><circle cx="100" cy="100" r="80" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="2 5"></circle><g>
+<path d="M74 66 L126 106 M126 66 L74 106" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#ffffff" stroke-width="7"/>
+<rect x="88" y="76" width="24" height="20" rx="6" fill="#f2cd00" stroke="#ffffff" stroke-width="3"/>
+<circle cx="100" cy="86" r="4" fill="#173622"/>
+<ellipse cx="74" cy="64" rx="17" ry="5" fill="none" stroke="#f2cd00" stroke-width="3.5"/>
+<ellipse cx="126" cy="64" rx="17" ry="5" fill="none" stroke="#f2cd00" stroke-width="3.5"/>
+<ellipse cx="74" cy="106" rx="17" ry="5" fill="none" stroke="#f2cd00" stroke-width="3.5"/>
+<ellipse cx="126" cy="106" rx="17" ry="5" fill="none" stroke="#f2cd00" stroke-width="3.5"/>
+<path d="M92 114 Q100 120 108 114 M86 120 Q100 130 114 120" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#ffffff" stroke-width="2.5" opacity="0.7"/>
+</g><text fill="#ffffff" font-size="13.5" font-weight="800" letter-spacing="1.4" font-family="Inter, ui-sans-serif, system-ui, sans-serif"><textPath href="#name-arc" xlink:href="#name-arc" startOffset="50%" text-anchor="middle">DRONE PILOT</textPath></text></svg>

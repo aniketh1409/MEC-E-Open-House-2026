@@ -68,7 +68,7 @@
     "qrCode": "ecocar",
     "category": "student-group",
     "icon": "leaf",
-    "isActive": true
+    "isActive": false
   },
   {
     "id": "formula-racing",
@@ -119,7 +119,7 @@
     "qrCode": "albertasat",
     "category": "student-group",
     "icon": "satellite",
-    "isActive": true
+    "isActive": false
   },
   {
     "id": "starr",
@@ -131,7 +131,7 @@
     "qrCode": "starr",
     "category": "student-group",
     "icon": "rocket",
-    "isActive": true
+    "isActive": false
   },
   {
     "id": "esw",
@@ -169,6 +169,65 @@
     "qrCode": "mece-301-lab",
     "category": "program",
     "icon": "microscope",
+    "isActive": true
+  },
+  {
+    "id": "mission-spacewalker",
+    "name": "Mission SpaceWalker",
+    "shortDescription": "Mission SpaceWalker is an interdisciplinary team of young women dedicated to advancing space research and increasing diversity in the aerospace and STEM industries. Their projects blend engineering, science, and environmental research with a commitment to equity and innovation. Annually, they participate in competitions organized by SEDS Canada in collaboration with the CSA.",
+    "logo": "mission-spacewalker.webp",
+    "locationId": "mece-mission-spacewalker",
+    "stampId": "stamp-mission-spacewalker",
+    "qrCode": "mission-spacewalker",
+    "category": "student-group",
+    "icon": "planet",
+    "isActive": true
+  },
+  {
+    "id": "uaarg",
+    "name": "UAlberta Aerial Robotics Group (UAARG)",
+    "shortDescription": "A student group motivated to building the future of autonomous aircraft. Since inception in 2004, their focus lies in overcoming complex engineering challenges associated with fully autonomous drones. They design, manufacture, and rigorously test their drones from scratch while annually representing the University of Alberta in national and international RPAS competitions.",
+    "logo": "uaarg.webp",
+    "locationId": "mece-uaarg",
+    "stampId": "stamp-uaarg",
+    "qrCode": "uaarg",
+    "category": "student-group",
+    "icon": "drone",
+    "isActive": true
+  },
+  {
+    "id": "aero-design",
+    "name": "Aero Design",
+    "shortDescription": "Multi-disciplinary student club dedicated to designing, manufacturing, and testing an unmanned aerial vehicle (UAV). Their mission is to inspire students in pursuing their passion for aerospace through hands-on engineering experience by designing, manufacturing, and flying innovative fixed-wing UAVs. Each year they compete in the SAE Aero Design international competition.",
+    "logo": "aero-design.webp",
+    "locationId": "mece-aero-design",
+    "stampId": "stamp-aero-design",
+    "qrCode": "aero-design",
+    "category": "student-group",
+    "icon": "plane",
+    "isActive": true
+  },
+  {
+    "id": "mctr-club",
+    "name": "Mechatronics Club (MCTR Club)",
+    "shortDescription": "A student-run community for the Mechatronics Engineering students. They represent the student body, and organize social and professional development events.",
+    "logo": "mctr-club.webp",
+    "locationId": "mece-mctr-club",
+    "stampId": "stamp-mctr-club",
+    "qrCode": "mctr-club",
+    "category": "student-group",
+    "icon": "robot",
+    "isActive": true
+  },
+  {
+    "id": "program-room-3-1",
+    "name": "Room 3-1: MEC E Program Presentation",
+    "shortDescription": "Stop by Room 3-1 during the building tour to learn about the Mechanical Engineering program and ask the department your questions.",
+    "locationId": "mece-room-3-1",
+    "stampId": "stamp-program-room-3-1",
+    "qrCode": "program-room-3-1",
+    "category": "program",
+    "icon": "presentation",
     "isActive": true
   }
 ]

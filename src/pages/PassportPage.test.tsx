@@ -23,8 +23,8 @@ describe("passport", () => {
     renderApp("/passport");
 
     expect(screen.getByRole("heading", { name: "Passport" })).toBeInTheDocument();
-    expect(screen.getByRole("progressbar", { name: "0 of 14 stamps collected" })).toBeInTheDocument();
-    expect(screen.getAllByText("Visit to collect")).toHaveLength(14);
+    expect(screen.getByRole("progressbar", { name: "0 of 16 stamps collected" })).toBeInTheDocument();
+    expect(screen.getAllByText("Visit to collect")).toHaveLength(16);
     expect(localStorage.getItem(PASSPORT_STORAGE_KEY)).not.toBeNull();
   });
 
@@ -42,7 +42,7 @@ describe("passport", () => {
 
     expect(screen.getByRole("heading", { name: "Sticker collected!" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Design Explorer sticker" })).toBeInTheDocument();
-    expect(screen.getByText(/1 of 14 collected/)).toBeInTheDocument();
+    expect(screen.getByText(/1 of 16 collected/)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "View passport" })).toHaveAttribute("href", "/passport?new=stamp-design-courses");
 
     const storedPassport = localStorage.getItem(PASSPORT_STORAGE_KEY);
@@ -67,7 +67,7 @@ describe("passport", () => {
     renderApp("/passport/collect/design-courses").unmount();
     renderApp("/passport");
 
-    expect(screen.getByRole("progressbar", { name: "1 of 14 stamps collected" })).toBeInTheDocument();
+    expect(screen.getByRole("progressbar", { name: "1 of 16 stamps collected" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Design Explorer sticker" })).toBeInTheDocument();
   });
 
@@ -75,7 +75,7 @@ describe("passport", () => {
     savePassport({ passportId: "test-passport", collectedStamps: allStampIds.filter((id) => id !== "stamp-mece-301-lab") });
     renderApp("/passport/collect/mece-301-lab");
 
-    expect(screen.getByText(/14 of 14 collected/)).toBeInTheDocument();
+    expect(screen.getByText(/16 of 16 collected/)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "You're a Certified Explorer!" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "MEC E Certified Explorer seal" })).toBeInTheDocument();
   });

@@ -23,9 +23,11 @@ describe("tour map", () => {
     expect(stops.map((stop) => stop.number)).toEqual(stops.map((_, index) => index + 1));
     expect(stops[0]?.booth.id).toBe("west-entry");
 
+    expect(stops).toHaveLength(14);
     const arvp = getTourStopByBoothId("arvp");
-    expect(arvp?.floorPlan.id).toBe("mece-2");
-    expect(arvp?.point[0]).toBeCloseTo(0.662 * 1798);
+    expect(arvp?.number).toBe(6);
+    expect(arvp?.floorPlan.id).toBe("mece-3");
+    expect(arvp?.point[0]).toBeCloseTo(0.805 * 1578);
   });
 
   it("has wall linework for every floor", () => {
@@ -75,7 +77,7 @@ describe("campus journey", () => {
   });
 
   it("returns scans started from the map to the right view", () => {
-    expect(stampReturnPath("ecocar", "collected")).toBe("/map/tour?stamp=collected&booth=ecocar&at=ecocar");
+    expect(stampReturnPath("aero-design", "collected")).toBe("/map/tour?stamp=collected&booth=aero-design&at=aero-design");
     expect(stampReturnPath("open-house-booth", "duplicate")).toBe("/map/campus?stamp=duplicate&booth=open-house-booth");
   });
 
@@ -89,8 +91,8 @@ describe("campus journey", () => {
   });
 
   it("links booths to their tour stop or to the campus journey", () => {
-    expect(boothMapPath("ecocar")).toBe("/map/tour?stop=ecocar");
-    expect(boothMapPath("ecocar", true)).toBe("/map/tour?at=ecocar");
+    expect(boothMapPath("aero-design")).toBe("/map/tour?stop=aero-design");
+    expect(boothMapPath("aero-design", true)).toBe("/map/tour?at=aero-design");
     expect(boothMapPath("open-house-booth", true)).toBe("/map/campus");
   });
 });
