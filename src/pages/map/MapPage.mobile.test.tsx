@@ -20,11 +20,11 @@ describe("map page on mobile", () => {
 
     const sheet = screen.getByRole("region", { name: "Stop details" });
     expect(within(sheet).getByRole("heading", { name: "Autonomous Robotic Vehicle Project (ARVP)" })).toBeInTheDocument();
-    expect(within(sheet).getByText(/You are here · Tour stop 3 of 12/)).toBeInTheDocument();
+    expect(within(sheet).getByText(/You are here · Tour stop 6 of 14/)).toBeInTheDocument();
 
     fireEvent.click(within(sheet).getAllByRole("button", { name: "Next stop" })[0]!);
 
-    expect(within(sheet).getByRole("heading", { name: "EcoCar" })).toBeInTheDocument();
+    expect(within(sheet).getByRole("heading", { name: /MEC E 403/ })).toBeInTheDocument();
   });
 
   it("expands the sheet and collapses it after picking a stop from the list", () => {
@@ -35,10 +35,10 @@ describe("map page on mobile", () => {
     expect(screen.getByRole("button", { name: "Hide details" })).toHaveAttribute("aria-expanded", "true");
 
     const list = screen.getByRole("navigation", { name: "Tour stops" });
-    fireEvent.click(within(list).getByRole("button", { name: /AlbertaSat/ }));
+    fireEvent.click(within(list).getByRole("button", { name: /UAARG/ }));
 
     expect(screen.getByRole("button", { name: "Show details" })).toHaveAttribute("aria-expanded", "false");
-    expect(screen.getByRole("button", { name: "3rd floor, 7 stops to visit" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "3rd floor, 9 stops to visit" })).toHaveAttribute("aria-pressed", "true");
   });
 
   it("keeps nearby places in a Layers menu instead of over the map", async () => {

@@ -7,7 +7,7 @@ describe("student group write-ups", () => {
   it("gives every student group a logo", () => {
     const groups = getActiveBooths().filter((booth) => booth.category === "student-group");
 
-    expect(groups).toHaveLength(7);
+    expect(groups).toHaveLength(8);
     expect(groups.filter((booth) => !booth.logoUrl).map((booth) => booth.id)).toEqual([]);
   });
 

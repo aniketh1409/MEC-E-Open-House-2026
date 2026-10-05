@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200"><title>Flight Designer sticker</title><defs><path id="name-arc" d="M 34 104 A 66 66 0 0 0 166 104"></path></defs><circle fill="#ffffff" cx="100" cy="100" r="97"></circle><circle cx="100" cy="100" r="87" fill="#f2cd00"></circle><circle cx="100" cy="100" r="80" fill="none" stroke="#173622" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="2 5"></circle><g>
+<path d="M58 58 H142 M58 82 H142 M58 106 H142 M76 44 V122 M100 44 V122 M124 44 V122" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#275d38" stroke-width="2" opacity="0.3"/>
+<path d="M60 92 L140 70" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#173622" stroke-width="9"/>
+<path d="M98 82 L84 52 L94 50 L114 78 Z" fill="#275d38"/>
+<path d="M104 80 L120 108 L111 110 L94 86 Z" fill="#275d38"/>
+<path d="M62 92 L54 76 L62 75 L70 89 Z" fill="#275d38"/>
+<path d="M58 118 Q90 108 132 116" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#173622" stroke-width="3" stroke-dasharray="3 7"/>
+</g><text fill="#173622" font-size="13.5" font-weight="800" letter-spacing="1.4" font-family="Inter, ui-sans-serif, system-ui, sans-serif"><textPath href="#name-arc" xlink:href="#name-arc" startOffset="50%" text-anchor="middle">FLIGHT DESIGNER</textPath></text></svg>

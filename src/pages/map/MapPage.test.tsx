@@ -38,9 +38,9 @@ describe("map page", () => {
     collect("stamp-west-entry");
     renderApp("/map/tour");
 
-    expect(screen.getByText("1 of 14 stops visited")).toBeInTheDocument();
+    expect(screen.getByText("1 of 16 stops visited")).toBeInTheDocument();
     expect(screen.getByText("2nd floor: 1 of 5 here")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Undergraduate Design Courses" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "UAlberta Formula Racing" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Stop 1: Tour Start – West Entry, visited" })).toBeInTheDocument();
   });
 
@@ -49,12 +49,12 @@ describe("map page", () => {
 
     const card = screen.getByRole("heading", { name: "Autonomous Robotic Vehicle Project (ARVP)" }).closest("div")!;
     expect(within(card.parentElement!).getByText("You are here")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Stop 3: Autonomous Robotic Vehicle Project (ARVP), you are here" })).toBeInTheDocument();
-    expect(screen.getByText("EcoCar is just across the hallway, to your right.")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Stop 6: Autonomous Robotic Vehicle Project (ARVP), you are here" })).toBeInTheDocument();
+    expect(screen.getByText("Walk west along the corridor. Room 3-26 is on your right.")).toBeInTheDocument();
   });
 
   it("moves to the next floor when stepping past the last stop on a floor", () => {
-    renderApp("/map/tour?stop=formula-racing");
+    renderApp("/map/tour?stop=mission-spacewalker");
 
     expect(screen.getByText("Next: Stop 6 · 3rd floor")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Next stop" }));
@@ -64,9 +64,9 @@ describe("map page", () => {
     expect(screen.getByRole("button", { name: "2nd floor, 5 stops to visit" })).toHaveAttribute("aria-pressed", "true");
     fireEvent.click(screen.getByRole("button", { name: "I'm on the 3rd floor" }));
 
-    expect(screen.getByRole("heading", { name: /MEC E 403/ })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Stop 6: MEC E 403/ })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /Stop 5: UAlberta Formula Racing/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Autonomous Robotic Vehicle Project (ARVP)" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Stop 6: Autonomous Robotic Vehicle Project/ })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Stop 5: Mission SpaceWalker/ })).not.toBeInTheDocument();
   });
 
   it("shows the way up from the entrance before the first stop", () => {
@@ -81,12 +81,12 @@ describe("map page", () => {
   });
 
   it("offers the next floor's plan when the next stop is upstairs", () => {
-    renderApp("/map/tour?stop=formula-racing");
+    renderApp("/map/tour?stop=mission-spacewalker");
 
     fireEvent.click(screen.getByRole("button", { name: "Show the 3rd floor" }));
 
     expect(screen.getByRole("group", { name: "3rd floor plan of the Mechanical Engineering Building" })).toBeInTheDocument();
-    expect(screen.getByText("3rd floor: 0 of 7 here")).toBeInTheDocument();
+    expect(screen.getByText("3rd floor: 0 of 9 here")).toBeInTheDocument();
   });
 
   it("starts the building tour at the entrance when arriving from the campus journey", () => {
@@ -112,16 +112,16 @@ describe("map page", () => {
     renderApp("/map/tour");
 
     const list = screen.getByRole("navigation", { name: "Tour stops" });
-    fireEvent.click(within(list).getByRole("button", { name: /AlbertaSat/ }));
+    fireEvent.click(within(list).getByRole("button", { name: /UAARG/ }));
 
-    expect(screen.getByRole("heading", { name: "AlbertaSat" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "About this stop" })).toHaveAttribute("href", "/booths/albertasat");
+    expect(screen.getByRole("heading", { name: "UAlberta Aerial Robotics Group (UAARG)" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "About this stop" })).toHaveAttribute("href", "/booths/uaarg");
   });
 
   it("links from a collected stamp to the map", () => {
-    renderApp("/passport/collect/ecocar");
+    renderApp("/passport/collect/aero-design");
 
-    expect(screen.getByRole("link", { name: "Find your next stop" })).toHaveAttribute("href", "/map/tour?at=ecocar");
+    expect(screen.getByRole("link", { name: "Find your next stop" })).toHaveAttribute("href", "/map/tour?at=aero-design");
   });
 
   it("opens the tour instead of campus directions once a tour stamp is collected", () => {
@@ -130,15 +130,15 @@ describe("map page", () => {
 
     expect(screen.getByRole("tab", { name: "MEC E tour" })).toHaveAttribute("aria-selected", "true");
     // Campus stamps count too, matching the Passport's total.
-    expect(screen.getByText("2 of 14 stops visited")).toBeInTheDocument();
+    expect(screen.getByText("2 of 16 stops visited")).toBeInTheDocument();
   });
 
   it("returns scans started from the map straight back to it", () => {
-    renderApp("/passport/collect/ecocar?from=map");
+    renderApp("/passport/collect/aero-design?from=map");
 
     expect(screen.getByText("Stamp collected!")).toBeInTheDocument();
-    expect(screen.getByText("Efficiency Engineer")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Stop 4: EcoCar, visited, you are here" })).toBeInTheDocument();
+    expect(screen.getByText("Flight Designer")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Stop 4: Aero Design, visited, you are here" })).toBeInTheDocument();
   });
 
   it("offers the scanner from the map", () => {

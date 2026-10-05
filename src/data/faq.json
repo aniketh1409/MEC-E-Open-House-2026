@@ -97,7 +97,7 @@
     "id": "passport-how",
     "category": "Passport & stickers",
     "question": "How does the passport work?",
-    "answer": "Scan the QR code at each station with the Scan button to collect its sticker. There are 14 stickers: 2 on campus and 12 inside the Mechanical Engineering Building. Your passport shows which ones you still need."
+    "answer": "Scan the QR code at each station with the Scan button to collect its sticker. There are 16 stickers: 2 on campus and 14 inside the Mechanical Engineering Building. Your passport shows which ones you still need."
   },
   {
     "id": "qr-trouble",
@@ -109,7 +109,7 @@
     "id": "prize",
     "category": "Passport & stickers",
     "question": "Is there a prize for collecting every sticker?",
-    "answer": "Collect all 14 to earn the Certified Explorer seal.",
+    "answer": "Collect all 16 to earn the Certified Explorer seal.",
     "hidden": true
   },
   {

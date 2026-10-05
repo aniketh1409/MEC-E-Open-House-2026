@@ -103,5 +103,44 @@
     "description": "Collected in the MEC E 301 laboratory.",
     "image": "/assets/stamps/mece-301-lab.svg",
     "boothId": "mece-301-lab"
+  },
+  {
+    "id": "stamp-mission-spacewalker",
+    "name": "Moonwalker",
+    "description": "Collected by visiting Mission SpaceWalker.",
+    "image": "/assets/stamps/mission-spacewalker.svg",
+    "boothId": "mission-spacewalker",
+    "holo": true
+  },
+  {
+    "id": "stamp-uaarg",
+    "name": "Drone Pilot",
+    "description": "Collected by visiting the UAlberta Aerial Robotics Group.",
+    "image": "/assets/stamps/uaarg.svg",
+    "boothId": "uaarg",
+    "holo": true
+  },
+  {
+    "id": "stamp-aero-design",
+    "name": "Flight Designer",
+    "description": "Collected by visiting Aero Design.",
+    "image": "/assets/stamps/aero-design.svg",
+    "boothId": "aero-design",
+    "holo": true
+  },
+  {
+    "id": "stamp-mctr-club",
+    "name": "Robot Wrangler",
+    "description": "Collected by visiting the Mechatronics Club.",
+    "image": "/assets/stamps/mctr-club.svg",
+    "boothId": "mctr-club",
+    "holo": true
+  },
+  {
+    "id": "stamp-program-room-3-1",
+    "name": "Program Preview",
+    "description": "Collected in Room 3-1 on the building tour.",
+    "image": "/assets/stamps/program-room-3-1.svg",
+    "boothId": "program-room-3-1"
   }
 ]

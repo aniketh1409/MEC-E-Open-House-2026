@@ -6,7 +6,7 @@ describe("booth directory", () => {
   it("shows active booths with their locations", () => {
     renderApp("/booths");
 
-    expect(screen.getByText("14 stalls")).toBeInTheDocument();
+    expect(screen.getByText("16 stalls")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Undergraduate Design Courses" })).toBeInTheDocument();
     expect(screen.getByText("MEC E · Floor 2 · Room Main hall")).toBeInTheDocument();
   });
@@ -27,8 +27,8 @@ describe("booth directory", () => {
     fireEvent.click(screen.getByRole("combobox", { name: "Category" }));
     fireEvent.click(screen.getByRole("option", { name: "Student Group" }));
 
-    expect(screen.getByText("7 stalls")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "EcoCar" })).toBeInTheDocument();
+    expect(screen.getByText("8 stalls")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Aero Design" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Undergraduate Design Courses" })).not.toBeInTheDocument();
   });
 

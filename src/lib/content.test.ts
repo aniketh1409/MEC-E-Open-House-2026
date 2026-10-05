@@ -17,7 +17,7 @@ describe("content access", () => {
   it("returns sorted booths and categories", () => {
     const booths = getActiveBooths();
 
-    expect(booths[0]?.name).toBe("AlbertaSat");
+    expect(booths[0]?.name).toBe("Aero Design");
     expect(getActiveBoothCategories()).toEqual(["event", "program", "research", "student-group", "welcome"]);
   });
 
