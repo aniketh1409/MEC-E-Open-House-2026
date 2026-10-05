@@ -1,12 +1,11 @@
-import { Alert, Button, Group, Modal, Stack, Switch, Text, Title } from "@mantine/core";
+import { Alert, Button, Group, Modal, Stack, Text, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconAlertTriangle, IconQrcode, IconRefresh } from "@tabler/icons-react";
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { CompletionCelebration } from "../components/passport/CompletionCelebration";
 import { CompletionSeal, Sticker } from "../components/passport/Sticker";
 import { usePassport } from "../hooks/usePassport";
-import { isSoundEnabled, setSoundEnabled } from "../lib/celebrate";
 import { getActiveBooths, type BoothDetails } from "../lib/content";
 import { getTourStopByBoothId } from "../lib/map";
 import logoUrl from "../../assets/images/ualberta-logo.png";
@@ -52,7 +51,6 @@ export function PassportPage() {
   const [searchParams] = useSearchParams();
   const newStampId = searchParams.get("new");
   const [resetOpened, { open: openReset, close: closeReset }] = useDisclosure(false);
-  const [soundOn, setSoundOn] = useState(isSoundEnabled);
   const collectedStampIds = new Set(state.collectedStamps);
   const collectedCount = booths.filter((booth) => collectedStampIds.has(booth.stamp.id)).length;
   const isComplete = booths.length > 0 && collectedCount === booths.length;
@@ -62,11 +60,6 @@ export function PassportPage() {
   const handleReset = () => {
     resetPassport();
     closeReset();
-  };
-
-  const toggleSound = (enabled: boolean) => {
-    setSoundOn(enabled);
-    setSoundEnabled(enabled);
   };
 
   return (
@@ -108,13 +101,6 @@ export function PassportPage() {
           <Button component={Link} to="/passport/scan" leftSection={<IconQrcode size={19} />} className="passport-scan-button">
             Scan a stall code
           </Button>
-          <Switch
-            className="passport-sound"
-            label="Sound effects"
-            checked={soundOn}
-            onChange={(event) => toggleSound(event.currentTarget.checked)}
-            color="ualbertaGold.5"
-          />
         </Group>
       </div>
 
