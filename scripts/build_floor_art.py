@@ -4,7 +4,7 @@ The building drawings only exist as raster images: floors 2 and 3 in the
 Open House tour map PDF, floor 1 in assets/maps/source/mece-1-floor-plan.png. This script keeps
 the dark, grey architectural lines (walls, doors, stairs), drops the coloured
 annotations (numbered boxes, arrows, icons), tiny text and structural columns,
-and saves the lines as a transparent PNG in the site's wall colour.
+and saves the lines as a transparent, lossless WebP in the site's wall colour.
 
 Each output lines up 1:1 with the plan units in src/data/floorPlans.json.
 
@@ -20,20 +20,21 @@ from PIL import Image
 from scipy import ndimage
 
 ROOT = Path(__file__).resolve().parent.parent
-TOUR_PDF = ROOT / "assets/maps/MECE Tour Map.pdf"
+# Full-resolution original; the copy in assets/maps/ is compressed for the website.
+TOUR_PDF = ROOT / "assets/maps/source/MECE Tour Map (original).pdf"
 OUT_DIR = ROOT / "assets/maps"
 WALL_RGB = (47, 74, 58)
 
 FLOORS = [
     {
-        "out": "mece-1-walls.png",
+        "out": "mece-1-walls.webp",
         "source": ROOT / "assets/maps/source/mece-1-floor-plan.png",
         "crop": (0, 0, 990, 452),  # drops the title text along the bottom
         "scale": 2,
         "erase": [(755, 655, 895, 730)],  # the large "1-19" label
     },
     {
-        "out": "mece-2-walls.png",
+        "out": "mece-2-walls.webp",
         "pdf_image": 50,
         "crop": (55, 147, 1853, 784),
         # Plan-unit boxes to erase: the 2025 stop squares, "You are here" and the elevator sign.
@@ -41,7 +42,7 @@ FLOORS = [
                   (1187, 453, 1271, 520), (1294, 353, 1360, 437), (1350, 212, 1432, 358)],
     },
     {
-        "out": "mece-3-walls.png",
+        "out": "mece-3-walls.webp",
         "pdf_image": 51,
         "crop": (190, 145, 1768, 772),
         "erase": [(135, 36, 192, 96), (339, 189, 395, 246), (361, 329, 417, 386), (420, 329, 476, 386),
@@ -91,7 +92,7 @@ def main() -> None:
         if floor.get("scale", 1) != 1:
             image = image.resize((image.width * floor["scale"], image.height * floor["scale"]), Image.LANCZOS)
         art = wall_art(image, floor["erase"])
-        art.save(OUT_DIR / floor["out"], optimize=True)
+        art.save(OUT_DIR / floor["out"], "WEBP", lossless=True, method=6)
         print(floor["out"], art.size)
 
 

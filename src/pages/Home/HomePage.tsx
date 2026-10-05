@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Text, Title } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import logoUrl from "../../../assets/images/ualberta-logo.png";
+import logoUrl from "../../../assets/images/ualberta-logo.webp";
 import { EventCountdown } from "../../components/home/EventCountdown";
 import { PresentationReminder } from "../../components/schedule/PresentationReminder";
 

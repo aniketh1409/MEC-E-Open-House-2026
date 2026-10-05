@@ -6,7 +6,7 @@
     "label": "1st floor",
     "width": 1980,
     "height": 904,
-    "walls": "mece-1-walls.png",
+    "walls": "mece-1-walls.webp",
     "outline": [
       [
         0,
@@ -708,7 +708,7 @@
         470
       ]
     ],
-    "walls": "mece-2-walls.png"
+    "walls": "mece-2-walls.webp"
   },
   {
     "id": "mece-3",
@@ -1299,6 +1299,6 @@
         65
       ]
     ],
-    "walls": "mece-3-walls.png"
+    "walls": "mece-3-walls.webp"
   }
 ]

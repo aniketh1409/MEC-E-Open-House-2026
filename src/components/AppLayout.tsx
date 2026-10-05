@@ -9,7 +9,7 @@ import {
   type Icon,
 } from "@tabler/icons-react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import logoUrl from "../../assets/images/ualberta-logo.png";
+import logoUrl from "../../assets/images/ualberta-logo.webp";
 
 interface NavigationItem {
   label: string;

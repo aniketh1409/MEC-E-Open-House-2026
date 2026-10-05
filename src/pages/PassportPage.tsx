@@ -9,7 +9,7 @@ import { usePassport } from "../hooks/usePassport";
 import { isSoundEnabled, setSoundEnabled } from "../lib/celebrate";
 import { getActiveBooths, type BoothDetails } from "../lib/content";
 import { getTourStopByBoothId } from "../lib/map";
-import logoUrl from "../../assets/images/ualberta-logo.png";
+import logoUrl from "../../assets/images/ualberta-logo.webp";
 
 const booths = getActiveBooths();
 
