@@ -59,7 +59,7 @@ export function getActiveBoothById(id: string): BoothDetails | undefined {
   return booth ? joinBooth(booth) : undefined;
 }
 
-/** Codes match however they're typed: "482-917", "482917" and "482 917" are the same. */
+/** Codes match however they're typed: "K7M2XQ", "k7m2xq" and "K7M-2XQ" are the same. */
 function normalizeCode(code: string): string {
   return code.trim().toLowerCase().replace(/[\s-]+/g, "");
 }

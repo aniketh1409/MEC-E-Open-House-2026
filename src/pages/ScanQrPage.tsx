@@ -115,7 +115,7 @@ export function ScanQrPage() {
         </Group>
         <TextInput
           label="Stall code"
-          placeholder="e.g. 123-456"
+          placeholder="e.g. AB12CD"
           value={manualCode}
           onChange={(event) => setManualCode(event.currentTarget.value)}
           onKeyDown={(event) => event.key === "Enter" && submitManualCode()}

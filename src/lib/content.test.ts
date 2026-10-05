@@ -28,14 +28,13 @@ describe("content access", () => {
 });
 
 describe("stall codes", () => {
-  it("are six-digit numbers and match with or without the dash", () => {
+  it("are six capital letters and digits, and match however they're typed", () => {
     const booth = getActiveBoothById("design-courses")!;
-    expect(booth.qrCode).toMatch(/^\d{3}-\d{3}$/);
-    const digits = booth.qrCode.replace("-", "");
+    expect(booth.qrCode).toMatch(/^[A-HJ-NP-Z2-9]{6}$/);
 
     expect(getActiveBoothByQrCode(booth.qrCode)?.id).toBe("design-courses");
-    expect(getActiveBoothByQrCode(digits)?.id).toBe("design-courses");
-    expect(getActiveBoothByQrCode(` ${digits.slice(0, 3)} ${digits.slice(3)} `)?.id).toBe("design-courses");
+    expect(getActiveBoothByQrCode(booth.qrCode.toLowerCase())?.id).toBe("design-courses");
+    expect(getActiveBoothByQrCode(` ${booth.qrCode.slice(0, 3)}-${booth.qrCode.slice(3)} `)?.id).toBe("design-courses");
   });
 
   it("no longer accepts the old name-based codes", () => {
