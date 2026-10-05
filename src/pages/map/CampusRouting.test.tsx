@@ -92,6 +92,38 @@ describe("campus directions", () => {
     expect(await screen.findByText("Arrive at Engineering Teaching and Learning Complex", undefined, ROUTE_TIMEOUT)).toBeInTheDocument();
   });
 
+  it("starts live, turn-by-turn navigation from the visitor's location", async () => {
+    fakeGeolocation(
+      vi.fn((onSuccess: PositionCallback) => {
+        onSuccess({ coords: { latitude: 53.5248, longitude: -113.5283, accuracy: 8, heading: null } } as GeolocationPosition);
+        return 1;
+      }),
+    );
+    renderApp("/map/campus");
+    await screen.findByTestId("campus-map");
+    await choose("To", "Engineering Teaching and Learning Complex");
+    await screen.findByText("Arrive at Engineering Teaching and Learning Complex", undefined, ROUTE_TIMEOUT);
+
+    fireEvent.click(screen.getByRole("button", { name: "Start navigation" }));
+
+    const banner = screen.getByRole("region", { name: "Live directions" });
+    expect(within(banner).getByText(/^(In \d+ m|Now)$/)).toBeInTheDocument();
+    expect(within(banner).getByText(/min · \d+ m to ETLC/)).toBeInTheDocument();
+
+    fireEvent.click(within(banner).getByRole("button", { name: "End" }));
+    expect(screen.queryByRole("region", { name: "Live directions" })).not.toBeInTheDocument();
+  });
+
+  it("only offers live navigation for routes from the visitor's own location", async () => {
+    renderApp("/map/campus");
+    await screen.findByTestId("campus-map");
+    await choose("From", "Van Vliet Complex (VVC)");
+    await choose("To", "Engineering Teaching and Learning Complex");
+    await screen.findByText("Arrive at Engineering Teaching and Learning Complex", undefined, ROUTE_TIMEOUT);
+
+    expect(screen.queryByRole("button", { name: "Start navigation" })).not.toBeInTheDocument();
+  });
+
   it("explains when the phone can't share its location", async () => {
     const watchPosition = vi.fn((_: PositionCallback, onError?: PositionErrorCallback | null) => {
       onError?.({ code: 1 } as GeolocationPositionError);

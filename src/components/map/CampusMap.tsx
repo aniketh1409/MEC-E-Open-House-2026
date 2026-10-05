@@ -39,16 +39,20 @@ interface CampusMapProps {
   onPlaceSelect?: (placeId: string) => void;
   /** Phones: round icon-only location buttons, stacked, to leave the map visible. */
   compactControls?: boolean;
+  /** Compass heading (degrees from north) for the direction cone, when the phone shares it. */
+  heading?: number;
+  /** Live navigation: follow the visitor closely. */
+  navigating?: boolean;
 }
 
 /** Below this GPS accuracy (m) the accuracy circle adds noise rather than information. */
-const SHOW_ACCURACY_ABOVE = 15;
+const SHOW_ACCURACY_ABOVE = 40;
 const ARRIVED_WITHIN = 40;
 
 const journeyStyle: L.PathOptions = { color: "#275d38", weight: 5, dashArray: "10 9", lineCap: "round" };
 const plannedCasingStyle: L.PathOptions = { color: "#ffffff", weight: 10, opacity: 0.95, lineCap: "round", lineJoin: "round" };
 const plannedStyle: L.PathOptions = { color: "#1f6fd1", weight: 6, lineCap: "round", lineJoin: "round" };
-const accuracyStyle: L.PathOptions = { color: "#1f6fd1", weight: 1, opacity: 0.35, fillOpacity: 0.12 };
+const accuracyStyle: L.PathOptions = { color: "#1f6fd1", weight: 1, opacity: 0.25, fillOpacity: 0.05, dashArray: "4 6" };
 
 function stepIcon(step: JourneyStepDetails, isVisited: boolean) {
   return L.divIcon({
@@ -107,18 +111,37 @@ function ZoomWatcher({ onZoom }: { onZoom: (zoom: number) => void }) {
   return null;
 }
 
-/** Teardrop pin whose tip marks the visitor's exact position at every zoom level. */
-const visitorIcon = L.divIcon({
-  className: "visitor-pin-wrapper",
-  html: `
-    <span class="visitor-pin-pulse"></span>
-    <span class="visitor-pin-label">You</span>
-    <svg class="visitor-pin" viewBox="0 0 36 46" aria-hidden="true">
-      <path d="M18 44.5C18 44.5 3 27.5 3 17.5a15 15 0 1 1 30 0c0 10-15 27-15 27Z" />
-      <circle cx="18" cy="17.5" r="6" />
-    </svg>`,
-  iconSize: [36, 46],
-  iconAnchor: [18, 45],
+const visitorIcons = new Map<string, L.DivIcon>();
+
+/** Blue "you" dot; a soft cone shows which way the visitor is facing when the heading is known. */
+function visitorIcon(heading?: number): L.DivIcon {
+  const key = heading === undefined ? "none" : String(Math.round(heading / 10) * 10);
+  let icon = visitorIcons.get(key);
+  if (!icon) {
+    const cone =
+      heading === undefined
+        ? ""
+        : `<svg class="visitor-cone" viewBox="0 0 80 80" style="transform: rotate(${key}deg)" aria-hidden="true">
+             <defs><radialGradient id="cone-${key}" cx="50%" cy="100%" r="100%"><stop offset="0" stop-color="#1f6fd1" stop-opacity="0.55"/><stop offset="1" stop-color="#1f6fd1" stop-opacity="0"/></radialGradient></defs>
+             <path d="M40 40 L22 4 A40 40 0 0 1 58 4 Z" fill="url(#cone-${key})"/>
+           </svg>`;
+    icon = L.divIcon({
+      className: "visitor-dot-wrapper",
+      html: `${cone}<span class="visitor-dot-pulse"></span><span class="visitor-dot"></span><span class="visitor-dot-label">You</span>`,
+      iconSize: [80, 80],
+      iconAnchor: [40, 40],
+    });
+    visitorIcons.set(key, icon);
+  }
+  return icon;
+}
+
+/** A soft ring pulsing under the destination, so the eye goes to where you're heading. */
+const destinationPulseIcon = L.divIcon({
+  className: "campus-pin-wrapper",
+  html: `<span class="destination-pulse"></span>`,
+  iconSize: [60, 60],
+  iconAnchor: [30, 30],
 });
 
 /** Fits the map to the journey, or to a planned route when one is chosen. Refits only when that choice changes. */
@@ -139,10 +162,13 @@ function FollowVisitor({
   position,
   following,
   onManualMove,
+  closeUp = false,
 }: {
   position?: VisitorPosition;
   following: boolean;
   onManualMove: () => void;
+  /** Navigation: zoom in closer so the next turn is easy to see. */
+  closeUp?: boolean;
 }) {
   const map = useMapEvents({ dragstart: onManualMove });
   const hasZoomedIn = useRef(false);
@@ -151,13 +177,14 @@ function FollowVisitor({
     if (!position || !following) {
       return;
     }
-    if (!hasZoomedIn.current) {
+    const targetZoom = closeUp ? 18 : 17;
+    if (!hasZoomedIn.current || map.getZoom() < targetZoom) {
       hasZoomedIn.current = true;
-      map.setView(position.center, Math.max(map.getZoom(), 17), { animate: true });
+      map.setView(position.center, Math.max(map.getZoom(), targetZoom), { animate: true });
     } else {
       map.panTo(position.center, { animate: true });
     }
-  }, [following, map, position]);
+  }, [closeUp, following, map, position]);
 
   return null;
 }
@@ -177,11 +204,14 @@ export default function CampusMap({
   places = [],
   onPlaceSelect,
   compactControls = false,
+  heading,
+  navigating = false,
 }: CampusMapProps) {
-  // Following is remembered per planned route: a new route starts zoomed out to show all of it.
-  const routeKey = plannedRoute?.key ?? "";
+  // Following is remembered per planned route: a new route starts zoomed out to show all of it,
+  // while starting navigation starts following again.
+  const routeKey = `${plannedRoute?.key ?? ""}${navigating ? ":nav" : ""}`;
   const [followState, setFollowState] = useState({ routeKey, following: true });
-  const following = followState.routeKey === routeKey ? followState.following : !plannedRoute;
+  const following = followState.routeKey === routeKey ? followState.following : !plannedRoute || navigating;
   const setFollowing = (value: boolean) => setFollowState({ routeKey, following: value });
 
   const journeyBounds = useMemo(() => {
@@ -190,7 +220,7 @@ export default function CampusMap({
   }, [legs, steps]);
   const routePath = plannedRoute?.route?.path;
   const bounds = routePath ? L.latLngBounds(routePath) : journeyBounds;
-  const fitKey = routePath ? `route:${routeKey}` : `journey:${steps.map((step) => step.id).join(",")}`;
+  const fitKey = routePath ? `route:${plannedRoute?.key}` : `journey:${steps.map((step) => step.id).join(",")}`;
 
   const readout = (() => {
     if (!isLocating || !position) return undefined;
@@ -229,7 +259,7 @@ export default function CampusMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           maxZoom={19}
         />
-        <FitToView bounds={bounds} fitKey={fitKey} insetBottom={insetBottom} />
+        {!navigating && <FitToView bounds={bounds} fitKey={fitKey} insetBottom={insetBottom} />}
         <ZoomWatcher onZoom={setZoom} />
 
         {legs.map((leg) => (
@@ -274,13 +304,23 @@ export default function CampusMap({
                 {place.note && <span>{place.note}</span>}
                 {place.official && <span className="campus-place-official">★ Recommended by the organizers</span>}
                 {onPlaceSelect && (
-                  <Button size="compact-sm" mt={6} leftSection={<IconWalk size={15} />} onClick={() => onPlaceSelect(place.id)}>
+                  <Button className="campus-walk-button" color="ualbertaGold.5" c="ualbertaGreen.9" size="sm" mt={8} fullWidth leftSection={<IconWalk size={17} />} onClick={() => onPlaceSelect(place.id)}>
                     Walk here
                   </Button>
                 )}
               </Popup>
             </Marker>
           ))}
+
+        {destination && (
+          <Marker
+            position={[destination.position.lat, destination.position.lng]}
+            icon={destinationPulseIcon}
+            interactive={false}
+            keyboard={false}
+            zIndexOffset={-100}
+          />
+        )}
 
         {destination && !destinationIsJourneyStop && (
           <Marker position={[destination.position.lat, destination.position.lng]} icon={destinationIcon} title={destination.name}>
@@ -297,7 +337,7 @@ export default function CampusMap({
             )}
             <Marker
               position={position.center}
-              icon={visitorIcon}
+              icon={visitorIcon(heading ?? position.heading)}
               zIndexOffset={1000}
               interactive={false}
               keyboard={false}
@@ -306,7 +346,7 @@ export default function CampusMap({
           </>
         )}
         {isLocating && (
-          <FollowVisitor position={position} following={following} onManualMove={() => setFollowing(false)} />
+          <FollowVisitor position={position} following={following} closeUp={navigating} onManualMove={() => setFollowing(false)} />
         )}
       </MapContainer>
 
