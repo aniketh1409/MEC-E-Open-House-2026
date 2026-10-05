@@ -1492,7 +1492,7 @@ body {
   line-height: 1;
 }
 
-.campus-place-popup .leaflet-popup-content .campus-place-official {
+.campus-place-popup .leaflet-popup-content > .campus-place-official {
   color: #8a6a00;
   font-weight: 700;
 }
@@ -1513,6 +1513,178 @@ body {
   background: #5f3dc4;
 }
 
+/* "Walk here" in a place popup: solid gold (set on the button) so it stands out on white. */
+.campus-place-popup .campus-walk-button {
+  font-weight: 800;
+  box-shadow: 0 3px 8px rgb(23 54 34 / 18%);
+}
+
+/* The visitor: blue dot, soft pulse, and a cone pointing the way they face. */
+.visitor-dot-wrapper {
+  border: 0;
+  background: none;
+}
+
+.visitor-cone {
+  position: absolute;
+  inset: 0;
+  width: 80px;
+  height: 80px;
+  transform-origin: 50% 50%;
+  transition: transform 0.3s ease;
+}
+
+.visitor-dot,
+.visitor-dot-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.visitor-dot {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ffffff;
+  background: #1f6fd1;
+  box-shadow: 0 1px 6px rgb(0 0 0 / 35%);
+}
+
+.visitor-dot-pulse {
+  width: 18px;
+  height: 18px;
+  background: rgb(31 111 209 / 35%);
+  animation: visitor-dot-pulse 2s ease-out infinite;
+}
+
+@keyframes visitor-dot-pulse {
+  to {
+    width: 54px;
+    height: 54px;
+    opacity: 0;
+  }
+}
+
+.visitor-dot-label {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #1f6fd1;
+  color: #ffffff;
+  font: 800 11px/1.4 Inter, ui-sans-serif, system-ui, sans-serif;
+  transform: translateX(-50%);
+}
+
+/* Destination: a ring pulsing outwards under the pin. */
+.destination-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #1f6fd1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: destination-pulse 1.8s ease-out infinite;
+}
+
+@keyframes destination-pulse {
+  from {
+    opacity: 0.9;
+  }
+
+  to {
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+  }
+}
+
+/* Live navigation */
+.nav-banner-overlay {
+  position: absolute;
+  z-index: 600;
+  top: 0.75rem;
+  right: 0.75rem;
+  left: 0.75rem;
+}
+
+.nav-banner {
+  padding: 0.85rem 1rem 0.75rem;
+  border-radius: 14px;
+  background: #173622;
+  box-shadow: 0 10px 28px rgb(0 0 0 / 30%);
+  color: #ffffff;
+}
+
+.nav-banner[data-arrived] {
+  background: #275d38;
+}
+
+.nav-banner-main {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.nav-banner-icon {
+  display: grid;
+  width: 3.25rem;
+  height: 3.25rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 12px;
+  background: #f2cd00;
+  color: #173622;
+}
+
+.nav-banner-text {
+  min-width: 0;
+}
+
+.nav-banner-distance.mantine-Text-root {
+  color: #f2cd00;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.nav-banner-instruction.mantine-Text-root {
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.nav-banner-then.mantine-Text-root {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgb(255 255 255 / 15%);
+  color: rgb(255 255 255 / 75%);
+  font-size: 0.85rem;
+}
+
+.nav-banner-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  color: rgb(255 255 255 / 85%);
+}
+
+.nav-start-button {
+  flex: 0 0 auto;
+  background: #1f6fd1;
+}
+
+.nav-start-button:hover {
+  background: #1a5fb3;
+}
+
 .campus-place-popup .leaflet-popup-content {
   display: flex;
   min-width: 10rem;
@@ -1522,7 +1694,7 @@ body {
   font: 500 0.85rem/1.35 Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
-.campus-place-popup .leaflet-popup-content span {
+.campus-place-popup .leaflet-popup-content > span {
   color: #607168;
 }
 
@@ -2227,60 +2399,12 @@ body {
   border-right-color: #173622;
 }
 
-.visitor-pin-wrapper {
-  background: none;
-  border: 0;
-}
 
-.visitor-pin {
-  position: absolute;
-  inset: 0;
-  width: 36px;
-  height: 46px;
-  filter: drop-shadow(0 3px 4px rgb(10 40 90 / 40%));
-}
 
-.visitor-pin path {
-  fill: #1f6fd1;
-  stroke: #ffffff;
-  stroke-width: 3;
-}
 
-.visitor-pin circle {
-  fill: #ffffff;
-}
 
-.visitor-pin-pulse {
-  position: absolute;
-  top: 45px;
-  left: 18px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgb(31 111 209 / 30%);
-  transform: translate(-50%, -50%) scale(0.3);
-  animation: visitor-pulse 2s ease-out infinite;
-}
 
-@keyframes visitor-pulse {
-  to {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.4);
-  }
-}
 
-.visitor-pin-label {
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  padding: 1px 7px;
-  border-radius: 999px;
-  background: #1f6fd1;
-  color: #ffffff;
-  font: 800 11px/1.4 Inter, ui-sans-serif, system-ui, sans-serif;
-  transform: translateX(-50%);
-  white-space: nowrap;
-}
 
 .campus-distance-chip {
   position: absolute;
@@ -2695,6 +2819,13 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .visitor-dot-pulse,
+  .destination-pulse,
+  .visitor-cone {
+    animation: none;
+    transition: none;
+  }
+
   .not-found-gear {
     animation: none;
   }
@@ -2735,10 +2866,6 @@ body {
   .plan-pin,
   .plan-pin-pulse,
   .stamp-toast,
-  .visitor-pin-pulse {
-    animation: none;
-  }
-
   .schedule-live-dot {
     animation: none;
   }

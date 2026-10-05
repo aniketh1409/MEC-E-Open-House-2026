@@ -1,43 +1,20 @@
 import { ActionIcon, Alert, Badge, Button, Group, Loader, Paper, Select, Stack, Text, Title } from "@mantine/core";
 import {
-  IconArrowBackUp,
-  IconArrowBearLeft,
-  IconArrowBearRight,
   IconArrowsUpDown,
-  IconArrowUp,
   IconBuildingBridge2,
-  IconCornerUpLeft,
-  IconCornerUpRight,
   IconExternalLink,
-  IconFlag,
-  IconNavigation,
+  IconNavigationFilled,
   IconRoute,
-  IconStairs,
-  IconTrafficLights,
   IconX,
-  type Icon,
 } from "@tabler/icons-react";
 import type { CampusRouteStatus } from "../../hooks/useCampusRoute";
-import type { CampusRoute, Maneuver } from "../../lib/campusRouter";
+import type { CampusRoute } from "../../lib/campusRouter";
 import { walkingDirectionsUrl } from "../../lib/map";
 import { PLACE_CATEGORIES } from "../../lib/places";
 import type { Building, Place } from "../../types/content";
+import { maneuverIcons } from "./maneuverIcons";
 
 export const MY_LOCATION = "my-location";
-
-const maneuverIcons: Record<Maneuver, Icon> = {
-  depart: IconNavigation,
-  straight: IconArrowUp,
-  "slight-left": IconArrowBearLeft,
-  "slight-right": IconArrowBearRight,
-  left: IconCornerUpLeft,
-  right: IconCornerUpRight,
-  "u-turn": IconArrowBackUp,
-  stairs: IconStairs,
-  cross: IconTrafficLights,
-  pedway: IconBuildingBridge2,
-  arrive: IconFlag,
-};
 
 interface RoutePlannerProps {
   buildings: Building[];
@@ -51,6 +28,8 @@ interface RoutePlannerProps {
   /** Set while "My location" is the start and the phone hasn't reported a position yet. */
   isFindingLocation: boolean;
   locationError?: string;
+  /** Starts live, turn-by-turn navigation (offered for routes from "My location"). */
+  onStart?: () => void;
 }
 
 export function RoutePlanner({
@@ -63,6 +42,7 @@ export function RoutePlanner({
   status,
   isFindingLocation,
   locationError,
+  onStart,
 }: RoutePlannerProps) {
   const destination = [...buildings, ...places].find((building) => building.id === toId);
   const buildingOptions = [
@@ -139,6 +119,11 @@ export function RoutePlanner({
 
           {destination && !isSamePlace && (
             <Group gap="xs" mt="sm">
+              {onStart && usesMyLocation && route && (
+                <Button size="xs" className="nav-start-button" leftSection={<IconNavigationFilled size={14} />} onClick={onStart}>
+                  Start navigation
+                </Button>
+              )}
               <Button
                 component="a"
                 href={walkingDirectionsUrl(destination.position)}
