@@ -1,7 +1,10 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PASSPORT_STORAGE_KEY } from "../../lib/passport";
+import boothsData from "../../data/booths.json";
 import { renderApp } from "../../test/renderApp";
+
+const code = (boothId: string) => boothsData.find((booth) => booth.id === boothId)!.qrCode;
 
 // Leaflet needs a real browser layout, so the campus map itself is stubbed.
 vi.mock("../../components/map/CampusMap", () => ({
@@ -119,7 +122,7 @@ describe("map page", () => {
   });
 
   it("links from a collected stamp to the map", () => {
-    renderApp("/passport/collect/aero-design");
+    renderApp(`/passport/collect/${code("aero-design")}`);
 
     expect(screen.getByRole("link", { name: "Find your next stop" })).toHaveAttribute("href", "/map/tour?at=aero-design");
   });
@@ -134,7 +137,7 @@ describe("map page", () => {
   });
 
   it("returns scans started from the map straight back to it", () => {
-    renderApp("/passport/collect/aero-design?from=map");
+    renderApp(`/passport/collect/${code("aero-design")}?from=map`);
 
     expect(screen.getByText("Stamp collected!")).toBeInTheDocument();
     expect(screen.getByText("Flight Designer")).toBeInTheDocument();

@@ -5,7 +5,7 @@
     "shortDescription": "Start your visit at the Mechanical Engineering stall in the VVC gym.",
     "locationId": "vvc-open-house-booth",
     "stampId": "stamp-open-house-booth",
-    "qrCode": "open-house-booth",
+    "qrCode": "265-906",
     "category": "event",
     "icon": "flag",
     "isActive": true
@@ -16,7 +16,7 @@
     "shortDescription": "Hear from the department about the Mechanical Engineering program, 10:00 to 11:00 AM in ETLC L1-001.",
     "locationId": "etlc-program-presentation",
     "stampId": "stamp-program-presentation",
-    "qrCode": "program-presentation",
+    "qrCode": "873-172",
     "category": "event",
     "icon": "presentation",
     "isActive": true
@@ -27,7 +27,7 @@
     "shortDescription": "Begin the MEC E building tour on the 2nd floor, just east of the elevators.",
     "locationId": "mece-west-entry",
     "stampId": "stamp-west-entry",
-    "qrCode": "west-entry",
+    "qrCode": "126-685",
     "category": "welcome",
     "icon": "door",
     "isActive": true
@@ -38,7 +38,7 @@
     "shortDescription": "See projects from the undergraduate mechanical design courses.",
     "locationId": "mece-design-courses",
     "stampId": "stamp-design-courses",
-    "qrCode": "design-courses",
+    "qrCode": "575-650",
     "category": "program",
     "icon": "ruler",
     "isActive": true
@@ -53,7 +53,7 @@
     "logo": "arvp.png",
     "locationId": "mece-arvp",
     "stampId": "stamp-arvp",
-    "qrCode": "arvp",
+    "qrCode": "786-152",
     "category": "student-group",
     "icon": "submarine",
     "isActive": true
@@ -65,7 +65,7 @@
     "logo": "ecocar.png",
     "locationId": "mece-ecocar",
     "stampId": "stamp-ecocar",
-    "qrCode": "ecocar",
+    "qrCode": "463-164",
     "category": "student-group",
     "icon": "leaf",
     "isActive": false
@@ -82,7 +82,7 @@
     "logo": "formula-racing.png",
     "locationId": "mece-formula-racing",
     "stampId": "stamp-formula-racing",
-    "qrCode": "formula-racing",
+    "qrCode": "210-627",
     "category": "student-group",
     "icon": "steering-wheel",
     "isActive": true
@@ -93,7 +93,7 @@
     "shortDescription": "Step inside a senior undergraduate lab and see the experiments students run.",
     "locationId": "mece-mece-403-lab",
     "stampId": "stamp-mece-403-lab",
-    "qrCode": "mece-403-lab",
+    "qrCode": "724-349",
     "category": "program",
     "icon": "flask",
     "isActive": true
@@ -104,7 +104,7 @@
     "shortDescription": "Explore undergraduate research and final-year capstone design projects.",
     "locationId": "mece-dra-capstone",
     "stampId": "stamp-dra-capstone",
-    "qrCode": "dra-capstone",
+    "qrCode": "930-841",
     "category": "research",
     "icon": "trophy",
     "isActive": true
@@ -116,7 +116,7 @@
     "logo": "albertasat.png",
     "locationId": "mece-albertasat",
     "stampId": "stamp-albertasat",
-    "qrCode": "albertasat",
+    "qrCode": "728-252",
     "category": "student-group",
     "icon": "satellite",
     "isActive": false
@@ -128,7 +128,7 @@
     "logo": "starr.png",
     "locationId": "mece-starr",
     "stampId": "stamp-starr",
-    "qrCode": "starr",
+    "qrCode": "503-481",
     "category": "student-group",
     "icon": "rocket",
     "isActive": false
@@ -143,7 +143,7 @@
     "logo": "esw.png",
     "locationId": "mece-esw",
     "stampId": "stamp-esw",
-    "qrCode": "esw",
+    "qrCode": "905-945",
     "category": "student-group",
     "icon": "plant",
     "isActive": true
@@ -155,7 +155,7 @@
     "logo": "mece-club.png",
     "locationId": "mece-mece-club",
     "stampId": "stamp-mece-club",
-    "qrCode": "mece-club",
+    "qrCode": "789-332",
     "category": "student-group",
     "icon": "users",
     "isActive": true
@@ -166,7 +166,7 @@
     "shortDescription": "Watch live demonstrations from the first mechanical engineering lab course.",
     "locationId": "mece-mece-301-lab",
     "stampId": "stamp-mece-301-lab",
-    "qrCode": "mece-301-lab",
+    "qrCode": "243-161",
     "category": "program",
     "icon": "microscope",
     "isActive": true
@@ -178,7 +178,7 @@
     "logo": "mission-spacewalker.webp",
     "locationId": "mece-mission-spacewalker",
     "stampId": "stamp-mission-spacewalker",
-    "qrCode": "mission-spacewalker",
+    "qrCode": "994-855",
     "category": "student-group",
     "icon": "planet",
     "isActive": true
@@ -190,7 +190,7 @@
     "logo": "uaarg.webp",
     "locationId": "mece-uaarg",
     "stampId": "stamp-uaarg",
-    "qrCode": "uaarg",
+    "qrCode": "265-280",
     "category": "student-group",
     "icon": "drone",
     "isActive": true
@@ -202,7 +202,7 @@
     "logo": "aero-design.webp",
     "locationId": "mece-aero-design",
     "stampId": "stamp-aero-design",
-    "qrCode": "aero-design",
+    "qrCode": "981-669",
     "category": "student-group",
     "icon": "plane",
     "isActive": true
@@ -214,7 +214,7 @@
     "logo": "mctr-club.webp",
     "locationId": "mece-mctr-club",
     "stampId": "stamp-mctr-club",
-    "qrCode": "mctr-club",
+    "qrCode": "658-647",
     "category": "student-group",
     "icon": "robot",
     "isActive": true
@@ -225,7 +225,7 @@
     "shortDescription": "Stop by Room 3-1 during the building tour to learn about the Mechanical Engineering program and ask the department your questions.",
     "locationId": "mece-room-3-1",
     "stampId": "stamp-program-room-3-1",
-    "qrCode": "program-room-3-1",
+    "qrCode": "791-808",
     "category": "program",
     "icon": "presentation",
     "isActive": true
