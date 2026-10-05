@@ -10,7 +10,7 @@
     {
       "id": "presentation",
       "title": "Program presentation",
-      "description": "10:00 to 11:00 AM in ETLC L1-001. Learn about the Mechanical Engineering program from the department.",
+      "description": "10:00 to 11:00 AM in ETLC E1-001. Learn about the Mechanical Engineering program from the department.",
       "buildingId": "etlc",
       "boothId": "program-presentation",
       "optional": true
