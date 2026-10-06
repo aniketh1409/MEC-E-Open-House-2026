@@ -5,6 +5,7 @@ import type { CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { CompletionCelebration } from "../components/passport/CompletionCelebration";
 import { CompletionSeal, Sticker } from "../components/passport/Sticker";
+import { features } from "../config/features";
 import { usePassport } from "../hooks/usePassport";
 import { getActiveBooths, type BoothDetails } from "../lib/content";
 import { getTourStopByBoothId } from "../lib/map";
@@ -164,11 +165,13 @@ export function PassportPage() {
         </div>
       )}
 
-      <Group justify="flex-end" align="center">
-        <Button variant="subtle" color="red" size="compact-sm" leftSection={<IconRefresh size={16} />} onClick={openReset}>
-          Reset passport
-        </Button>
-      </Group>
+      {features.passportReset && (
+        <Group justify="flex-end" align="center">
+          <Button variant="subtle" color="red" size="compact-sm" leftSection={<IconRefresh size={16} />} onClick={openReset}>
+            Reset passport
+          </Button>
+        </Group>
+      )}
 
       <Modal opened={resetOpened} onClose={closeReset} title="Reset passport?" centered>
         <Text c="dimmed">This permanently removes every collected stamp from this browser.</Text>

@@ -9,4 +9,9 @@ export const features = {
    * VVC → ETLC → MEC E journey, with directions handed to Google Maps.
    */
   campusRouting: true,
+  /**
+   * "Reset passport" button at the bottom of the Passport page, which wipes every collected
+   * sticker. Hidden for visitors; set to `true` to show it again (e.g. for testing).
+   */
+  passportReset: false,
 };

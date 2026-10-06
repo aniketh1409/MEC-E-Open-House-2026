@@ -32,6 +32,12 @@ describe("passport", () => {
     expect(localStorage.getItem(PASSPORT_STORAGE_KEY)).not.toBeNull();
   });
 
+  it("hides the reset button from visitors", () => {
+    renderApp("/passport");
+
+    expect(screen.queryByRole("button", { name: "Reset passport" })).not.toBeInTheDocument();
+  });
+
   it("groups stickers by where they are collected", () => {
     renderApp("/passport");
 
