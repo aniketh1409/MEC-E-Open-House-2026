@@ -2979,7 +2979,16 @@ body {
     background: #ffffff;
   }
 
-  .qr-sheet {
+  .qr-lock {
+  max-width: 28rem;
+  margin: 2rem auto;
+}
+
+.qr-lock-icon {
+  color: #275d38;
+}
+
+.qr-sheet {
     grid-template-columns: repeat(2, 1fr);
   }
 

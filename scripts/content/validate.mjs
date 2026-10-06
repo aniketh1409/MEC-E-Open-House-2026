@@ -35,6 +35,9 @@ export function validateSheet(sheet, root, { buildings, floorPlans }) {
   const event = sheet.Event ?? {};
 
   // Event
+  if (event.qrPagePassword && event.qrPagePassword.trim().length < 8) {
+    errors.push(`Event tab: "QR codes page password" must be at least 8 characters.`);
+  }
   if (event.opensAt && event.closesAt && minutes(event.opensAt) >= minutes(event.closesAt)) {
     errors.push(`Event tab: "Opens at" (${event.opensAt}) must be before "Closes at" (${event.closesAt}).`);
   }

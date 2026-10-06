@@ -7,6 +7,8 @@
  * paragraphs (blank line between paragraphs), lines (one item per line), links ("Label | URL" per line).
  */
 
+import { hashQrPassword } from "./password.mjs";
+
 export const YES = "Yes";
 export const NO = "No";
 
@@ -19,6 +21,7 @@ export const EVENT_SETTINGS = [
   { key: "closesAt", label: "Closes at", kind: "time", required: true, help: "24-hour clock, e.g. 15:00" },
   { key: "isDraft", label: "Show 'draft schedule' notice?", kind: "bool", required: true },
   { key: "programsCalendarUrl", label: "Programs calendar link", kind: "text", help: "Optional. Adds a 'MEC E programs calendar' card" },
+  { key: "qrPagePassword", label: "QR codes page password", kind: "text", help: "Type a new password to change it (8+ characters). Leave blank to keep the current one. Only a fingerprint is stored on the website" },
   { key: "tourBuildingId", label: "Tour building ID", kind: "text", required: true, help: "Leave as mece" },
   { key: "arrivalFloor", label: "Tour: floor visitors come in on", kind: "int", required: true },
   { key: "arrivalDirections", label: "Tour: 'Coming in from outside?' directions", kind: "text", required: true },
@@ -169,7 +172,11 @@ export function toSheet(data) {
 
 // ---------- rows -> JSON (what the build writes to src/data) ----------
 
-export function fromSheet(sheet) {
+/**
+ * @param previous  the current src/data content, used for values the sheet leaves blank on purpose
+ *                  (the QR page password: blank keeps the existing one)
+ */
+export function fromSheet(sheet, previous = {}) {
   const event = sheet.Event;
   return {
     event: compact({
@@ -180,6 +187,7 @@ export function fromSheet(sheet) {
       closesAt: event.closesAt,
       programsCalendarUrl: event.programsCalendarUrl,
       isDraft: event.isDraft === true,
+      qrPagePasswordHash: event.qrPagePassword ? hashQrPassword(event.qrPagePassword) : previous.event?.qrPagePasswordHash,
     }),
     tour: {
       buildingId: event.tourBuildingId,

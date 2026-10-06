@@ -1,11 +1,87 @@
-import { Alert, Button, SimpleGrid, Stack, Text, Title } from "@mantine/core";
-import { IconPrinter } from "@tabler/icons-react";
+import { Alert, Button, PasswordInput, Paper, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { IconLock, IconPrinter } from "@tabler/icons-react";
 import QRCode from "qrcode";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { getActiveBooths } from "../lib/content";
+import { getEventInfo } from "../lib/schedule";
+import { hashQrPassword } from "../lib/qrPassword";
 import { getCollectionUrl } from "../lib/qr";
 
 const booths = getActiveBooths();
+const passwordHash = getEventInfo().qrPagePasswordHash;
+/** Remembers the unlock for this tab only; a new password locks it again. */
+const UNLOCK_KEY = "mece-open-house-qr-unlocked";
+
+function wasUnlocked(): boolean {
+  try {
+    return Boolean(passwordHash) && sessionStorage.getItem(UNLOCK_KEY) === passwordHash;
+  } catch {
+    return false;
+  }
+}
+
+/** Organizer-only page: asks for the password (set on the sheet's Event tab) before showing any code. */
+export function QrCodeSheetPage() {
+  const [unlocked, setUnlocked] = useState(wasUnlocked);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string>();
+  const [checking, setChecking] = useState(false);
+
+  if (unlocked) {
+    return <QrCodeSheet />;
+  }
+
+  const submit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!passwordHash) return;
+    setChecking(true);
+    const matches = (await hashQrPassword(password)) === passwordHash;
+    setChecking(false);
+    if (!matches) {
+      setError("That password isn't right.");
+      return;
+    }
+    try {
+      sessionStorage.setItem(UNLOCK_KEY, passwordHash);
+    } catch {
+      // Storage unavailable: unlocked until the page is reloaded.
+    }
+    setUnlocked(true);
+  };
+
+  return (
+    <Paper component="section" className="qr-lock" withBorder radius="md" p="xl" aria-labelledby="qr-lock-heading">
+      <Stack gap="md" component="form" onSubmit={submit}>
+        <IconLock size={32} stroke={1.6} className="qr-lock-icon" aria-hidden="true" />
+        <div>
+          <Text className="eyebrow">Event setup</Text>
+          <Title order={1} size="h2" id="qr-lock-heading">Stall QR codes</Title>
+          <Text c="dimmed" mt={4}>This page is for organizers. Enter the password to see and print the QR codes.</Text>
+        </div>
+        {passwordHash ? (
+          <>
+            <PasswordInput
+              label="Password"
+              value={password}
+              onChange={(event) => {
+                setPassword(event.currentTarget.value);
+                setError(undefined);
+              }}
+              error={error}
+              autoFocus
+              autoComplete="current-password"
+            />
+            <Button type="submit" loading={checking} disabled={!password} w="fit-content">
+              Unlock
+            </Button>
+          </>
+        ) : (
+          <Alert color="orange">No password has been set yet. Set one on the content sheet's Event tab (QR codes page password).</Alert>
+        )}
+      </Stack>
+    </Paper>
+  );
+}
 
 interface GeneratedQrCode {
   boothId: string;
@@ -13,7 +89,7 @@ interface GeneratedQrCode {
   collectionUrl: string;
 }
 
-export function QrCodeSheetPage() {
+function QrCodeSheet() {
   const [codes, setCodes] = useState<GeneratedQrCode[]>([]);
   const [failed, setFailed] = useState(false);
 

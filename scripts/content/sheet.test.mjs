@@ -2,6 +2,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { readData } from "./dataFiles.mjs";
+import { hashQrPassword } from "./password.mjs";
 import { fromSheet, toSheet } from "./sheetFormat.mjs";
 import { validateSheet } from "./validate.mjs";
 import { buildWorkbook, readWorkbook } from "./workbook.mjs";
@@ -39,7 +40,7 @@ describe("content spreadsheet", () => {
     const { sheet, errors } = await roundTrip();
     expect(errors).toEqual([]);
 
-    const back = fromSheet(sheet);
+    const back = fromSheet(sheet, data);
     for (const name of ["event", "tour", "schedule", "booths", "faq", "places"]) {
       expect(back[name]).toEqual(data[name]);
     }
@@ -93,6 +94,25 @@ describe("content spreadsheet", () => {
         expect.stringMatching(/^Schedule tab, row \d+: 10:00–16:30 is outside the event hours/),
       ]),
     );
+  });
+
+  it("stores only a fingerprint of a new QR page password, and keeps the old one when blank", async () => {
+    const setRow = (workbook, value) =>
+      workbook.getWorksheet("Event").eachRow((candidate) => {
+        if (candidate.getCell(1).value === "QR codes page password") candidate.getCell(2).value = value;
+      });
+
+    const changed = await roundTrip((workbook) => setRow(workbook, "a-new-password"));
+    expect(changed.errors).toEqual([]);
+    const event = fromSheet(changed.sheet, data).event;
+    expect(event.qrPagePasswordHash).toBe(hashQrPassword("a-new-password"));
+    expect(JSON.stringify(event)).not.toContain("a-new-password");
+
+    const blank = await roundTrip();
+    expect(fromSheet(blank.sheet, data).event.qrPagePasswordHash).toBe(data.event.qrPagePasswordHash);
+
+    const short = await roundTrip((workbook) => setRow(workbook, "short"));
+    expect(short.errors).toContain('Event tab: "QR codes page password" must be at least 8 characters.');
   });
 
   it("ignores extra note columns and blank rows editors add", async () => {

@@ -4,5 +4,6 @@
   "timeZone": "America/Edmonton",
   "opensAt": "09:00",
   "closesAt": "15:00",
-  "isDraft": false
+  "isDraft": false,
+  "qrPagePasswordHash": "0ea344016709d2d96cfa992343428fc85dc256af987397a811d6605cb62bf241"
 }

@@ -86,6 +86,8 @@ export interface EventInfo {
   programsCalendarUrl?: string;
   /** Shows a "draft schedule" notice until the details are final. */
   isDraft?: boolean;
+  /** Fingerprint of the /qr-codes page password (never the password itself). */
+  qrPagePasswordHash?: string;
 }
 
 export type ScheduleCategory = "presentation" | "tour" | "booth-fair" | "food" | "general";
