@@ -2,6 +2,8 @@
 
 All event content lives in this folder as JSON. Updating the schedule needs no code changes: edit the files below, then run `npm test`. The tests check the data and name any entry with a mistake.
 
+> **Prefer a spreadsheet?** The schedule, stalls, tour order, FAQ, nearby places and event details can be edited in Google Sheets and published from there. See [`content/README.md`](../../content/README.md). Once that's set up, the sheet is the source for those files, so edit the sheet rather than the JSON.
+
 ## `event.json`: the day itself
 
 | Field | Example | Notes |
