@@ -12,7 +12,8 @@
     "typecheck": "tsc -b --pretty false",
     "prebuild": "node scripts/content/sync.mjs --if-configured",
     "content:template": "node scripts/content/exportTemplate.mjs",
-    "content:sync": "node scripts/content/sync.mjs"
+    "content:sync": "node scripts/content/sync.mjs",
+    "qr:password": "node scripts/content/setQrPassword.mjs"
   },
   "dependencies": {
     "@mantine/core": "^9.6.2",

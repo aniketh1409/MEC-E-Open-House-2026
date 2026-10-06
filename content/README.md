@@ -14,6 +14,7 @@ Not in the sheet (they stay as files in the repository): floor-plan drawings and
 - Hide a stall without deleting it: set **Active?** to **No**.
 - Don't change a stall's **ID** or **Code** once its QR code is printed.
 - You can add your own columns for notes; the website ignores columns it doesn't know.
+- **QR codes page password** (Event tab): type a new password (8+ characters) and publish to change the password for `/qr-codes`. Leave it blank to keep the current one. The website only stores a fingerprint of it, so clear the cell after publishing if you'd rather the password not sit in the sheet.
 - Changes not showing after a few minutes? A cell probably has a problem. Ask an admin to check the Vercel build log, which names the tab and row.
 
 ## One-time setup (admins)

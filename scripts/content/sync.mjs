@@ -96,7 +96,7 @@ async function main() {
     process.exit(1);
   }
 
-  const changed = writeData(root, fromSheet(sheet));
+  const changed = writeData(root, fromSheet(sheet, current));
   console.log(changed.length ? `Content sheet: updated ${changed.map((name) => `${name}.json`).join(", ")}.` : "Content sheet: no changes.");
 }
 

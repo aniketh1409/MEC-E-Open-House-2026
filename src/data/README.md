@@ -13,6 +13,7 @@ All event content lives in this folder as JSON. Updating the schedule needs no c
 | `timeZone` | `"America/Edmonton"` | Leave as is |
 | `opensAt` / `closesAt` | `"09:00"` / `"15:00"` | 24-hour clock. Every event must fall inside these hours |
 | `programsCalendarUrl` | `"https://…"` | Optional. Adds a "MEC E programs calendar" card. Leave it out to hide the card |
+| `qrPagePasswordHash` | *(set by a command)* | Fingerprint of the `/qr-codes` page password. Change the password with `npm run qr:password -- "new password"` (or on the Google Sheet's Event tab). Never put the password itself here |
 | `isDraft` | `true` | Shows a "Draft schedule" notice. Set it to `false` (or remove it) once the schedule is final |
 
 ## Building floor plans (`floorPlans.json`, `tour.json`)
