@@ -9,7 +9,7 @@
   {
     "id": "stamp-program-presentation",
     "name": "Program Insider",
-    "description": "Collected at the MEC E program presentation.",
+    "description": "Collected at the live program presentation in ETLC.",
     "image": "/assets/stamps/program-presentation.svg",
     "boothId": "program-presentation"
   },
@@ -139,7 +139,7 @@
   {
     "id": "stamp-program-room-3-1",
     "name": "Program Preview",
-    "description": "Collected in Room 3-1 on the building tour.",
+    "description": "Collected at the program video in Room 3-1.",
     "image": "/assets/stamps/program-room-3-1.svg",
     "boothId": "program-room-3-1"
   }

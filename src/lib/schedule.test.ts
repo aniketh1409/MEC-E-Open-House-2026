@@ -56,7 +56,7 @@ describe("live schedule", () => {
     const now = at("10:15");
 
     expect(getHappeningNow(items, now).map((entry) => entry.id)).toEqual(["program-presentation", "mece-booth"]);
-    expect(getUpNext(items, now).map((entry) => entry.id)).toEqual(["building-tour"]);
+    expect(getUpNext(items, now).map((entry) => entry.id)).toEqual(["building-tour", "program-video"]);
     expect(getItemStatus(item("program-presentation"), at("11:30"))).toBe("past");
   });
 

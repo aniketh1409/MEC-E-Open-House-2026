@@ -9,8 +9,8 @@
     },
     {
       "id": "presentation",
-      "title": "Program presentation",
-      "description": "10:00 to 11:00 AM in ETLC E1-001. Learn about the Mechanical Engineering program from the department.",
+      "title": "Live program presentation",
+      "description": "10:00 to 11:00 AM in ETLC E1-001. Dr. Nobes presents the Mechanical Engineering program, with remarks from the MEC E Club and the Mechatronics (MCTR) Club.",
       "buildingId": "etlc",
       "boothId": "program-presentation",
       "optional": true

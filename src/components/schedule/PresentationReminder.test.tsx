@@ -10,13 +10,13 @@ describe("presentation reminder", () => {
   it("stays hidden on other days", () => {
     renderApp("/?now=2026-10-14T09:40");
 
-    expect(screen.queryByText(/Program presentation/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/program presentation (starts|is on)/i)).not.toBeInTheDocument();
   });
 
   it("counts down to the presentation on the home page", () => {
     renderApp("/?now=09:35");
 
-    expect(screen.getByText("Program presentation starts in 25 minutes")).toBeInTheDocument();
+    expect(screen.getByText("Live program presentation starts in 25 minutes")).toBeInTheDocument();
     expect(screen.getByText("10:00 AM · Room E1-001 · ETLC")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Directions" })).toHaveAttribute("href", "/map/campus");
   });
@@ -24,14 +24,14 @@ describe("presentation reminder", () => {
   it("says when the presentation is on, on the schedule page", () => {
     renderApp("/schedule?now=10:20");
 
-    expect(screen.getByText("Program presentation is on now · until 11:00 AM")).toBeInTheDocument();
+    expect(screen.getByText("Live program presentation is on now · until 11:00 AM")).toBeInTheDocument();
   });
 
   it("disappears once the presentation ends", () => {
     renderApp("/schedule?now=11:05");
 
-    expect(screen.queryByText(/Program presentation is on now/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Program presentation starts in/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/program presentation is on now/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/program presentation starts in/i)).not.toBeInTheDocument();
   });
 
   it("can be dismissed", () => {
@@ -39,6 +39,6 @@ describe("presentation reminder", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Dismiss reminder" }));
 
-    expect(screen.queryByText(/Program presentation starts in/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/program presentation starts in/i)).not.toBeInTheDocument();
   });
 });

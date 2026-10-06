@@ -210,7 +210,7 @@ export function CampusJourneyView() {
           <Switch
             checked={attendsPresentation}
             onChange={(event) => setAttendsPresentation(event.currentTarget.checked)}
-            label="I'm attending the MEC E program presentation"
+            label="I'm attending the live program presentation"
             description="Turn off to walk straight to the building tour."
             color="ualbertaGreen"
           />
