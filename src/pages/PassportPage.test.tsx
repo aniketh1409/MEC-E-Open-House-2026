@@ -4,7 +4,11 @@ import { existsSync } from "node:fs";
 import stamps from "../data/stamps.json";
 import { getActiveBooths } from "../lib/content";
 import { PASSPORT_STORAGE_KEY, savePassport } from "../lib/passport";
+import boothsData from "../data/booths.json";
 import { renderApp } from "../test/renderApp";
+
+/** A stall's code, looked up so tests don't depend on the printed codes. */
+const code = (boothId: string) => boothsData.find((booth) => booth.id === boothId)!.qrCode;
 
 const allStampIds = getActiveBooths().map((booth) => booth.stamp.id);
 
@@ -38,7 +42,7 @@ describe("passport", () => {
   });
 
   it("collects a sticker from a valid QR route", () => {
-    renderApp("/passport/collect/design-courses");
+    renderApp(`/passport/collect/${code("design-courses")}`);
 
     expect(screen.getByRole("heading", { name: "Sticker collected!" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Design Explorer sticker" })).toBeInTheDocument();
@@ -50,8 +54,8 @@ describe("passport", () => {
   });
 
   it("does not duplicate an already collected stamp", () => {
-    renderApp("/passport/collect/design-courses").unmount();
-    renderApp("/passport/collect/design-courses");
+    renderApp(`/passport/collect/${code("design-courses")}`).unmount();
+    renderApp(`/passport/collect/${code("design-courses")}`);
 
     expect(screen.getByRole("heading", { name: "Already in your passport" })).toBeInTheDocument();
   });
@@ -64,7 +68,7 @@ describe("passport", () => {
   });
 
   it("restores collected progress on a later visit", () => {
-    renderApp("/passport/collect/design-courses").unmount();
+    renderApp(`/passport/collect/${code("design-courses")}`).unmount();
     renderApp("/passport");
 
     expect(screen.getByRole("progressbar", { name: "1 of 16 stamps collected" })).toBeInTheDocument();
@@ -73,7 +77,7 @@ describe("passport", () => {
 
   it("celebrates the last sticker", () => {
     savePassport({ passportId: "test-passport", collectedStamps: allStampIds.filter((id) => id !== "stamp-mece-301-lab") });
-    renderApp("/passport/collect/mece-301-lab");
+    renderApp(`/passport/collect/${code("mece-301-lab")}`);
 
     expect(screen.getByText(/16 of 16 collected/)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "You're a Certified Explorer!" })).toBeInTheDocument();

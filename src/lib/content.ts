@@ -59,9 +59,15 @@ export function getActiveBoothById(id: string): BoothDetails | undefined {
   return booth ? joinBooth(booth) : undefined;
 }
 
+/** Codes match however they're typed: "K7M2XQ", "k7m2xq" and "K7M-2XQ" are the same. */
+function normalizeCode(code: string): string {
+  return code.trim().toLowerCase().replace(/[\s-]+/g, "");
+}
+
 export function getActiveBoothByQrCode(qrCode: string): BoothDetails | undefined {
+  const wanted = normalizeCode(qrCode);
   const booth = booths.find(
-    (candidate) => candidate.qrCode === qrCode && candidate.isActive,
+    (candidate) => normalizeCode(candidate.qrCode) === wanted && candidate.isActive,
   );
   return booth ? joinBooth(booth) : undefined;
 }
