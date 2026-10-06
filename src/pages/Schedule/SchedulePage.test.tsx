@@ -22,7 +22,7 @@ describe("schedule page", () => {
     renderApp("/schedule?now=10:15");
 
     const nowCard = screen.getByText("Happening now").closest("div")!;
-    expect(within(nowCard).getByText("Mechanical Engineering program presentation")).toBeInTheDocument();
+    expect(within(nowCard).getByText("Live program presentation")).toBeInTheDocument();
     expect(screen.getByText("Up next · 11:00 AM")).toBeInTheDocument();
     expect(screen.getByLabelText("Current time 10:15 AM")).toBeInTheDocument();
     expect(screen.queryAllByText("Ended")).toHaveLength(0);
@@ -41,7 +41,7 @@ describe("schedule page", () => {
 
     fireEvent.click(screen.getByRole("radio", { name: "Presentations" }));
 
-    expect(within(timeline).getAllByRole("heading", { name: "Mechanical Engineering program presentation" })).toHaveLength(1);
+    expect(within(timeline).getAllByRole("heading", { name: "Live program presentation" })).toHaveLength(1);
     expect(within(timeline).queryByRole("heading", { name: "Mechanical Engineering building tour" })).not.toBeInTheDocument();
   });
 
@@ -57,7 +57,7 @@ describe("schedule page", () => {
       "/map/tour?stop=west-entry",
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "Add Mechanical Engineering program presentation at 10:00 AM to your calendar" }));
+    fireEvent.click(screen.getByRole("button", { name: "Add Live program presentation at 10:00 AM to your calendar" }));
 
     expect(createObjectURL).toHaveBeenCalledOnce();
     expect(click).toHaveBeenCalledOnce();

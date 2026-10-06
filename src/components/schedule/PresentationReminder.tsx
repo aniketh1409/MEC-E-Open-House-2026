@@ -56,8 +56,8 @@ export function PresentationReminder({ className }: { className?: string }) {
       <div className="presentation-reminder-text">
         <Text fw={800} lh={1.25}>
           {isOn
-            ? `Program presentation is on now · until ${formatTime(presentation.endsAt)}`
-            : `Program presentation starts in ${formatCountdown(presentation.startsAt.getTime() - now.getTime())}`}
+            ? `${presentation.title} is on now · until ${formatTime(presentation.endsAt)}`
+            : `${presentation.title} starts in ${formatCountdown(presentation.startsAt.getTime() - now.getTime())}`}
         </Text>
         <Text size="sm" c="dimmed">
           {formatTime(presentation.startsAt)} · {where}

@@ -12,8 +12,8 @@
   },
   {
     "id": "program-presentation",
-    "name": "MEC E Program Presentation",
-    "shortDescription": "Hear from the department about the Mechanical Engineering program, 10:00 to 11:00 AM in ETLC E1-001.",
+    "name": "Live Program Presentation",
+    "shortDescription": "A live presentation by Dr. Nobes on the Mechanical Engineering program, with remarks from the MEC E Club and the Mechatronics (MCTR) Club. 10:00 to 11:00 AM in ETLC E1-001.",
     "locationId": "etlc-program-presentation",
     "stampId": "stamp-program-presentation",
     "qrCode": "TXZD4T",
@@ -222,7 +222,7 @@
   {
     "id": "program-room-3-1",
     "name": "Room 3-1: MEC E Program Presentation",
-    "shortDescription": "Stop by Room 3-1 during the building tour to learn about the Mechanical Engineering program and ask the department your questions.",
+    "shortDescription": "A short video about the Mechanical Engineering program plays on a loop in Room 3-1. Drop in any time during the building tour.",
     "locationId": "mece-room-3-1",
     "stampId": "stamp-program-room-3-1",
     "qrCode": "3H9UJ5",

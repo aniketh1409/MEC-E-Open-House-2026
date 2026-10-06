@@ -1,8 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200"><title>Program Preview sticker</title><defs><path id="name-arc" d="M 34 104 A 66 66 0 0 0 166 104"></path></defs><circle fill="#ffffff" cx="100" cy="100" r="97"></circle><circle cx="100" cy="100" r="87" fill="#f2cd00"></circle><circle cx="100" cy="100" r="80" fill="none" stroke="#173622" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="2 5"></circle><g>
 <rect x="52" y="44" width="96" height="62" rx="6" fill="#ffffff"/>
-<rect x="64" y="56" width="30" height="7" rx="3.5" fill="#275d38"/>
-<rect x="64" y="70" width="44" height="5" rx="2.5" fill="#275d38" opacity="0.45"/>
-<rect x="64" y="80" width="36" height="5" rx="2.5" fill="#275d38" opacity="0.45"/>
+<circle cx="80" cy="70" r="13" fill="#275d38"/>
+<path d="M76 63 L87 70 L76 77 Z" fill="#f2cd00"/>
+
+<rect x="64" y="90" width="40" height="4" rx="2" fill="#275d38" opacity="0.35"/>
+<rect x="64" y="90" width="16" height="4" rx="2" fill="#275d38"/>
 <rect x="112" y="68" width="26" height="26" rx="5" fill="#275d38"/>
 <text x="125" y="86" text-anchor="middle" font-size="12" font-weight="800" fill="#f2cd00" font-family="Inter, ui-sans-serif, system-ui, sans-serif">3-1</text>
 <path d="M100 106 V122 M82 124 H118" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="#173622" stroke-width="6"/>

@@ -28,12 +28,12 @@ describe("map page", () => {
 
     expect(screen.getByRole("heading", { name: "Event map" })).toBeInTheDocument();
     expect(await screen.findByTestId("campus-map")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Program presentation" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Live program presentation" })).toBeInTheDocument();
     expect(screen.getByText("8 min walk · 563 m")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("switch", { name: /attending the MEC E program presentation/ }));
+    fireEvent.click(screen.getByRole("switch", { name: /attending the live program presentation/ }));
 
-    expect(screen.queryByRole("heading", { name: "Program presentation" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Live program presentation" })).not.toBeInTheDocument();
     expect(screen.getByText("8 min walk · 590 m")).toBeInTheDocument();
   });
 

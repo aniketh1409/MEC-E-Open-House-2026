@@ -14,8 +14,8 @@
   },
   {
     "id": "program-presentation",
-    "title": "Mechanical Engineering program presentation",
-    "description": "Learn about the Mechanical Engineering program from the department, with time for questions.",
+    "title": "Live program presentation",
+    "description": "Dr. Nobes presents the Mechanical Engineering program, with remarks from the MEC E Club and the Mechatronics (MCTR) Club.",
     "start": "10:00",
     "end": "11:00",
     "category": "presentation",
@@ -36,6 +36,19 @@
     "buildingId": "mece",
     "boothId": "west-entry",
     "locationLabel": "2nd and 3rd floors",
+    "isConfirmed": true
+  },
+  {
+    "id": "program-video",
+    "title": "Rolling program video",
+    "description": "A short video about the Mechanical Engineering program, playing on a loop. Drop in any time during the building tour.",
+    "start": "11:00",
+    "end": "14:00",
+    "category": "booth-fair",
+    "scope": "mece",
+    "buildingId": "mece",
+    "boothId": "program-room-3-1",
+    "locationLabel": "Room 3-1",
     "isConfirmed": true
   }
 ]
