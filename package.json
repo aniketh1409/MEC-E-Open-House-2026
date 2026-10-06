@@ -9,14 +9,17 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "typecheck": "tsc -b --pretty false"
+    "typecheck": "tsc -b --pretty false",
+    "prebuild": "node scripts/content/sync.mjs --if-configured",
+    "content:template": "node scripts/content/exportTemplate.mjs",
+    "content:sync": "node scripts/content/sync.mjs"
   },
   "dependencies": {
     "@mantine/core": "^9.6.2",
     "@mantine/hooks": "^9.6.2",
     "@tabler/icons-react": "^3.47.0",
-    "leaflet": "^1.9.4",
     "html5-qrcode": "^2.3.8",
+    "leaflet": "^1.9.4",
     "qrcode": "^1.5.4",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
@@ -36,6 +39,7 @@
     "eslint": "^10.11.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
+    "exceljs": "^4.4.0",
     "jsdom": "^30.1.0",
     "typescript": "~6.0.0",
     "typescript-eslint": "^8.70.1",

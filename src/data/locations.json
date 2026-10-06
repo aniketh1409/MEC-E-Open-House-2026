@@ -132,16 +132,6 @@
     }
   },
   {
-    "id": "mece-aero-design",
-    "buildingId": "mece",
-    "floor": 2,
-    "room": "East hall",
-    "coordinates": {
-      "x": 0.66,
-      "y": 0.603
-    }
-  },
-  {
     "id": "mece-mission-spacewalker",
     "buildingId": "mece",
     "floor": 2,
@@ -162,13 +152,13 @@
     }
   },
   {
-    "id": "mece-room-3-1",
+    "id": "mece-aero-design",
     "buildingId": "mece",
-    "floor": 3,
-    "room": "3-1",
+    "floor": 2,
+    "room": "East hall",
     "coordinates": {
-      "x": 0.271,
-      "y": 0.817
+      "x": 0.66,
+      "y": 0.603
     }
   },
   {
@@ -179,6 +169,16 @@
     "coordinates": {
       "x": 0.233,
       "y": 0.343
+    }
+  },
+  {
+    "id": "mece-room-3-1",
+    "buildingId": "mece",
+    "floor": 3,
+    "room": "3-1",
+    "coordinates": {
+      "x": 0.271,
+      "y": 0.817
     }
   }
 ]
