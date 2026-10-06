@@ -8,11 +8,13 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import type { CampusRouteStatus } from "../../hooks/useCampusRoute";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import type { CampusRoute } from "../../lib/campusRouter";
 import { walkingDirectionsUrl } from "../../lib/map";
 import { PLACE_CATEGORIES } from "../../lib/places";
 import type { Building, Place } from "../../types/content";
 import { maneuverIcons } from "./maneuverIcons";
+import { PlacePicker } from "./PlacePicker";
 
 export const MY_LOCATION = "my-location";
 
@@ -55,6 +57,8 @@ export function RoutePlanner({
         .map((place) => ({ value: place.id, label: place.name })),
     })).filter((group) => group.items.length > 0),
   ];
+  const fromOptions = [{ group: "Start", items: [{ value: MY_LOCATION, label: "My location" }] }, ...buildingOptions];
+  const isMobile = useIsMobile();
   const isSamePlace = Boolean(toId) && fromId === toId;
   const usesMyLocation = fromId === MY_LOCATION;
 
@@ -67,24 +71,33 @@ export function RoutePlanner({
 
       <Group gap="xs" wrap="nowrap" align="flex-end">
         <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
-          <Select
-            label="From"
-            value={fromId}
-            onChange={(value) => onChange({ fromId: value ?? MY_LOCATION, toId })}
-            allowDeselect={false}
-            searchable
-            nothingFoundMessage="No matching place"
-            data={[{ group: "Start", items: [{ value: MY_LOCATION, label: "My location" }] }, ...buildingOptions]}
-          />
-          <Select
-            label="To"
-            placeholder="Choose a building or place"
-            searchable
-            nothingFoundMessage="No matching place"
-            value={toId ?? null}
-            onChange={(value) => onChange({ fromId, toId: value ?? undefined })}
-            data={buildingOptions}
-          />
+          {isMobile ? (
+            <>
+              <PlacePicker label="From" placeholder="My location" value={fromId} groups={fromOptions} onChange={(value) => onChange({ fromId: value, toId })} />
+              <PlacePicker label="To" placeholder="Choose a building or place" value={toId} groups={buildingOptions} onChange={(value) => onChange({ fromId, toId: value })} />
+            </>
+          ) : (
+            <>
+              <Select
+                label="From"
+                value={fromId}
+                onChange={(value) => onChange({ fromId: value ?? MY_LOCATION, toId })}
+                allowDeselect={false}
+                searchable
+                nothingFoundMessage="No matching place"
+                data={fromOptions}
+              />
+              <Select
+                label="To"
+                placeholder="Choose a building or place"
+                searchable
+                nothingFoundMessage="No matching place"
+                value={toId ?? null}
+                onChange={(value) => onChange({ fromId, toId: value ?? undefined })}
+                data={buildingOptions}
+              />
+            </>
+          )}
         </Stack>
         <ActionIcon
           variant="default"
