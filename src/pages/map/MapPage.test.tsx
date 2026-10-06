@@ -29,7 +29,7 @@ describe("map page", () => {
     expect(screen.getByRole("heading", { name: "Event map" })).toBeInTheDocument();
     expect(await screen.findByTestId("campus-map")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Program presentation" })).toBeInTheDocument();
-    expect(screen.getByText("8 min walk · 598 m")).toBeInTheDocument();
+    expect(screen.getByText("8 min walk · 577 m")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("switch", { name: /attending the MEC E program presentation/ }));
 

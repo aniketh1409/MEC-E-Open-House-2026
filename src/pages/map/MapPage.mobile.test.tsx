@@ -61,6 +61,19 @@ describe("map page on mobile", () => {
     expect(within(sheet).getByRole("link", { name: "Walking directions to VVC" })).toBeInTheDocument();
   });
 
+  it("searches places in the full-screen picker", async () => {
+    renderApp("/map/campus");
+    await screen.findByTestId("campus-map");
+    fireEvent.click(screen.getByRole("button", { name: "Where to?" }));
+
+    fireEvent.click(screen.getByRole("button", { name: "To" }));
+    fireEvent.change(await screen.findByRole("textbox", { name: "Search to places" }), { target: { value: "windsor" } });
+
+    const list = screen.getByRole("listbox", { name: "To" });
+    expect(within(list).getByRole("option", { name: "Windsor Car Park" })).toBeInTheDocument();
+    expect(within(list).queryByRole("option", { name: "Mechanical Engineering Building" })).not.toBeInTheDocument();
+  });
+
   it("plans a campus route from the Where to? button", async () => {
     renderApp("/map/campus");
     await screen.findByTestId("campus-map");
@@ -68,11 +81,11 @@ describe("map page on mobile", () => {
     fireEvent.click(screen.getByRole("button", { name: "Where to?" }));
     expect(screen.getByRole("button", { name: "Hide details" })).toHaveAttribute("aria-expanded", "true");
 
+    // On phones, From and To open a full-screen, searchable list rather than a floating dropdown.
     for (const [label, option] of [["From", "Van Vliet Complex (VVC)"], ["To", "Mechanical Engineering Building"]] as const) {
-      const input = screen.getByRole("combobox", { name: label });
-      fireEvent.click(input);
-      const list = document.getElementById(input.getAttribute("aria-controls")!)!;
-      fireEvent.click(await within(list).findByRole("option", { name: option, hidden: true }));
+      fireEvent.click(screen.getByRole("button", { name: label }));
+      const list = await screen.findByRole("listbox", { name: label });
+      fireEvent.click(within(list).getByRole("option", { name: option }));
     }
 
     const sheet = screen.getByRole("region", { name: "Your route" });

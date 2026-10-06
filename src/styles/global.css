@@ -2441,6 +2441,95 @@ body {
 
 /* "Where to?" directions */
 
+/* Phones: From/To open a full-screen list instead of a floating dropdown. */
+.place-picker-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.place-picker-field {
+  display: flex;
+  width: 100%;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #202722;
+  font-size: 1rem;
+}
+
+.place-picker-field[data-empty] {
+  color: #8a9590;
+}
+
+.place-picker-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.place-picker-sheet {
+  display: flex;
+  height: 100dvh;
+  flex-direction: column;
+}
+
+.place-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: max(0.75rem, env(safe-area-inset-top)) 1rem 0.25rem;
+}
+
+.place-picker-search {
+  padding: 0.5rem 1rem 0.75rem;
+  border-bottom: 1px solid #e3e8e4;
+}
+
+.place-picker-list {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.place-picker-group.mantine-Text-root {
+  padding: 0.9rem 1rem 0.35rem;
+  color: #275d38;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.place-picker-option {
+  display: flex;
+  width: 100%;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #f0f3f1;
+  font-size: 1rem;
+}
+
+.place-picker-option[aria-selected="true"] {
+  color: #275d38;
+  font-weight: 700;
+}
+
+.place-picker-option:active {
+  background: #eef4f0;
+}
+
 .route-planner {
   border-color: #d9dfdb;
   border-top: 4px solid #1f6fd1;

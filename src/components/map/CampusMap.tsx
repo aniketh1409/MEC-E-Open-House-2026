@@ -54,13 +54,33 @@ const plannedCasingStyle: L.PathOptions = { color: "#ffffff", weight: 10, opacit
 const plannedStyle: L.PathOptions = { color: "#1f6fd1", weight: 6, lineCap: "round", lineJoin: "round" };
 const accuracyStyle: L.PathOptions = { color: "#1f6fd1", weight: 1, opacity: 0.25, fillOpacity: 0.05, dashArray: "4 6" };
 
-function stepIcon(step: JourneyStepDetails, isVisited: boolean) {
+type PinSide = "left" | "right" | "center";
+
+/** Stops this close together (m) would overlap, so their pins lean apart. */
+const CROWDED_WITHIN = 80;
+
+/** For stops near another stop, lean the western one's pin left and the eastern one's right. */
+function pinSides(steps: JourneyStepDetails[]): Map<string, PinSide> {
+  const sides = new Map<string, PinSide>();
+  for (const step of steps) {
+    const neighbour = steps.find(
+      (other) => other !== step && distanceMeters(step.building.position, other.building.position) < CROWDED_WITHIN,
+    );
+    sides.set(step.id, !neighbour ? "center" : step.building.position.lng < neighbour.building.position.lng ? "left" : "right");
+  }
+  return sides;
+}
+
+function stepIcon(step: JourneyStepDetails, isVisited: boolean, side: PinSide) {
+  // Anchor at the pin's right edge to sit it left of the point, or its left edge to sit it right.
+  const anchorX = side === "left" ? 36 : side === "right" ? -2 : 17;
   return L.divIcon({
     className: "campus-pin-wrapper",
     html: `<span class="campus-pin"${isVisited ? " data-visited" : ""}>${step.number}</span>`,
     iconSize: [34, 34],
-    iconAnchor: [17, 17],
-    tooltipAnchor: [16, 0],
+    iconAnchor: [anchorX, 17],
+    // Labels open from the pin's outer edge (offsets are relative to the anchor point).
+    tooltipAnchor: side === "left" ? [-36, 0] : side === "right" ? [36, 0] : [16, 0],
   });
 }
 
@@ -218,6 +238,7 @@ export default function CampusMap({
     const stepPositions = steps.map(({ building }): LatLngTuple => [building.position.lat, building.position.lng]);
     return L.latLngBounds([...legs.flatMap((leg) => leg.path), ...stepPositions]);
   }, [legs, steps]);
+  const sides = useMemo(() => pinSides(steps), [steps]);
   const routePath = plannedRoute?.route?.path;
   const bounds = routePath ? L.latLngBounds(routePath) : journeyBounds;
   const fitKey = routePath ? `route:${plannedRoute?.key}` : `journey:${steps.map((step) => step.id).join(",")}`;
@@ -281,10 +302,10 @@ export default function CampusMap({
           <Marker
             key={step.id}
             position={[step.building.position.lat, step.building.position.lng]}
-            icon={stepIcon(step, Boolean(step.booth && visitedStampIds.has(step.booth.stamp.id)))}
+            icon={stepIcon(step, Boolean(step.booth && visitedStampIds.has(step.booth.stamp.id)), sides.get(step.id) ?? "center")}
             title={`${step.number}. ${step.title}`}
           >
-            <Tooltip direction="right" permanent className="campus-pin-tooltip">
+            <Tooltip direction={sides.get(step.id) === "left" ? "left" : "right"} permanent className="campus-pin-tooltip">
               {step.building.abbreviation}
             </Tooltip>
           </Marker>
