@@ -912,6 +912,26 @@ body {
   background: radial-gradient(circle at 50% 0%, #fff6c4, #fffdf6 60%);
 }
 
+.draw-entry {
+  display: flex;
+  max-width: 460px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px dashed rgb(39 93 56 / 35%);
+  border-radius: 12px;
+  background: rgb(255 255 255 / 70%);
+}
+
+.draw-terms {
+  max-height: 14rem;
+  overflow-y: auto;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  background: #f4f7f5;
+}
+
 .completion-seal {
   display: inline-block;
   filter: drop-shadow(0 6px 10px rgb(23 54 34 / 25%));

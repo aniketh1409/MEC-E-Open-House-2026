@@ -32,6 +32,34 @@ Not in the sheet (they stay as files in the repository): floor-plan drawings and
 
 **When the Vercel project moves to the department:** repeat steps 3–5 in the new project (the environment variables and deploy hook don't move with it), and paste the new hook via **Set up publishing**.
 
+## Prize draw
+
+Visitors who collect every sticker see **Enter the prize draw** on their passport. They give their full name and email and tick that they agree to the terms. Entries go into a private **Prize draw entries** Google Sheet through a small script, which:
+
+- keeps **one row per passport**: entering again updates the row, so visitors can fix a typo until the draw closes (they see **Edit entry**);
+- refuses an email that's already entered from another passport, incomplete passports and entries after closing;
+- flags passports completed suspiciously fast (all stickers in under 15 minutes) in the **Flags** column;
+- has a hidden bot trap and a limit of 120 entries a minute;
+- accepts an entry made before closing but sent up to an hour later (e.g. after a dead zone), since entries made with no signal are kept on the phone and sent when it returns.
+
+The script can only add or update rows; it never shows the sheet to anyone. Each visitor sees an **entry code** (e.g. `3F9A-2C1E`), also in the sheet, to find their row if they email about a typo after closing.
+
+**Running the draw:** in the Entries tab, filter out rows with Flags you're not happy with, then pick a random row, e.g. `=INDEX(D2:D, RANDBETWEEN(1, COUNTA(D2:D)))` for the email. Delete the sheet within 30 days of the draw, as the terms promise.
+
+### Setup (once)
+
+1. In the team's shared Drive folder, create a Google Sheet called **Prize draw entries**. Keep sharing limited to the team.
+2. **Extensions → Apps Script**: replace everything with `content/draw-entries.gs`, Save.
+3. **Project Settings → Script properties**, add:
+   - `CLOSES_AT` = `2026-10-17T15:00:00-06:00` (3:00 PM Edmonton time)
+   - `REQUIRED_STICKERS` = `16` (the number of stickers on the passport)
+   - `GRACE_MINUTES` = `60` (optional)
+4. **Deploy → New deployment → Web app**: *Execute as* **Me**, *Who has access* **Anyone**. Approve the permissions. Copy the **Web app URL** (`https://script.google.com/macros/s/…/exec`). Opening it in a browser should show `{"ok":true,"open":true,…}`.
+5. Put that URL in the content sheet's Event tab, **Prize draw: entries web app URL**, and publish (or set `drawEndpoint` in `src/data/event.json`). The entry button appears once it's set.
+6. Test with a completed passport, then delete the test row.
+
+If you edit the script later, use **Deploy → Manage deployments → Edit → New version** so the URL stays the same. The **terms and privacy notice** visitors agree to is on the Event tab (**Prize draw: terms and privacy notice**); have it approved before the event.
+
 ## How it works
 
 `npm run build` first runs `scripts/content/sync.mjs --if-configured`. If `CONTENT_SHEET_ID` is set, it downloads the sheet as a spreadsheet file, checks it, and writes `src/data/*.json`; with any problem it stops the build, so Vercel keeps serving the last good version. Without `CONTENT_SHEET_ID` (local builds, tests) it does nothing and the committed JSON is used.

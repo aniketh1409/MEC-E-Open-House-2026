@@ -5,5 +5,9 @@
   "opensAt": "09:00",
   "closesAt": "15:00",
   "isDraft": false,
-  "qrPagePasswordHash": "0ea344016709d2d96cfa992343428fc85dc256af987397a811d6605cb62bf241"
+  "qrPagePasswordHash": "0ea344016709d2d96cfa992343428fc85dc256af987397a811d6605cb62bf241",
+  "drawEnabled": true,
+  "drawClosesAt": "15:00",
+  "drawPrize": "Complete your passport for a chance to win a gift card. Winners will be contacted by email after the event.",
+  "drawTerms": "By entering, you agree that the Department of Mechanical Engineering may use your full name and email address only to run this prize draw and to contact the winner(s). Entries are kept in a Google Sheet that only the Open House organizing team can access, and are deleted within 30 days after the draw. One entry per person; you must have collected every sticker. Winners are drawn at random after the event and contacted by email. Prizes are gift cards and can't be exchanged for cash."
 }

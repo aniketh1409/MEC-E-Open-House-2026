@@ -42,6 +42,8 @@ export interface Stamp {
 export interface VisitorPassportState {
   passportId: string;
   collectedStamps: string[];
+  /** When each sticker was collected (ISO time), for the prize draw's sanity checks. */
+  collectedAt?: Record<string, string>;
 }
 
 export interface LatLng {
@@ -88,6 +90,16 @@ export interface EventInfo {
   isDraft?: boolean;
   /** Fingerprint of the /qr-codes page password (never the password itself). */
   qrPagePasswordHash?: string;
+  /** Prize draw for visitors who collect every sticker. */
+  drawEnabled?: boolean;
+  /** Google Apps Script web app that records entries in the organizers' Sheet. */
+  drawEndpoint?: string;
+  /** Entries close at this time on the event day, "HH:MM". */
+  drawClosesAt?: string;
+  /** One line about the prize, shown with the entry button. */
+  drawPrize?: string;
+  /** Terms and privacy notice visitors agree to before entering. */
+  drawTerms?: string;
 }
 
 export type ScheduleCategory = "presentation" | "tour" | "booth-fair" | "food" | "general";

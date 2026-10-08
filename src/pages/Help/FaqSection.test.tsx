@@ -17,13 +17,13 @@ describe("FAQ", () => {
     expect(within(faq).getByRole("button", { name: /How does the passport work\?/ })).toBeInTheDocument();
   });
 
-  it("lists parking lots and hides unanswered questions", () => {
+  it("lists parking lots, shows the prize answer and hides unanswered questions", () => {
     renderApp("/help");
 
     fireEvent.click(screen.getByRole("button", { name: /Where can I park\?/ }));
     expect(screen.getByText("Windsor Car Park")).toBeInTheDocument();
     expect(screen.queryByText("To be confirmed")).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /Is there a prize/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Is there a prize/ })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Is the building accessible/ })).not.toBeInTheDocument();
   });
 

@@ -50,6 +50,10 @@ function isStoredPassport(value: unknown): value is StoredPassport {
   );
 }
 
+function isTimestampMap(value: unknown): value is Record<string, string> {
+  return Boolean(value) && typeof value === "object" && Object.values(value as object).every((time) => typeof time === "string");
+}
+
 export function savePassport(
   state: VisitorPassportState,
   storage: Storage = window.localStorage,
@@ -74,6 +78,7 @@ export function loadPassport(storage: Storage = window.localStorage): PassportLo
           state: {
             passportId: parsedValue.passportId,
             collectedStamps: parsedValue.collectedStamps,
+            ...(isTimestampMap(parsedValue.collectedAt) ? { collectedAt: parsedValue.collectedAt } : {}),
           },
           isPersistent: true,
         };
@@ -90,6 +95,7 @@ export function loadPassport(storage: Storage = window.localStorage): PassportLo
 export function addStamp(
   state: VisitorPassportState,
   stampId: string,
+  now: Date = new Date(),
 ): { state: VisitorPassportState; added: boolean } {
   if (state.collectedStamps.includes(stampId)) {
     return { state, added: false };
@@ -99,6 +105,7 @@ export function addStamp(
     state: {
       ...state,
       collectedStamps: [...state.collectedStamps, stampId],
+      collectedAt: { ...state.collectedAt, [stampId]: now.toISOString() },
     },
     added: true,
   };
