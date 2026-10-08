@@ -2,6 +2,7 @@ import { Button, Group, Stack, Text, Title } from "@mantine/core";
 import { IconCheck, IconShare2 } from "@tabler/icons-react";
 import { useState } from "react";
 import { Confetti } from "./Confetti";
+import { DrawEntry } from "./DrawEntry";
 import { CompletionSeal } from "./Sticker";
 
 
@@ -31,13 +32,10 @@ export function CompletionCelebration({ total, burst = true }: { total: number; 
         <CompletionSeal size={168} animate={burst} />
         <Text className="eyebrow" c="ualbertaGreen.8">All {total} stamps collected</Text>
         <Title order={2}>You're a Certified Explorer!</Title>
-        {/* Placeholder until the completion prize is confirmed. */}
-        <Text c="dimmed" maw={420}>
-          Thanks for exploring Mechanical Engineering. Prize details will be announced by the event organizers,
-          so keep this page handy.
-        </Text>
-        <Group gap="sm" justify="center">
-          <Button leftSection={copied ? <IconCheck size={17} /> : <IconShare2 size={17} />} onClick={share}>
+        <Text c="dimmed" maw={420}>Thanks for exploring Mechanical Engineering!</Text>
+        <DrawEntry />
+        <Group gap="sm" justify="center" mt="xs">
+          <Button variant="light" leftSection={copied ? <IconCheck size={17} /> : <IconShare2 size={17} />} onClick={share}>
             {copied ? "Copied to clipboard" : "Share"}
           </Button>
         </Group>

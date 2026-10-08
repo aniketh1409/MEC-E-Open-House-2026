@@ -109,8 +109,7 @@
     "id": "prize",
     "category": "Passport & stickers",
     "question": "Is there a prize for collecting every sticker?",
-    "answer": "Collect all 16 to earn the Certified Explorer seal.",
-    "hidden": true
+    "answer": "Yes! Collect every sticker to enter the prize draw for a gift card: an \"Enter the prize draw\" button appears on your passport once it's complete. Entries close at 3:00 PM on the day, and winners are drawn at random after the event and contacted by email."
   },
   {
     "id": "progress-lost",

@@ -35,6 +35,9 @@ export function validateSheet(sheet, root, { buildings, floorPlans }) {
   const event = sheet.Event ?? {};
 
   // Event
+  if (event.drawEndpoint && !/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(event.drawEndpoint)) {
+    errors.push(`Event tab: "Prize draw: entries web app URL" should look like https://script.google.com/macros/s/.../exec`);
+  }
   if (event.qrPagePassword && event.qrPagePassword.trim().length < 8) {
     errors.push(`Event tab: "QR codes page password" must be at least 8 characters.`);
   }
