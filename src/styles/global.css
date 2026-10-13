@@ -718,9 +718,29 @@ body {
 }
 
 .sticker-cell {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* Gold "BONUS" tab on an optional sticker. Positioned over the corner so the sticker lines up with its neighbours. */
+.sticker-bonus-tag {
+  position: absolute;
+  top: -0.35rem;
+  right: 50%;
+  z-index: 2;
+  transform: translateX(4.6rem) rotate(8deg);
+  padding: 0.15rem 0.5rem;
+  border: 2px solid #fffdf6;
+  border-radius: 999px;
+  background: #f2cd00;
+  box-shadow: 0 2px 6px rgb(23 54 34 / 20%);
+  color: #173622;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 30em) {

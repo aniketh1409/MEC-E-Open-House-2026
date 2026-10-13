@@ -7,7 +7,7 @@
  *
  * Script properties (Project Settings > Script properties):
  *   CLOSES_AT          when entries close, with time zone, e.g. 2026-10-17T15:00:00-06:00
- *   REQUIRED_STICKERS  stickers needed to enter (default 16)
+ *   REQUIRED_STICKERS  stickers needed to enter, not counting bonus stickers (default 15)
  *   GRACE_MINUTES      how long after closing an entry made on time (but sent late, e.g. after
  *                      a dead zone) is still accepted (default 60)
  */
@@ -131,7 +131,7 @@ function config_() {
   const closesAtMs = Date.parse(properties.getProperty("CLOSES_AT") || "");
   return {
     closesAtMs: Number.isFinite(closesAtMs) ? closesAtMs : 0,
-    requiredStickers: Number(properties.getProperty("REQUIRED_STICKERS") || 16),
+    requiredStickers: Number(properties.getProperty("REQUIRED_STICKERS") || 15),
     graceMinutes: Number(properties.getProperty("GRACE_MINUTES") || 60),
   };
 }

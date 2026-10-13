@@ -30,7 +30,7 @@ Optional: `"official": true` marks an organizer-recommended spot with a star and
 
 ## Sticker artwork (`stamps.json` → `public/assets/stamps/`)
 
-Each stamp's `image` points at its sticker file, e.g. `"/assets/stamps/arvp.svg"` is `public/assets/stamps/arvp.svg`. To change a sticker, open the file in Figma, Illustrator, Inkscape or Canva, edit it, and save it over the old one (keep it square; 200 × 200 works well). A PNG works too: save it in the same folder and update `image`. `"holo": true` adds the shimmer, and the completion seal is `certified-explorer.svg`. If a file is missing, `fallback.svg` is shown instead.
+Each stamp's `image` points at its sticker file, e.g. `"/assets/stamps/arvp.svg"` is `public/assets/stamps/arvp.svg`. To change a sticker, open the file in Figma, Illustrator, Inkscape or Canva, edit it, and save it over the old one (keep it square; 200 × 200 works well). A PNG works too: save it in the same folder and update `image`. `"holo": true` adds the shimmer, `"bonus": true` makes it an optional extra (shown with a Bonus tag, not needed to complete the passport or enter the prize draw; the sheet's "Bonus sticker?" column), and the completion seal is `certified-explorer.svg`. If a file is missing, `fallback.svg` is shown instead.
 
 ## `faq.json`: questions on the Help page
 

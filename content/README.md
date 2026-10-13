@@ -34,7 +34,7 @@ Not in the sheet (they stay as files in the repository): floor-plan drawings and
 
 ## Prize draw
 
-Visitors who collect every sticker see **Enter the prize draw** on their passport. They give their full name and email and tick that they agree to the terms. Entries go into a private **Prize draw entries** Google Sheet through a small script, which:
+Visitors who collect every required sticker (bonus stickers are optional) see **Enter the prize draw** on their passport. They give their full name and email and tick that they agree to the terms. Entries go into a private **Prize draw entries** Google Sheet through a small script, which:
 
 - keeps **one row per passport**: entering again updates the row, so visitors can fix a typo until the draw closes (they see **Edit entry**);
 - refuses an email that's already entered from another passport, incomplete passports and entries after closing;
@@ -52,7 +52,7 @@ The script can only add or update rows; it never shows the sheet to anyone. Each
 2. **Extensions → Apps Script**: replace everything with `content/draw-entries.gs`, Save.
 3. **Project Settings → Script properties**, add:
    - `CLOSES_AT` = `2026-10-17T15:00:00-06:00` (3:00 PM Edmonton time)
-   - `REQUIRED_STICKERS` = `16` (the number of stickers on the passport)
+   - `REQUIRED_STICKERS` = `15` (the stickers needed to complete the passport; bonus stickers don't count)
    - `GRACE_MINUTES` = `60` (optional)
 4. **Deploy → New deployment → Web app**: *Execute as* **Me**, *Who has access* **Anyone**. Approve the permissions. Copy the **Web app URL** (`https://script.google.com/macros/s/…/exec`). Opening it in a browser should show `{"ok":true,"open":true,…}`.
 5. Put that URL in the content sheet's Event tab, **Prize draw: entries web app URL**, and publish (or set `drawEndpoint` in `src/data/event.json`). The entry button appears once it's set.

@@ -7,11 +7,13 @@ import { CompletionCelebration } from "../components/passport/CompletionCelebrat
 import { CompletionSeal, Sticker } from "../components/passport/Sticker";
 import { features } from "../config/features";
 import { usePassport } from "../hooks/usePassport";
-import { getActiveBooths, type BoothDetails } from "../lib/content";
+import { getActiveBooths, getRequiredBooths, type BoothDetails } from "../lib/content";
 import { getTourStopByBoothId } from "../lib/map";
 import logoUrl from "../../assets/images/ualberta-logo.webp";
 
 const booths = getActiveBooths();
+/** Bonus stickers are shown but don't count towards completing the passport. */
+const requiredBooths = getRequiredBooths();
 
 /** Resting tilts so a page of stickers looks hand-placed. */
 const TILTS = [-6, 4, -2, 5, -4, 3, -5, 2];
@@ -53,10 +55,12 @@ export function PassportPage() {
   const newStampId = searchParams.get("new");
   const [resetOpened, { open: openReset, close: closeReset }] = useDisclosure(false);
   const collectedStampIds = new Set(state.collectedStamps);
-  const collectedCount = booths.filter((booth) => collectedStampIds.has(booth.stamp.id)).length;
-  const isComplete = booths.length > 0 && collectedCount === booths.length;
-  const progress = booths.length === 0 ? 0 : (collectedCount / booths.length) * 100;
-  const justCompleted = isComplete && Boolean(newStampId);
+  const total = requiredBooths.length;
+  const collectedCount = requiredBooths.filter((booth) => collectedStampIds.has(booth.stamp.id)).length;
+  const isComplete = total > 0 && collectedCount === total;
+  const progress = total === 0 ? 0 : (collectedCount / total) * 100;
+  // Celebrate only when the sticker just collected was the last required one, not a bonus afterwards.
+  const justCompleted = isComplete && requiredBooths.some((booth) => booth.stamp.id === newStampId);
 
   const handleReset = () => {
     resetPassport();
@@ -78,7 +82,7 @@ export function PassportPage() {
           <Group justify="space-between" align="center" wrap="nowrap">
             <Text className="passport-count" aria-live="polite">
               <span key={collectedCount} className="passport-count-value">{collectedCount}</span>
-              <span className="passport-count-total"> / {booths.length} stamps</span>
+              <span className="passport-count-total"> / {total} stamps</span>
             </Text>
             {isComplete && (
               <span className="passport-complete-stamp" data-animate={justCompleted || undefined} aria-hidden="true">
@@ -89,9 +93,9 @@ export function PassportPage() {
           <div
             className="passport-meter"
             role="progressbar"
-            aria-label={`${collectedCount} of ${booths.length} stamps collected`}
+            aria-label={`${collectedCount} of ${total} stamps collected`}
             aria-valuemin={0}
-            aria-valuemax={booths.length}
+            aria-valuemax={total}
             aria-valuenow={collectedCount}
           >
             <span style={{ width: `${progress}%` }} />
@@ -112,7 +116,7 @@ export function PassportPage() {
       )}
 
       {isComplete ? (
-        <CompletionCelebration total={booths.length} burst={justCompleted} />
+        <CompletionCelebration total={total} burst={justCompleted} />
       ) : (
         <Text c="dimmed" maw={680}>
           Scan the QR code at each station to collect its sticker. Your passport stays on this browser and device.
@@ -135,8 +139,10 @@ export function PassportPage() {
                     key={booth.stamp.id}
                     className="sticker-cell"
                     data-collected={collected || undefined}
+                    data-bonus={booth.stamp.bonus || undefined}
                     style={{ "--delay": `${index * 40}ms` } as CSSProperties}
                   >
+                    {booth.stamp.bonus && <span className="sticker-bonus-tag">Bonus</span>}
                     <Sticker
                       stampId={booth.stamp.id}
                       name={booth.stamp.name}
@@ -148,7 +154,7 @@ export function PassportPage() {
                       {collected ? booth.stamp.name : booth.name}
                     </Text>
                     <Text size="xs" c="dimmed" ta="center" lh={1.3}>
-                      {collected ? booth.stamp.description : "Visit to collect"}
+                      {collected ? booth.stamp.description : booth.stamp.bonus ? "Optional: not needed to complete" : "Visit to collect"}
                     </Text>
                   </li>
                 );
@@ -161,7 +167,10 @@ export function PassportPage() {
       {!isComplete && (
         <div className="passport-locked-seal">
           <CompletionSeal size={96} />
-          <Text size="sm" c="dimmed">Collect all {booths.length} stickers to earn the Certified Explorer seal.</Text>
+          <Text size="sm" c="dimmed">
+            Collect all {total} stickers to earn the Certified Explorer seal
+            {total < booths.length ? " (bonus stickers are optional)" : ""}.
+          </Text>
         </div>
       )}
 

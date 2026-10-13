@@ -1,6 +1,6 @@
 import { act, fireEvent, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { getActiveBooths } from "../../lib/content";
+import { getActiveBooths, getRequiredBooths } from "../../lib/content";
 import { entryCode, suggestEmail } from "../../lib/draw";
 import { savePassport } from "../../lib/passport";
 import { renderApp } from "../../test/renderApp";
@@ -77,7 +77,8 @@ describe("prize draw entry", () => {
       email: "alex@example.com",
       consent: true,
       passportId: PASSPORT_ID,
-      stickers: stampIds.length,
+      // The bonus sticker is in this passport but isn't counted.
+      stickers: getRequiredBooths().length,
       firstStickerAt: "2026-10-17T16:00:00.000Z",
       website: "",
     });

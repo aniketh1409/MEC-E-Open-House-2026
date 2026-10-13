@@ -11,7 +11,8 @@
     "name": "Program Insider",
     "description": "Collected at the live program presentation in ETLC.",
     "image": "/assets/stamps/program-presentation.svg",
-    "boothId": "program-presentation"
+    "boothId": "program-presentation",
+    "bonus": true
   },
   {
     "id": "stamp-west-entry",

@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { screen, within } from "@testing-library/react";
 import { existsSync } from "node:fs";
 import stamps from "../data/stamps.json";
-import { getActiveBooths } from "../lib/content";
+import { getRequiredBooths } from "../lib/content";
 import { PASSPORT_STORAGE_KEY, savePassport } from "../lib/passport";
 import boothsData from "../data/booths.json";
 import { renderApp } from "../test/renderApp";
@@ -10,7 +10,8 @@ import { renderApp } from "../test/renderApp";
 /** A stall's code, looked up so tests don't depend on the printed codes. */
 const code = (boothId: string) => boothsData.find((booth) => booth.id === boothId)!.qrCode;
 
-const allStampIds = getActiveBooths().map((booth) => booth.stamp.id);
+/** The stickers that complete the passport: every one except the bonus presentation sticker. */
+const requiredStampIds = getRequiredBooths().map((booth) => booth.stamp.id);
 
 describe("passport", () => {
   beforeEach(() => {
@@ -27,8 +28,8 @@ describe("passport", () => {
     renderApp("/passport");
 
     expect(screen.getByRole("heading", { name: "Passport" })).toBeInTheDocument();
-    expect(screen.getByRole("progressbar", { name: "0 of 16 stamps collected" })).toBeInTheDocument();
-    expect(screen.getAllByText("Visit to collect")).toHaveLength(16);
+    expect(screen.getByRole("progressbar", { name: "0 of 15 stamps collected" })).toBeInTheDocument();
+    expect(screen.getAllByText("Visit to collect")).toHaveLength(15);
     expect(localStorage.getItem(PASSPORT_STORAGE_KEY)).not.toBeNull();
   });
 
@@ -52,7 +53,7 @@ describe("passport", () => {
 
     expect(screen.getByRole("heading", { name: "Sticker collected!" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Design Explorer sticker" })).toBeInTheDocument();
-    expect(screen.getByText(/1 of 16 collected/)).toBeInTheDocument();
+    expect(screen.getByText(/1 of 15 collected/)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "View passport" })).toHaveAttribute("href", "/passport?new=stamp-design-courses");
 
     const storedPassport = localStorage.getItem(PASSPORT_STORAGE_KEY);
@@ -77,24 +78,49 @@ describe("passport", () => {
     renderApp(`/passport/collect/${code("design-courses")}`).unmount();
     renderApp("/passport");
 
-    expect(screen.getByRole("progressbar", { name: "1 of 16 stamps collected" })).toBeInTheDocument();
+    expect(screen.getByRole("progressbar", { name: "1 of 15 stamps collected" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Design Explorer sticker" })).toBeInTheDocument();
   });
 
   it("celebrates the last sticker", () => {
-    savePassport({ passportId: "test-passport", collectedStamps: allStampIds.filter((id) => id !== "stamp-mece-301-lab") });
+    savePassport({ passportId: "test-passport", collectedStamps: requiredStampIds.filter((id) => id !== "stamp-mece-301-lab") });
     renderApp(`/passport/collect/${code("mece-301-lab")}`);
 
-    expect(screen.getByText(/16 of 16 collected/)).toBeInTheDocument();
+    expect(screen.getByText(/15 of 15 collected/)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "You're a Certified Explorer!" })).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "MEC E Certified Explorer seal" })).toBeInTheDocument();
   });
 
-  it("shows the completed passport", () => {
-    savePassport({ passportId: "test-passport", collectedStamps: allStampIds });
+  it("shows the completed passport, without the bonus sticker", () => {
+    savePassport({ passportId: "test-passport", collectedStamps: requiredStampIds });
     renderApp("/passport");
 
     expect(screen.getByText("Complete")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "You're a Certified Explorer!" })).toBeInTheDocument();
+  });
+
+  it("marks the presentation sticker as an optional bonus", () => {
+    renderApp("/passport");
+
+    const campus = screen.getByRole("heading", { name: "On campus" }).closest("section")!;
+    expect(within(campus).getByText("Bonus")).toBeInTheDocument();
+    expect(within(campus).getByText("Optional: not needed to complete")).toBeInTheDocument();
+    expect(screen.getByText(/bonus stickers are optional/)).toBeInTheDocument();
+  });
+
+  it("collects the bonus sticker without counting it", () => {
+    renderApp(`/passport/collect/${code("program-presentation")}`);
+
+    expect(screen.getByRole("heading", { name: "Bonus sticker collected!" })).toBeInTheDocument();
+    expect(screen.getByText(/0 of 15 collected/)).toBeInTheDocument();
+    expect(localStorage.getItem(PASSPORT_STORAGE_KEY)).toContain("stamp-program-presentation");
+  });
+
+  it("doesn't replay the completion for a bonus sticker collected afterwards", () => {
+    savePassport({ passportId: "test-passport", collectedStamps: requiredStampIds });
+    renderApp(`/passport/collect/${code("program-presentation")}`);
+
+    expect(screen.getByRole("heading", { name: "Bonus sticker collected!" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "You're a Certified Explorer!" })).not.toBeInTheDocument();
   });
 });

@@ -37,6 +37,8 @@ export interface Stamp {
   boothId: string;
   /** Student-group stickers shimmer. */
   holo?: boolean;
+  /** An optional extra: not needed to complete the passport or enter the prize draw. */
+  bonus?: boolean;
 }
 
 export interface VisitorPassportState {

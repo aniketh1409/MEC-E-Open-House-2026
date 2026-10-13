@@ -20,14 +20,14 @@ const { checkEntry_, upsertEntry_, entryCode_ } = sandbox;
 const plain = (value) => JSON.parse(JSON.stringify(value));
 
 const closesAtMs = Date.parse("2026-10-17T15:00:00-06:00");
-const config = { closesAtMs, requiredStickers: 16, graceMinutes: 60 };
+const config = { closesAtMs, requiredStickers: 15, graceMinutes: 60 };
 const beforeClose = Date.parse("2026-10-17T13:30:00-06:00");
 const entry = {
   name: "  Alex   Rivera ",
   email: "Alex.Rivera@Example.com ",
   consent: true,
   passportId: "3f9a2c1e-7b44-4d2a-9c1d-5e6f7a8b9c0d",
-  stickers: 16,
+  stickers: 15,
   firstStickerAt: "2026-10-17T15:10:00Z",
   lastStickerAt: "2026-10-17T18:40:00Z",
   submittedAt: "2026-10-17T19:30:00Z",
@@ -42,7 +42,7 @@ describe("prize draw entries script", () => {
   });
 
   it("refuses incomplete passports, bad emails, missing consent and late entries", () => {
-    expect(checkEntry_({ ...entry, stickers: 15 }, config, beforeClose).error).toBe("Collect all 16 stickers to enter the draw.");
+    expect(checkEntry_({ ...entry, stickers: 14 }, config, beforeClose).error).toBe("Collect all 15 stickers to enter the draw.");
     expect(checkEntry_({ ...entry, email: "alex@example" }, config, beforeClose).error).toBe("Please enter a valid email address.");
     expect(checkEntry_({ ...entry, consent: false }, config, beforeClose).error).toBe("Please agree to the terms to enter.");
     expect(checkEntry_({ ...entry, name: "A" }, config, beforeClose).error).toBe("Please enter your full name.");
