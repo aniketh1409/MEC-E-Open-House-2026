@@ -142,7 +142,8 @@ export async function readWorkbook(buffer) {
     const headerRow = worksheet.getRow(1);
     const columnFor = new Map();
     headerRow.eachCell((cell, columnNumber) => columnFor.set(normalise(cell.value), columnNumber));
-    const missing = tab.columns.filter((column) => !columnFor.has(column.header.toLowerCase()));
+    // Columns added after the sheet was made (mayBeMissing) are optional, so older sheets still publish.
+    const missing = tab.columns.filter((column) => !column.mayBeMissing && !columnFor.has(column.header.toLowerCase()));
     for (const column of missing) errors.push(`${name} tab: the "${column.header}" column is missing.`);
 
     const rows = [];

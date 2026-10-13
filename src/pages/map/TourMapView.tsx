@@ -35,7 +35,7 @@ import { renderStopIcon } from "../../components/map/stopIcons";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import { usePassport } from "../../hooks/usePassport";
 import { useSheetHistory } from "../../hooks/useSheetHistory";
-import { getActiveBooths } from "../../lib/content";
+import { getRequiredBooths } from "../../lib/content";
 import {
   getTourArrival,
   getTourFloorPlans,
@@ -49,8 +49,8 @@ import type { FloorPlan, PlanPoint } from "../../types/content";
 const stops = getTourStops();
 const floorPlans = getTourFloorPlans();
 const arrival = getTourArrival();
-/** Every stamp on the day, campus and building alike: the same total as the Passport. */
-const allStampIds = getActiveBooths().map((booth) => booth.stamp.id);
+/** Every required stamp on the day, campus and building alike: the same total as the Passport. */
+const allStampIds = getRequiredBooths().map((booth) => booth.stamp.id);
 /**
  * A step between stops: getting in from the entrance, or changing floors. The tour walks
  * visitors through these so they never have to work out the stairs themselves.

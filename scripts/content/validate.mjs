@@ -67,6 +67,9 @@ export function validateSheet(sheet, root, { buildings, floorPlans }) {
     }
     if ((row.pinX === undefined) !== (row.pinY === undefined)) errors.push(`${at("Stalls", row)}: fill in both Pin X and Pin Y, or neither.`);
   }
+  if (stalls.length && !stalls.some((row) => row.isActive === true && row.bonus !== true)) {
+    errors.push(`Stalls tab: at least one active stall must not be a bonus sticker, or the passport can never be completed.`);
+  }
 
   // Tour
   const tourBuilding = event.tourBuildingId;

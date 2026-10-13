@@ -54,6 +54,20 @@ export function getActiveBooths(): BoothDetails[] {
     .sort((first, second) => first.name.localeCompare(second.name));
 }
 
+/**
+ * The stalls whose stickers complete the passport and enter the prize draw: every active stall
+ * except bonus stickers, which visitors may miss (e.g. a presentation at a set time).
+ */
+export function getRequiredBooths(): BoothDetails[] {
+  return getActiveBooths().filter((booth) => !booth.stamp.bonus);
+}
+
+/** How many of the required stickers a passport holds. */
+export function countRequiredStickers(collectedStampIds: Iterable<string>): number {
+  const collected = new Set(collectedStampIds);
+  return getRequiredBooths().filter((booth) => collected.has(booth.stamp.id)).length;
+}
+
 export function getActiveBoothById(id: string): BoothDetails | undefined {
   const booth = booths.find((candidate) => candidate.id === id && candidate.isActive);
   return booth ? joinBooth(booth) : undefined;

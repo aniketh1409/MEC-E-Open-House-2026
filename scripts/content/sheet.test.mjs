@@ -127,5 +127,25 @@ describe("content spreadsheet", () => {
     expect(errors).toEqual([]);
     expect(sheet.Stalls).toHaveLength(data.booths.length);
   });
+
+  it("still publishes a sheet made before the Bonus sticker? column existed", async () => {
+    const { sheet, errors } = await roundTrip((workbook) => {
+      workbook.getWorksheet("Stalls").spliceColumns(column(workbook, "Stalls", "Bonus sticker?"), 1);
+    });
+
+    expect(errors).toEqual([]);
+    expect(fromSheet(sheet, data).stamps.filter((stamp) => stamp.bonus)).toEqual([]);
+  });
+
+  it("refuses a passport that could never be completed because every sticker is a bonus", async () => {
+    const { errors } = await roundTrip((workbook) => {
+      const bonus = column(workbook, "Stalls", "Bonus sticker?");
+      workbook.getWorksheet("Stalls").eachRow((candidate, number) => {
+        if (number > 1) candidate.getCell(bonus).value = "Yes";
+      });
+    });
+
+    expect(errors).toContain("Stalls tab: at least one active stall must not be a bonus sticker, or the passport can never be completed.");
+  });
 });
 

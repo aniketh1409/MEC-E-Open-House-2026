@@ -1,4 +1,5 @@
 import type { VisitorPassportState } from "../types/content";
+import { countRequiredStickers } from "./content";
 import { getEventInfo, zonedDateTime } from "./schedule";
 
 /**
@@ -77,7 +78,8 @@ function payload(passport: VisitorPassportState, form: DrawEntryForm, submittedA
     email: form.email.trim(),
     consent: true,
     passportId: passport.passportId,
-    stickers: passport.collectedStamps.length,
+    // Required stickers only, so a bonus sticker can't stand in for a missing one.
+    stickers: countRequiredStickers(passport.collectedStamps),
     firstStickerAt: times[0] ?? "",
     lastStickerAt: times.at(-1) ?? "",
     submittedAt,

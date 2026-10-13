@@ -41,7 +41,7 @@ describe("map page", () => {
     collect("stamp-west-entry");
     renderApp("/map/tour");
 
-    expect(screen.getByText("1 of 16 stops visited")).toBeInTheDocument();
+    expect(screen.getByText("1 of 15 stops visited")).toBeInTheDocument();
     expect(screen.getByText("2nd floor: 1 of 5 here")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "UAlberta Formula Racing" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Stop 1: Tour Start – West Entry, visited" })).toBeInTheDocument();
@@ -132,8 +132,8 @@ describe("map page", () => {
     renderApp("/map");
 
     expect(screen.getByRole("tab", { name: "MEC E tour" })).toHaveAttribute("aria-selected", "true");
-    // Campus stamps count too, matching the Passport's total.
-    expect(screen.getByText("2 of 16 stops visited")).toBeInTheDocument();
+    // Campus stamps count too, matching the Passport's total (the bonus presentation sticker doesn't).
+    expect(screen.getByText("2 of 15 stops visited")).toBeInTheDocument();
   });
 
   it("returns scans started from the map straight back to it", () => {

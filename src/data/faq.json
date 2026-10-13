@@ -97,7 +97,7 @@
     "id": "passport-how",
     "category": "Passport & stickers",
     "question": "How does the passport work?",
-    "answer": "Scan the QR code at each station with the Scan button to collect its sticker. There are 16 stickers: 2 on campus and 14 inside the Mechanical Engineering Building. Your passport shows which ones you still need."
+    "answer": "Scan the QR code at each station with the Scan button to collect its sticker. There are 15 stickers to collect: 1 at the Mechanical Engineering stall in the VVC and 14 inside the Mechanical Engineering Building. The live program presentation in ETLC has a bonus sticker too, but it's optional. Your passport shows which ones you still need."
   },
   {
     "id": "qr-trouble",
@@ -109,7 +109,7 @@
     "id": "prize",
     "category": "Passport & stickers",
     "question": "Is there a prize for collecting every sticker?",
-    "answer": "Yes! Collect every sticker to enter the prize draw for a gift card: an \"Enter the prize draw\" button appears on your passport once it's complete. Entries close at 3:00 PM on the day, and winners are drawn at random after the event and contacted by email."
+    "answer": "Yes! Collect all 15 stickers to enter the prize draw for a gift card (the bonus sticker from the program presentation isn't needed): an \"Enter the prize draw\" button appears on your passport once it's complete. Entries close at 3:00 PM on the day, and winners are drawn at random after the event and contacted by email."
   },
   {
     "id": "progress-lost",

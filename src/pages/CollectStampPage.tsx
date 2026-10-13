@@ -5,7 +5,7 @@ import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { CompletionCelebration } from "../components/passport/CompletionCelebration";
 import { Sticker } from "../components/passport/Sticker";
 import { celebrateStamp } from "../lib/celebrate";
-import { getActiveBoothByQrCode, getActiveBooths } from "../lib/content";
+import { countRequiredStickers, getActiveBoothByQrCode, getRequiredBooths } from "../lib/content";
 import { boothMapPath, stampReturnPath } from "../lib/map";
 import { addStamp, loadPassport, savePassport } from "../lib/passport";
 
@@ -28,19 +28,19 @@ export function CollectStampPage() {
     const isPersistent = collection.added
       ? savePassport(collection.state)
       : passport.isPersistent;
-    const activeStampIds = getActiveBooths().map((activeBooth) => activeBooth.stamp.id);
-    const collected = new Set(collection.state.collectedStamps);
-
+    // Progress and completion count required stickers only; bonus stickers are extras.
     return {
       status: (collection.added ? "collected" : "duplicate") as CollectionStatus,
       isPersistent,
-      collectedCount: activeStampIds.filter((stampId) => collected.has(stampId)).length,
-      total: activeStampIds.length,
+      collectedCount: countRequiredStickers(collection.state.collectedStamps),
+      total: getRequiredBooths().length,
     };
   });
 
   const isNew = result.status === "collected";
-  const isComplete = isNew && result.total > 0 && result.collectedCount === result.total;
+  const isBonus = booth?.stamp.bonus === true;
+  // A bonus sticker collected after the rest doesn't replay the completion.
+  const isComplete = isNew && !isBonus && result.total > 0 && result.collectedCount === result.total;
   const returnsToMap = searchParams.get("from") === "map" && result.status !== "invalid" && result.isPersistent;
 
   useEffect(() => {
@@ -86,9 +86,14 @@ export function CollectStampPage() {
       </div>
 
       <Text className="eyebrow">{booth.name}</Text>
-      <Title order={1}>{isNew ? "Sticker collected!" : "Already in your passport"}</Title>
+      <Title order={1}>{isNew ? (isBonus ? "Bonus sticker collected!" : "Sticker collected!") : "Already in your passport"}</Title>
       <Text c="dimmed" size="lg" maw={460}>
-        {isNew ? (
+        {isNew && isBonus ? (
+          <>
+            <strong>{booth.stamp.name}</strong> is a bonus: it's not needed to complete your passport. {result.collectedCount} of{" "}
+            {result.total} collected
+          </>
+        ) : isNew ? (
           <>
             <strong>{booth.stamp.name}</strong> · {result.collectedCount} of {result.total} collected
           </>
