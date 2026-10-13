@@ -70,6 +70,7 @@ describe("prize draw entry", () => {
 
     expect(await screen.findByText("You're entered in the draw!")).toBeInTheDocument();
     expect(screen.getByText(entryCode(PASSPORT_ID))).toBeInTheDocument();
+    expect(screen.getByText(/Take a screenshot of this/)).toBeInTheDocument();
     const [url, request] = fetchMock.mock.calls[0]!;
     expect(url).toBe(ENDPOINT);
     expect(JSON.parse(request.body)).toMatchObject({

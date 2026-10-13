@@ -866,6 +866,11 @@ body {
   height: 240px;
 }
 
+.sticker-drop[data-compact] {
+  width: 150px;
+  height: 150px;
+}
+
 .sticker-drop-ring {
   position: absolute;
   inset: 20px;
@@ -950,6 +955,68 @@ body {
   padding: 0.6rem 0.75rem;
   border-radius: 8px;
   background: #f4f7f5;
+}
+
+/* The entry code, big enough to read back from a screenshot. */
+.draw-entry-code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.4rem 1rem 0.5rem;
+  border-radius: 10px;
+  background: #fff6c4;
+}
+
+.draw-entry-code-value {
+  color: #173622;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Prize draw form as a full-screen sheet on phones. */
+@media (max-width: 47.99em) {
+  .draw-modal .mantine-Modal-body {
+    padding-bottom: 0;
+  }
+
+  .draw-modal .mantine-Modal-title {
+    font-size: 1.15rem;
+    font-weight: 750;
+  }
+
+  /* The whole agree line is a comfortable tap target, not just the box. */
+  .draw-agree .mantine-Checkbox-body {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .draw-terms-toggle {
+    min-height: 32px;
+  }
+
+  .draw-suggestion {
+    padding: 0.55rem 0.75rem;
+    border-radius: 8px;
+    background: #fff6c4;
+  }
+
+  /* Pinned to the bottom of the sheet, clear of the iPhone home bar. */
+  .draw-submit {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    margin-inline: calc(-1 * var(--mantine-spacing-md));
+    padding: 0.75rem var(--mantine-spacing-md) calc(0.9rem + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid #e6ece8;
+    background: var(--mantine-color-body);
+  }
+
+  .completion-celebration {
+    padding: 1rem 0.75rem;
+  }
 }
 
 .completion-seal {

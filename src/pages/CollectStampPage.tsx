@@ -4,6 +4,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { CompletionCelebration } from "../components/passport/CompletionCelebration";
 import { Sticker } from "../components/passport/Sticker";
+import { useIsMobile } from "../hooks/useIsMobile";
 import { celebrateStamp } from "../lib/celebrate";
 import { countRequiredStickers, getActiveBoothByQrCode, getRequiredBooths } from "../lib/content";
 import { boothMapPath, stampReturnPath } from "../lib/map";
@@ -17,6 +18,7 @@ export function CollectStampPage() {
   const { qrCode = "" } = useParams();
   const [searchParams] = useSearchParams();
   const booth = getActiveBoothByQrCode(qrCode);
+  const isMobile = useIsMobile();
 
   const [result] = useState(() => {
     if (!booth) {
@@ -41,6 +43,8 @@ export function CollectStampPage() {
   const isBonus = booth?.stamp.bonus === true;
   // A bonus sticker collected after the rest doesn't replay the completion.
   const isComplete = isNew && !isBonus && result.total > 0 && result.collectedCount === result.total;
+  // On a phone, the last sticker's screen shrinks so the prize draw below it is in reach.
+  const compact = isMobile && isComplete;
   const returnsToMap = searchParams.get("from") === "map" && result.status !== "invalid" && result.isPersistent;
 
   useEffect(() => {
@@ -73,7 +77,7 @@ export function CollectStampPage() {
 
   return (
     <Stack component="section" className="collection-result" gap="md" align="center" ta="center">
-      <div className="sticker-drop" data-new={isNew || undefined}>
+      <div className="sticker-drop" data-new={isNew || undefined} data-compact={compact || undefined}>
         {isNew && <span className="sticker-drop-ring" aria-hidden="true" />}
         {isNew && (
           <span className="sticker-sparks" aria-hidden="true">
@@ -82,11 +86,11 @@ export function CollectStampPage() {
             ))}
           </span>
         )}
-        <Sticker stampId={booth.stamp.id} name={booth.stamp.name} size={200} animate={isNew} tilt={-4} />
+        <Sticker stampId={booth.stamp.id} name={booth.stamp.name} size={compact ? 112 : 200} animate={isNew} tilt={-4} />
       </div>
 
       <Text className="eyebrow">{booth.name}</Text>
-      <Title order={1}>{isNew ? (isBonus ? "Bonus sticker collected!" : "Sticker collected!") : "Already in your passport"}</Title>
+      <Title order={1} fz={compact ? "1.6rem" : undefined}>{isNew ? (isBonus ? "Bonus sticker collected!" : "Sticker collected!") : "Already in your passport"}</Title>
       <Text c="dimmed" size="lg" maw={460}>
         {isNew && isBonus ? (
           <>
