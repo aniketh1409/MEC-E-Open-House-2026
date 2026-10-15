@@ -25,6 +25,9 @@ const HEADERS = [
   "Last sticker",
   "Minutes to complete",
   "Flags",
+  "Skill-testing question",
+  "Answer given",
+  "Correct?",
 ];
 const COLUMN = Object.fromEntries(HEADERS.map((header, index) => [header, index]));
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -37,6 +40,18 @@ const MAX_PER_MINUTE = 120;
 function entryCode_(passportId) {
   const hex = String(passportId).replace(/[^0-9a-f]/gi, "").toUpperCase();
   return `${hex.slice(0, 4)}-${hex.slice(4, 8)}`;
+}
+
+/**
+ * Works out the skill-testing question's answer here rather than trusting the website.
+ * Questions look like "(6 × 4) + 12 ÷ 3 − 5". Returns undefined for anything else.
+ */
+function skillAnswer_(question) {
+  const match = /^\((\d+) × (\d+)\) \+ (\d+) ÷ (\d+) − (\d+)$/.exec(String(question).trim());
+  if (!match) return undefined;
+  const [a, b, c, d, e] = match.slice(1).map(Number);
+  if (d === 0 || c % d !== 0) return undefined;
+  return a * b + c / d - e;
 }
 
 /**
@@ -77,6 +92,13 @@ function checkEntry_(payload, config, nowMs) {
     flags.push("No sticker times");
   }
 
+  // Rule 5: winners must answer correctly. Every entry is kept; only correct ones go in the draw.
+  const skillQuestion = String(payload.skillQuestion ?? "").trim().slice(0, 60);
+  const skillGiven = String(payload.skillAnswer ?? "").trim().slice(0, 20);
+  const expected = skillAnswer_(skillQuestion);
+  const skillCorrect = expected !== undefined && skillGiven !== "" && Number(skillGiven) === expected;
+  if (expected === undefined) flags.push("No skill-testing question");
+
   return {
     ok: true,
     entry: {
@@ -89,6 +111,9 @@ function checkEntry_(payload, config, nowMs) {
       lastStickerAt: Number.isFinite(last) ? new Date(last).toISOString() : "",
       minutes,
       flags,
+      skillQuestion,
+      skillGiven,
+      skillCorrect,
     },
   };
 }
@@ -114,6 +139,9 @@ function upsertEntry_(rows, entry, nowIso) {
     entry.lastStickerAt,
     entry.minutes,
     entry.flags.join("; "),
+    entry.skillQuestion,
+    entry.skillGiven,
+    entry.skillCorrect ? "Yes" : "No",
   ];
   const index = rows.findIndex((row) => row[COLUMN["Passport ID"]] === entry.passportId);
   if (index >= 0) {
@@ -146,8 +174,13 @@ function entriesSheet_() {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(HEADERS);
     sheet.setFrozenRows(1);
-    sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold");
   }
+  // Sheets made before a column was added get the new headings; existing rows keep their values.
+  const header = sheet.getRange(1, 1, 1, HEADERS.length);
+  if (header.getValues()[0].join("|") !== HEADERS.join("|")) {
+    header.setValues([HEADERS]);
+  }
+  header.setFontWeight("bold");
   return sheet;
 }
 

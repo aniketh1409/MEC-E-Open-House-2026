@@ -1,7 +1,7 @@
 import { act, fireEvent, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getActiveBooths, getRequiredBooths } from "../../lib/content";
-import { entryCode, suggestEmail } from "../../lib/draw";
+import { entryCode, skillQuestion, suggestEmail } from "../../lib/draw";
 import { savePassport } from "../../lib/passport";
 import { renderApp } from "../../test/renderApp";
 
@@ -28,11 +28,18 @@ function respond(body: object) {
   return Promise.resolve(new Response(JSON.stringify(body), { headers: { "Content-Type": "application/json" } }));
 }
 
-async function enter(name: string, email: string) {
+/** The right answer to this test passport's skill-testing question. */
+function correctAnswer(): string {
+  const [, a, b, c, d, e] = /\((\d+) × (\d+)\) \+ (\d+) ÷ (\d+) − (\d+)/.exec(skillQuestion(PASSPORT_ID))!.map(Number);
+  return String(a! * b! + c! / d! - e!);
+}
+
+async function enter(name: string, email: string, skillAnswer = correctAnswer()) {
   const dialog = await screen.findByRole("dialog");
   fireEvent.change(within(dialog).getByLabelText("Full name"), { target: { value: name } });
   fireEvent.change(within(dialog).getByLabelText("Email"), { target: { value: email } });
-  const agree = within(dialog).getByLabelText("I agree to the prize draw terms");
+  fireEvent.change(within(dialog).getByLabelText("Skill-testing question"), { target: { value: skillAnswer } });
+  const agree = within(dialog).getByLabelText("I agree to the contest rules");
   if (!(agree as HTMLInputElement).checked) fireEvent.click(agree);
   fireEvent.click(within(dialog).getByRole("button", { name: /Enter the draw|Update my entry/ }));
 }
@@ -64,12 +71,13 @@ describe("prize draw entry", () => {
     fetchMock.mockReturnValue(respond({ ok: true, status: "created" }));
     renderApp("/passport?now=13:00");
 
-    expect(screen.getByText(/chance to win a gift card/)).toBeInTheDocument();
+    expect(screen.getByText(/chance to win one of four \$25 gift cards/)).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Enter the prize draw" }));
     await enter("Alex Rivera", "alex@example.com");
 
     expect(await screen.findByText("You're entered in the draw!")).toBeInTheDocument();
     expect(screen.getByText(entryCode(PASSPORT_ID))).toBeInTheDocument();
+    expect(screen.getByText(/Take a screenshot of this/)).toBeInTheDocument();
     const [url, request] = fetchMock.mock.calls[0]!;
     expect(url).toBe(ENDPOINT);
     expect(JSON.parse(request.body)).toMatchObject({
@@ -80,8 +88,25 @@ describe("prize draw entry", () => {
       // The bonus sticker is in this passport but isn't counted.
       stickers: getRequiredBooths().length,
       firstStickerAt: "2026-10-17T16:00:00.000Z",
+      skillQuestion: skillQuestion(PASSPORT_ID),
+      skillAnswer: correctAnswer(),
       website: "",
     });
+  });
+
+  it("asks a skill-testing question and links the contest rules", async () => {
+    renderApp("/passport?now=13:00");
+    fireEvent.click(screen.getByRole("button", { name: "Enter the prize draw" }));
+    const dialog = await screen.findByRole("dialog");
+
+    expect(within(dialog).getByText(`${skillQuestion(PASSPORT_ID)} = ?`)).toBeInTheDocument();
+    expect(within(dialog).getByRole("link", { name: "Read the contest rules" })).toHaveAttribute("href", "/contest-rules");
+  });
+
+  it("gives each passport its own sum, and the same one every time", () => {
+    expect(skillQuestion(PASSPORT_ID)).toBe(skillQuestion(PASSPORT_ID));
+    expect(skillQuestion(PASSPORT_ID)).toMatch(/^\(\d × \d\) \+ \d+ ÷ \d − \d$/);
+    expect(skillQuestion("9b8a7c6d-0000-4000-8000-000000000000")).not.toBe(skillQuestion(PASSPORT_ID));
   });
 
   it("asks for the details and the terms before sending anything", async () => {
@@ -93,7 +118,8 @@ describe("prize draw entry", () => {
 
     expect(within(dialog).getByText("Please enter your full name.")).toBeInTheDocument();
     expect(within(dialog).getByText("Please enter a valid email address.")).toBeInTheDocument();
-    expect(within(dialog).getByText("Please agree to the terms to enter.")).toBeInTheDocument();
+    expect(within(dialog).getByText("Please answer the skill-testing question with a whole number.")).toBeInTheDocument();
+    expect(within(dialog).getByText("Please agree to the contest rules to enter.")).toBeInTheDocument();
     expect(fetchMock).not.toHaveBeenCalled();
   });
 

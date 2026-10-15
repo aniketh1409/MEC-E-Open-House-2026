@@ -4,11 +4,14 @@ import { IconAlertTriangle, IconQrcode, IconRefresh } from "@tabler/icons-react"
 import type { CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { CompletionCelebration } from "../components/passport/CompletionCelebration";
+import { StickerChallenge } from "../components/passport/StickerChallenge";
 import { CompletionSeal, Sticker } from "../components/passport/Sticker";
 import { features } from "../config/features";
 import { usePassport } from "../hooks/usePassport";
 import { getActiveBooths, getRequiredBooths, type BoothDetails } from "../lib/content";
+import { loadDrawEntry } from "../lib/draw";
 import { getTourStopByBoothId } from "../lib/map";
+import { getEventInfo } from "../lib/schedule";
 import logoUrl from "../../assets/images/ualberta-logo.webp";
 
 const booths = getActiveBooths();
@@ -61,6 +64,7 @@ export function PassportPage() {
   const progress = total === 0 ? 0 : (collectedCount / total) * 100;
   // Celebrate only when the sticker just collected was the last required one, not a bonus afterwards.
   const justCompleted = isComplete && requiredBooths.some((booth) => booth.stamp.id === newStampId);
+  const showChallenge = getEventInfo().drawEnabled === true && !loadDrawEntry();
 
   const handleReset = () => {
     resetPassport();
@@ -109,6 +113,10 @@ export function PassportPage() {
         </Group>
       </div>
 
+      {/* The contest notice, until this visitor has entered the draw. Once the passport is complete
+          it moves below the completion card, so the entry button stays on the first screen. */}
+      {showChallenge && !isComplete && <StickerChallenge />}
+
       {!isPersistent && (
         <Alert color="orange" icon={<IconAlertTriangle size={20} />} title="Progress cannot be saved">
           Browser storage is unavailable. Keep this page open to avoid losing collected stamps.
@@ -116,7 +124,10 @@ export function PassportPage() {
       )}
 
       {isComplete ? (
-        <CompletionCelebration total={total} burst={justCompleted} />
+        <>
+          <CompletionCelebration total={total} burst={justCompleted} />
+          {showChallenge && <StickerChallenge />}
+        </>
       ) : (
         <Text c="dimmed" maw={680}>
           Scan the QR code at each station to collect its sticker. Your passport stays on this browser and device.

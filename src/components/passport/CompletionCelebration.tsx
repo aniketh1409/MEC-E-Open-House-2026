@@ -1,6 +1,7 @@
 import { Button, Group, Stack, Text, Title } from "@mantine/core";
 import { IconCheck, IconShare2 } from "@tabler/icons-react";
 import { useState } from "react";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import { Confetti } from "./Confetti";
 import { DrawEntry } from "./DrawEntry";
 import { CompletionSeal } from "./Sticker";
@@ -9,6 +10,8 @@ import { CompletionSeal } from "./Sticker";
 /** The "passport complete" moment: seal, confetti, prize note and a share button. */
 export function CompletionCelebration({ total, burst = true }: { total: number; burst?: boolean }) {
   const [copied, setCopied] = useState(false);
+  // A smaller seal on phones keeps the prize draw button on the first screen.
+  const isMobile = useIsMobile();
 
   const share = async () => {
     const url = window.location.origin;
@@ -28,11 +31,11 @@ export function CompletionCelebration({ total, burst = true }: { total: number; 
   return (
     <div className="completion-celebration">
       {burst && <Confetti />}
-      <Stack align="center" gap="sm" ta="center">
-        <CompletionSeal size={168} animate={burst} />
+      <Stack align="center" gap={isMobile ? "xs" : "sm"} ta="center">
+        <CompletionSeal size={isMobile ? 88 : 168} animate={burst} />
         <Text className="eyebrow" c="ualbertaGreen.8">All {total} stamps collected</Text>
-        <Title order={2}>You're a Certified Explorer!</Title>
-        <Text c="dimmed" maw={420}>Thanks for exploring Mechanical Engineering!</Text>
+        <Title order={2} fz={isMobile ? "1.35rem" : undefined}>You're a Certified Explorer!</Title>
+        {!isMobile && <Text c="dimmed" maw={420}>Thanks for exploring Mechanical Engineering!</Text>}
         <DrawEntry />
         <Group gap="sm" justify="center" mt="xs">
           <Button variant="light" leftSection={copied ? <IconCheck size={17} /> : <IconShare2 size={17} />} onClick={share}>

@@ -1,13 +1,16 @@
-import { Alert, Anchor, Button, Checkbox, Collapse, Group, Modal, Stack, Text, TextInput } from "@mantine/core";
+import { Alert, Anchor, Button, Checkbox, Group, Modal, Stack, Text, TextInput } from "@mantine/core";
 import { IconCircleCheck, IconCloudUpload, IconGift, IconPencil } from "@tabler/icons-react";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import { useNow } from "../../hooks/useNow";
+import { useSheetHistory } from "../../hooks/useSheetHistory";
 import {
   DrawEntryRejected,
   EMAIL_PATTERN,
   getDrawSettings,
   loadDrawEntry,
   sendPendingEntry,
+  skillQuestion,
   submitDrawEntry,
   suggestEmail,
   type SavedDrawEntry,
@@ -23,7 +26,12 @@ export function DrawEntry() {
   const settings = getDrawSettings();
   const now = useNow();
   const [saved, setSaved] = useState(loadDrawEntry);
-  const [opened, setOpened] = useState(false);
+  const isMobile = useIsMobile();
+  // On phones the form is a full-screen sheet kept in history, so the Back button closes it.
+  const [sheetOpened, setSheetOpened] = useSheetHistory();
+  const [dialogOpened, setDialogOpened] = useState(false);
+  const opened = isMobile ? sheetOpened : dialogOpened;
+  const setOpened = isMobile ? setSheetOpened : setDialogOpened;
   const [notice, setNotice] = useState<string>();
 
   // Send an entry saved while offline, now and whenever the connection comes back.
@@ -51,7 +59,7 @@ export function DrawEntry() {
 
   return (
     <div className="draw-entry">
-      {settings.prize && <Text fw={650} maw={440}>{settings.prize}</Text>}
+      {settings.prize && <Text fw={650} maw={440} size={isMobile ? "sm" : undefined}>{settings.prize}</Text>}
       {notice && <Alert color="orange" mt="xs">{notice}</Alert>}
 
       {saved ? (
@@ -61,7 +69,14 @@ export function DrawEntry() {
             <Text fw={800}>{saved.status === "sent" ? "You're entered in the draw!" : "Entry saved, sending when you're back online"}</Text>
           </Group>
           <Text size="sm" c="dimmed">
-            {saved.name} · {saved.email} · Entry code <strong>{saved.code}</strong>
+            {saved.name} · {saved.email}
+          </Text>
+          <div className="draw-entry-code">
+            <Text size="xs" fw={700} tt="uppercase" c="dimmed">Entry code</Text>
+            <Text className="draw-entry-code-value">{saved.code}</Text>
+          </div>
+          <Text size="xs" c="dimmed" maw={320}>
+            Take a screenshot of this in case you need to contact us about your entry.
           </Text>
           {isOpen && (
             <Button variant="subtle" size="compact-sm" leftSection={<IconPencil size={15} />} onClick={() => setOpened(true)}>
@@ -82,6 +97,7 @@ export function DrawEntry() {
       )}
 
       <DrawEntryModal
+        isMobile={isMobile}
         opened={opened}
         onClose={() => setOpened(false)}
         saved={saved}
@@ -97,6 +113,7 @@ export function DrawEntry() {
 }
 
 interface DrawEntryModalProps {
+  isMobile: boolean;
   opened: boolean;
   onClose: () => void;
   saved?: SavedDrawEntry;
@@ -104,24 +121,31 @@ interface DrawEntryModalProps {
   onSaved: (entry: SavedDrawEntry) => void;
 }
 
-function DrawEntryModal({ opened, onClose, saved, terms, onSaved }: DrawEntryModalProps) {
+function DrawEntryModal({ isMobile, opened, onClose, saved, terms, onSaved }: DrawEntryModalProps) {
+  const emailRef = useRef<HTMLInputElement>(null);
+  // 16px text on phones: iPhones zoom the page into any smaller field.
+  const fieldSize = isMobile ? "md" : "sm";
+  const skillRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState(saved?.name ?? "");
   const [email, setEmail] = useState(saved?.email ?? "");
+  const [skillAnswer, setSkillAnswer] = useState(saved?.skillAnswer ?? "");
   const [agreed, setAgreed] = useState(Boolean(saved));
-  const [showTerms, setShowTerms] = useState(false);
   const [error, setError] = useState<string>();
   const [sending, setSending] = useState(false);
   const [triedSubmit, setTriedSubmit] = useState(false);
+  const question = skillQuestion(loadPassport().state.passportId);
 
   const trimmedEmail = email.trim();
   const emailValid = EMAIL_PATTERN.test(trimmedEmail);
   const suggestion = suggestEmail(trimmedEmail);
   const nameValid = name.trim().length >= 2;
+  // Any whole number is accepted here; the entries sheet marks whether it's right.
+  const skillValid = /^-?\d{1,6}$/.test(skillAnswer.trim());
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setTriedSubmit(true);
-    if (!nameValid || !emailValid || !agreed) {
+    if (!nameValid || !emailValid || !skillValid || !agreed) {
       return;
     }
     const settings = getDrawSettings();
@@ -131,7 +155,7 @@ function DrawEntryModal({ opened, onClose, saved, terms, onSaved }: DrawEntryMod
     setSending(true);
     setError(undefined);
     try {
-      await submitDrawEntry(settings, loadPassport().state, { name, email });
+      await submitDrawEntry(settings, loadPassport().state, { name, email, skillAnswer });
       onSaved(loadDrawEntry()!);
     } catch (problem) {
       setError(problem instanceof DrawEntryRejected ? problem.message : "Your entry couldn't be saved. Please try again.");
@@ -141,30 +165,63 @@ function DrawEntryModal({ opened, onClose, saved, terms, onSaved }: DrawEntryMod
   };
 
   return (
-    <Modal opened={opened} onClose={onClose} title={saved ? "Edit your entry" : "Enter the prize draw"} centered radius="md">
+    <Modal
+      opened={opened}
+      onClose={onClose}
+      title={saved ? "Edit your entry" : "Enter the prize draw"}
+      centered
+      radius="md"
+      fullScreen={isMobile}
+      transitionProps={isMobile ? { transition: "slide-up", duration: 220 } : undefined}
+      classNames={{ content: "draw-modal" }}
+      data-mobile={isMobile || undefined}
+    >
       <form onSubmit={submit} noValidate>
         <Stack gap="md">
           <TextInput
             label="Full name"
+            size={fieldSize}
             value={name}
             onChange={(event) => setName(event.currentTarget.value)}
             autoComplete="name"
+            autoCapitalize="words"
+            enterKeyHint="next"
+            // The keyboard's Next key moves to the email field instead of submitting the form.
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                emailRef.current?.focus();
+              }
+            }}
             error={triedSubmit && !nameValid ? "Please enter your full name." : undefined}
-            data-autofocus
+            // On phones, let visitors see the whole form before the keyboard covers half of it.
+            data-autofocus={!isMobile || undefined}
           />
           <div>
             <TextInput
+              ref={emailRef}
               label="Email"
+              size={fieldSize}
               type="email"
               inputMode="email"
               value={email}
               onChange={(event) => setEmail(event.currentTarget.value)}
               autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              enterKeyHint="next"
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  skillRef.current?.focus();
+                }
+              }}
               description="We'll only use this to contact you if you win."
               error={triedSubmit && !emailValid ? "Please enter a valid email address." : undefined}
             />
             {suggestion && (
-              <Text size="sm" mt={6}>
+              <Text size="sm" mt={6} className="draw-suggestion">
                 Did you mean{" "}
                 <Anchor component="button" type="button" fw={700} onClick={() => setEmail(suggestion)}>
                   {suggestion}
@@ -173,29 +230,57 @@ function DrawEntryModal({ opened, onClose, saved, terms, onSaved }: DrawEntryMod
               </Text>
             )}
           </div>
+          {/* Contest rule 5. Every answer is accepted; the entries sheet marks whether it's right. */}
+          <div className="draw-skill">
+            <TextInput
+              ref={skillRef}
+              size={fieldSize}
+              label="Skill-testing question"
+              description={
+                <>
+                  Multiply and divide before you add and subtract. <strong className="draw-skill-question">{question} = ?</strong>
+                </>
+              }
+              placeholder="Your answer"
+              value={skillAnswer}
+              onChange={(event) => setSkillAnswer(event.currentTarget.value)}
+              inputMode="numeric"
+              autoComplete="off"
+              enterKeyHint="go"
+              error={triedSubmit && !skillValid ? "Please answer the skill-testing question with a whole number." : undefined}
+            />
+          </div>
           <div>
             <Checkbox
+              size={fieldSize}
+              className="draw-agree"
               checked={agreed}
               onChange={(event) => setAgreed(event.currentTarget.checked)}
-              label="I agree to the prize draw terms"
-              error={triedSubmit && !agreed ? "Please agree to the terms to enter." : undefined}
+              label="I agree to the contest rules"
+              error={triedSubmit && !agreed ? "Please agree to the contest rules to enter." : undefined}
             />
-            {terms && (
-              <>
-                <Anchor component="button" type="button" size="sm" mt={4} ml={30} onClick={() => setShowTerms((value) => !value)}>
-                  {showTerms ? "Hide the terms" : "Read the terms"}
-                </Anchor>
-                <Collapse expanded={showTerms}>
-                  <Text size="sm" c="dimmed" mt="xs" className="draw-terms">{terms}</Text>
-                </Collapse>
-              </>
-            )}
+            <Anchor
+              href="/contest-rules"
+              target="_blank"
+              rel="noopener"
+              size="sm"
+              mt={4}
+              ml={isMobile ? 36 : 30}
+              display="inline-block"
+              className="draw-terms-toggle"
+            >
+              Read the contest rules
+            </Anchor>
+            {terms && <Text size="xs" c="dimmed" mt={6} className="draw-terms">{terms}</Text>}
           </div>
           {error && <Alert color="red">{error}</Alert>}
           {emailValid && <Text size="sm" c="dimmed">Check your email is right: <strong>{trimmedEmail}</strong></Text>}
-          <Button type="submit" loading={sending} color="ualbertaGreen" fullWidth>
-            {saved ? "Update my entry" : "Enter the draw"}
-          </Button>
+          {/* On phones the button stays pinned to the bottom of the sheet. */}
+          <div className="draw-submit">
+            <Button type="submit" size={isMobile ? "lg" : "sm"} loading={sending} color="ualbertaGreen" fullWidth>
+              {saved ? "Update my entry" : "Enter the draw"}
+            </Button>
+          </div>
         </Stack>
       </form>
     </Modal>
