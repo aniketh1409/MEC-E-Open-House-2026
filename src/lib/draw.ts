@@ -38,6 +38,24 @@ export function entryCode(passportId: string): string {
 export interface DrawEntryForm {
   name: string;
   email: string;
+  /** The visitor's answer to the skill-testing question, as typed. */
+  skillAnswer: string;
+}
+
+/**
+ * The skill-testing question for a passport (contest rule 5), e.g. "(6 × 4) + 12 ÷ 3 − 5".
+ * It's derived from the passport ID, so it stays the same when the visitor edits their entry.
+ * The entries script works out the answer itself; draw-entries.gs parses this exact format.
+ */
+export function skillQuestion(passportId: string): string {
+  const digits = passportId.replace(/[^0-9a-f]/gi, "").padEnd(10, "0");
+  const pick = (index: number, min: number, max: number) => min + (parseInt(digits[index]!, 16) % (max - min + 1));
+  const a = pick(0, 2, 9);
+  const b = pick(1, 2, 9);
+  const d = pick(2, 2, 6);
+  const c = d * pick(3, 2, 9);
+  const e = pick(4, 1, 9);
+  return `(${a} × ${b}) + ${c} ÷ ${d} − ${e}`;
 }
 
 export interface SavedDrawEntry extends DrawEntryForm {
@@ -83,6 +101,8 @@ function payload(passport: VisitorPassportState, form: DrawEntryForm, submittedA
     firstStickerAt: times[0] ?? "",
     lastStickerAt: times.at(-1) ?? "",
     submittedAt,
+    skillQuestion: skillQuestion(passport.passportId),
+    skillAnswer: (form.skillAnswer ?? "").trim(),
     website: "", // bot trap; filled only by bots
   };
 }
@@ -111,7 +131,14 @@ export async function submitDrawEntry(
   now: Date = new Date(),
 ): Promise<SubmitResult> {
   const submittedAt = now.toISOString();
-  const record: SavedDrawEntry = { name: form.name.trim(), email: form.email.trim(), code: entryCode(passport.passportId), submittedAt, status: "pending" };
+  const record: SavedDrawEntry = {
+    name: form.name.trim(),
+    email: form.email.trim(),
+    skillAnswer: form.skillAnswer.trim(),
+    code: entryCode(passport.passportId),
+    submittedAt,
+    status: "pending",
+  };
   try {
     await send(settings, payload(passport, form, submittedAt));
   } catch (error) {

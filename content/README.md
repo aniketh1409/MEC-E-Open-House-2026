@@ -39,12 +39,15 @@ Visitors who collect every required sticker (bonus stickers are optional) see **
 - keeps **one row per passport**: entering again updates the row, so visitors can fix a typo until the draw closes (they see **Edit entry**);
 - refuses an email that's already entered from another passport, incomplete passports and entries after closing;
 - flags passports completed suspiciously fast (all stickers in under 15 minutes) in the **Flags** column;
+- records each entrant's **skill-testing question** (contest rule 5), their answer, and whether it's right (**Correct?**). The question is a simple sum like `(6 × 4) + 12 ÷ 3 − 5`, different for each passport; the script works out the answer itself, and wrong answers are kept but marked No;
 - has a hidden bot trap and a limit of 120 entries a minute;
 - accepts an entry made before closing but sent up to an hour later (e.g. after a dead zone), since entries made with no signal are kept on the phone and sent when it returns.
 
 The script can only add or update rows; it never shows the sheet to anyone. Each visitor sees an **entry code** (e.g. `3F9A-2C1E`), also in the sheet, to find their row if they email about a typo after closing.
 
-**Running the draw:** in the Entries tab, filter out rows with Flags you're not happy with, then pick a random row, e.g. `=INDEX(D2:D, RANDBETWEEN(1, COUNTA(D2:D)))` for the email. Delete the sheet within 30 days of the draw, as the terms promise.
+**Running the draw** (within three to five business days of the event, per the contest rules at `/contest-rules`): in the Entries tab, filter to **Correct?** = Yes and leave out rows with Flags you're not happy with, then pick four random rows, e.g. `=INDEX(D2:D, RANDBETWEEN(1, COUNTA(D2:D)))` for an email (skip repeats). If a winner can't be reached, draw an alternate. Keep the sheet only as long as needed to run the contest and send the prizes, per the University's records-retention rules, then delete it.
+
+**After editing the script** (for example the skill-testing columns added on 15 October): **Deploy → Manage deployments → Edit (pencil) → Version: New version → Deploy**. This keeps the same web app URL. The script adds any new column headings to the Entries tab on the next entry.
 
 ### Setup (once)
 

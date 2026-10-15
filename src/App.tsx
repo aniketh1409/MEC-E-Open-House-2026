@@ -3,6 +3,7 @@ import { AppLayout } from "./components/AppLayout";
 import { BoothDetailPage } from "./pages/Booth/BoothDetailPage";
 import { BoothDirectoryPage } from "./pages/Booth/BoothDirectoryPage";
 import { CollectStampPage } from "./pages/CollectStampPage";
+import { ContestRulesPage } from "./pages/ContestRulesPage";
 import { HelpPage } from "./pages/Help/HelpPage";
 import { HomePage } from "./pages/Home/HomePage";
 import { CampusJourneyView } from "./pages/map/CampusJourneyView";
@@ -30,6 +31,7 @@ export function App() {
         <Route path="passport" element={<PassportPage />} />
         <Route path="passport/scan" element={<ScanQrPage />} />
         <Route path="passport/collect/:qrCode" element={<CollectStampPage />} />
+        <Route path="contest-rules" element={<ContestRulesPage />} />
         <Route path="qr-codes" element={<QrCodeSheetPage />} />
         <Route path="faq" element={<Navigate to="/help#faq" replace />} />
         <Route path="help" element={<HelpPage />} />

@@ -1,4 +1,4 @@
-import { Alert, Anchor, Button, Checkbox, Collapse, Group, Modal, Stack, Text, TextInput } from "@mantine/core";
+import { Alert, Anchor, Button, Checkbox, Group, Modal, Stack, Text, TextInput } from "@mantine/core";
 import { IconCircleCheck, IconCloudUpload, IconGift, IconPencil } from "@tabler/icons-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useIsMobile } from "../../hooks/useIsMobile";
@@ -10,6 +10,7 @@ import {
   getDrawSettings,
   loadDrawEntry,
   sendPendingEntry,
+  skillQuestion,
   submitDrawEntry,
   suggestEmail,
   type SavedDrawEntry,
@@ -124,23 +125,27 @@ function DrawEntryModal({ isMobile, opened, onClose, saved, terms, onSaved }: Dr
   const emailRef = useRef<HTMLInputElement>(null);
   // 16px text on phones: iPhones zoom the page into any smaller field.
   const fieldSize = isMobile ? "md" : "sm";
+  const skillRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState(saved?.name ?? "");
   const [email, setEmail] = useState(saved?.email ?? "");
+  const [skillAnswer, setSkillAnswer] = useState(saved?.skillAnswer ?? "");
   const [agreed, setAgreed] = useState(Boolean(saved));
-  const [showTerms, setShowTerms] = useState(false);
   const [error, setError] = useState<string>();
   const [sending, setSending] = useState(false);
   const [triedSubmit, setTriedSubmit] = useState(false);
+  const question = skillQuestion(loadPassport().state.passportId);
 
   const trimmedEmail = email.trim();
   const emailValid = EMAIL_PATTERN.test(trimmedEmail);
   const suggestion = suggestEmail(trimmedEmail);
   const nameValid = name.trim().length >= 2;
+  // Any whole number is accepted here; the entries sheet marks whether it's right.
+  const skillValid = /^-?\d{1,6}$/.test(skillAnswer.trim());
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setTriedSubmit(true);
-    if (!nameValid || !emailValid || !agreed) {
+    if (!nameValid || !emailValid || !skillValid || !agreed) {
       return;
     }
     const settings = getDrawSettings();
@@ -150,7 +155,7 @@ function DrawEntryModal({ isMobile, opened, onClose, saved, terms, onSaved }: Dr
     setSending(true);
     setError(undefined);
     try {
-      await submitDrawEntry(settings, loadPassport().state, { name, email });
+      await submitDrawEntry(settings, loadPassport().state, { name, email, skillAnswer });
       onSaved(loadDrawEntry()!);
     } catch (problem) {
       setError(problem instanceof DrawEntryRejected ? problem.message : "Your entry couldn't be saved. Please try again.");
@@ -205,7 +210,13 @@ function DrawEntryModal({ isMobile, opened, onClose, saved, terms, onSaved }: Dr
               autoCapitalize="none"
               autoCorrect="off"
               spellCheck={false}
-              enterKeyHint="go"
+              enterKeyHint="next"
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  skillRef.current?.focus();
+                }
+              }}
               description="We'll only use this to contact you if you win."
               error={triedSubmit && !emailValid ? "Please enter a valid email address." : undefined}
             />
@@ -219,33 +230,48 @@ function DrawEntryModal({ isMobile, opened, onClose, saved, terms, onSaved }: Dr
               </Text>
             )}
           </div>
+          {/* Contest rule 5. Every answer is accepted; the entries sheet marks whether it's right. */}
+          <div className="draw-skill">
+            <TextInput
+              ref={skillRef}
+              size={fieldSize}
+              label="Skill-testing question"
+              description={
+                <>
+                  Multiply and divide before you add and subtract. <strong className="draw-skill-question">{question} = ?</strong>
+                </>
+              }
+              placeholder="Your answer"
+              value={skillAnswer}
+              onChange={(event) => setSkillAnswer(event.currentTarget.value)}
+              inputMode="numeric"
+              autoComplete="off"
+              enterKeyHint="go"
+              error={triedSubmit && !skillValid ? "Please answer the skill-testing question with a whole number." : undefined}
+            />
+          </div>
           <div>
             <Checkbox
               size={fieldSize}
               className="draw-agree"
               checked={agreed}
               onChange={(event) => setAgreed(event.currentTarget.checked)}
-              label="I agree to the prize draw terms"
-              error={triedSubmit && !agreed ? "Please agree to the terms to enter." : undefined}
+              label="I agree to the contest rules"
+              error={triedSubmit && !agreed ? "Please agree to the contest rules to enter." : undefined}
             />
-            {terms && (
-              <>
-                <Anchor
-                  component="button"
-                  type="button"
-                  size="sm"
-                  mt={4}
-                  ml={isMobile ? 36 : 30}
-                  className="draw-terms-toggle"
-                  onClick={() => setShowTerms((value) => !value)}
-                >
-                  {showTerms ? "Hide the terms" : "Read the terms"}
-                </Anchor>
-                <Collapse expanded={showTerms}>
-                  <Text size="sm" c="dimmed" mt="xs" className="draw-terms">{terms}</Text>
-                </Collapse>
-              </>
-            )}
+            <Anchor
+              href="/contest-rules"
+              target="_blank"
+              rel="noopener"
+              size="sm"
+              mt={4}
+              ml={isMobile ? 36 : 30}
+              display="inline-block"
+              className="draw-terms-toggle"
+            >
+              Read the contest rules
+            </Anchor>
+            {terms && <Text size="xs" c="dimmed" mt={6} className="draw-terms">{terms}</Text>}
           </div>
           {error && <Alert color="red">{error}</Alert>}
           {emailValid && <Text size="sm" c="dimmed">Check your email is right: <strong>{trimmedEmail}</strong></Text>}

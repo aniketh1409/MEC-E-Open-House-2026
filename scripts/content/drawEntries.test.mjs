@@ -31,6 +31,8 @@ const entry = {
   firstStickerAt: "2026-10-17T15:10:00Z",
   lastStickerAt: "2026-10-17T18:40:00Z",
   submittedAt: "2026-10-17T19:30:00Z",
+  skillQuestion: "(6 × 4) + 12 ÷ 3 − 5",
+  skillAnswer: "23",
 };
 
 describe("prize draw entries script", () => {
@@ -82,6 +84,20 @@ describe("prize draw entries script", () => {
     const other = checkEntry_({ ...entry, passportId: "9b8a7c6d-0000-4000-8000-000000000000" }, config, beforeClose).entry;
 
     expect(plain(upsertEntry_(rows, other, "2026-10-17T19:40:00.000Z"))).toEqual({ error: "This email is already entered in the draw." });
+  });
+
+  it("marks the skill-testing answer right or wrong itself, and keeps every entry", () => {
+    expect(plain(checkEntry_(entry, config, beforeClose)).entry).toMatchObject({ skillCorrect: true, skillGiven: "23" });
+
+    const wrong = plain(checkEntry_({ ...entry, skillAnswer: "24" }, config, beforeClose));
+    expect(wrong.ok).toBe(true);
+    expect(wrong.entry.skillCorrect).toBe(false);
+
+    const { rows } = plain(upsertEntry_([], wrong.entry, "2026-10-17T19:30:00.000Z"));
+    expect(rows[0].slice(-3)).toEqual(["(6 × 4) + 12 ÷ 3 − 5", "24", "No"]);
+
+    const missing = plain(checkEntry_({ ...entry, skillQuestion: "" }, config, beforeClose));
+    expect(missing.entry).toMatchObject({ skillCorrect: false, flags: ["No skill-testing question"] });
   });
 
   it("derives the same entry code the website shows", () => {

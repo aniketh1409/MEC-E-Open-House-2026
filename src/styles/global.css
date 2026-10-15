@@ -957,6 +957,34 @@ body {
   background: #f4f7f5;
 }
 
+/* Passport: the Sticker Challenge contest notice under the cover. */
+.sticker-challenge {
+  padding: clamp(0.9rem, 3vw, 1.25rem);
+  border: 1px solid #f2cd00;
+  border-left-width: 5px;
+  border-radius: 12px;
+  background: #fffbe6;
+}
+
+.sticker-challenge-icon {
+  flex: none;
+  color: #275d38;
+}
+
+/* The skill-testing sum, on its own line and easy to read. */
+.draw-skill-question {
+  display: block;
+  margin-top: 0.4rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 8px;
+  background: #fff6c4;
+  color: #173622;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
 /* The entry code, big enough to read back from a screenshot. */
 .draw-entry-code {
   display: flex;

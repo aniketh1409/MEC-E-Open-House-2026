@@ -33,11 +33,16 @@ describe("prize draw entry on a phone", () => {
     expect(name).not.toHaveFocus();
     expect(name).toHaveAttribute("autocapitalize", "words");
     expect(email).toHaveAttribute("autocapitalize", "none");
-    expect(email).toHaveAttribute("enterkeyhint", "go");
+    expect(email).toHaveAttribute("enterkeyhint", "next");
+    const answer = within(dialog).getByLabelText("Skill-testing question");
+    expect(answer).toHaveAttribute("inputmode", "numeric");
+    expect(answer).toHaveAttribute("enterkeyhint", "go");
 
-    // The keyboard's Next key on the name field moves on to the email field.
+    // The keyboard's Next key moves name → email → skill-testing answer.
     fireEvent.keyDown(name, { key: "Enter" });
     expect(email).toHaveFocus();
+    fireEvent.keyDown(email, { key: "Enter" });
+    expect(answer).toHaveFocus();
   });
 
   it("closes the sheet again", async () => {

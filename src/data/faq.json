@@ -109,7 +109,13 @@
     "id": "prize",
     "category": "Passport & stickers",
     "question": "Is there a prize for collecting every sticker?",
-    "answer": "Yes! Collect all 15 stickers to enter the prize draw for a gift card (the bonus sticker from the program presentation isn't needed): an \"Enter the prize draw\" button appears on your passport once it's complete. Entries close at 3:00 PM on the day, and winners are drawn at random after the event and contacted by email."
+    "answer": "Yes! Collect all 15 stickers to enter the Sticker Challenge for one of four $25 gift cards (the bonus sticker from the program presentation isn't needed): an \"Enter the prize draw\" button appears on your passport once it's complete. Entries close at 3:00 PM on October 17. Four winners are drawn at random within three to five business days after the event and contacted by email. Selected winners must correctly answer a skill-testing question to claim their prize.",
+    "links": [
+      {
+        "label": "Contest rules",
+        "url": "https://mec-e-open-house-2026.vercel.app/contest-rules"
+      }
+    ]
   },
   {
     "id": "progress-lost",
@@ -121,7 +127,7 @@
     "id": "privacy",
     "category": "Passport & stickers",
     "question": "Do I need an account? Is my information collected?",
-    "answer": "No account is needed. Your collected stickers are stored only on your own device and are never sent to us."
+    "answer": "No account is needed. Your collected stickers are stored only on your own device and are never sent to us. If you enter the prize draw, your name and email are used only to run the contest and contact the winners (see the contest rules)."
   },
   {
     "id": "help-on-the-day",

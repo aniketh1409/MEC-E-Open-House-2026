@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { screen, within } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 import { existsSync } from "node:fs";
 import stamps from "../data/stamps.json";
 import { getRequiredBooths } from "../lib/content";
@@ -106,6 +106,25 @@ describe("passport", () => {
     expect(within(campus).getByText("Bonus")).toBeInTheDocument();
     expect(within(campus).getByText("Optional: not needed to complete")).toBeInTheDocument();
     expect(screen.getByText(/bonus stickers are optional/)).toBeInTheDocument();
+  });
+
+  it("shows the Sticker Challenge notice, linking to the contest rules", () => {
+    renderApp("/passport");
+
+    const notice = screen.getByRole("region", { name: "Mechanical Engineering Open House Sticker Challenge" });
+    expect(within(notice).getByText(/all required stickers/)).toBeInTheDocument();
+    fireEvent.click(within(notice).getByRole("link", { name: "contest rules page" }));
+
+    expect(screen.getByRole("heading", { level: 1, name: "Mechanical Engineering Open House Sticker Challenge" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "5. Skill-Testing Question" })).toBeInTheDocument();
+    expect(screen.getByText(/3:00 p.m. Mountain Time on October 17, 2026/)).toBeInTheDocument();
+  });
+
+  it("hides the Sticker Challenge notice once the visitor has entered", () => {
+    localStorage.setItem("mece-open-house-draw-v1", JSON.stringify({ name: "Alex", email: "alex@example.com", code: "3F9A-2C1E", submittedAt: "", status: "sent" }));
+    renderApp("/passport");
+
+    expect(screen.queryByRole("region", { name: "Mechanical Engineering Open House Sticker Challenge" })).not.toBeInTheDocument();
   });
 
   it("collects the bonus sticker without counting it", () => {
